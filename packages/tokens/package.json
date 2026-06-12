@@ -1,0 +1,22 @@
+{
+  "name": "@blankjs/tokens",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown && node src/build-css.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./css": "./dist/tokens.css"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "tsdown": "^0.22.2"
+  }
+}
