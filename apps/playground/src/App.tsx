@@ -1,11 +1,5 @@
-import { Field, useFieldControlProps } from "@blankjs/react";
+import { Field } from "@blankjs/react";
 import { useState } from "react";
-
-const Input = () => {
-  const controlProps = useFieldControlProps();
-
-  return <input {...controlProps} />;
-};
 
 function App() {
   const [invalid, setInvalid] = useState(false);
@@ -22,8 +16,13 @@ function App() {
         }}
       >
         <Field.Label>Name</Field.Label>
-        <Input />
+
+        <Field.Control>
+          <input type="text" placeholder="Enter your name" className="input" />
+        </Field.Control>
+
         <Field.Description>Please enter your name</Field.Description>
+
         {invalid && <Field.Error>Name is required</Field.Error>}
       </Field.Root>
 

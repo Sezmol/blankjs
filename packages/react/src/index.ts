@@ -6,4 +6,5 @@ export {
   FieldError,
   FieldLabel,
   FieldRoot,
+  FieldControl,
 } from "./field";
