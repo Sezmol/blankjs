@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "vitest run"
   },
   "exports": {
     ".": {
