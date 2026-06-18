@@ -1,11 +1,23 @@
-import { Field } from "@blankjs/react";
+import { Field, TextInput } from "@blankjs/react";
 import { useState } from "react";
+
+import "./index.css";
+
+import "../../../packages/tokens/dist/tokens.css";
+import "../../../packages/react/src/text-input/text-input.css";
 
 function App() {
   const [invalid, setInvalid] = useState(false);
 
   return (
-    <div style={{ padding: 40 }}>
+    <div
+      style={{
+        padding: 40,
+        backgroundColor: "var(--bk-color-surface)",
+        color: "var(--bk-color-text)",
+        height: "100%",
+      }}
+    >
       <Field.Root
         invalid={invalid}
         style={{
@@ -18,7 +30,7 @@ function App() {
         <Field.Label>Name</Field.Label>
 
         <Field.Control>
-          <input type="text" placeholder="Enter your name" className="input" />
+          <TextInput placeholder="Enter your name" />
         </Field.Control>
 
         <Field.Description>Please enter your name</Field.Description>

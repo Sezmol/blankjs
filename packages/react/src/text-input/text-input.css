@@ -1,0 +1,48 @@
+.bk-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--bk-space-2) var(--bk-space-3);
+  font-size: var(--bk-font-size-md);
+  font-family: inherit;
+  line-height: 1.4;
+  color: var(--bk-color-text);
+  background-color: var(--bk-color-surface-muted);
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+  outline: none;
+  transition:
+    border-color var(--bk-duration-fast) ease,
+    box-shadow var(--bk-duration-fast) ease;
+}
+
+.bk-input::placeholder {
+  color: var(--bk-color-text-muted);
+}
+
+.bk-input:hover {
+  border-color: var(--bk-color-border-hover);
+}
+
+.bk-input:focus-visible {
+  border-color: var(--bk-color-border-focus);
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}
+
+.bk-input[aria-invalid="true"] {
+  border-color: var(--bk-color-danger);
+}
+
+.bk-input[aria-invalid="true"]:focus-visible {
+  border-color: var(--bk-color-danger);
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-danger) 30%, transparent);
+}
+
+.bk-input:disabled {
+  background-color: var(--bk-color-surface);
+  color: var(--bk-color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}

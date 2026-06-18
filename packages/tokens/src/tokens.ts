@@ -1,58 +1,54 @@
 export const TOKENS = {
   palette: {
     gray: {
-      100: "oklch(0.98 0.003 240)",
-      200: "oklch(0.95 0.006 240)",
-      300: "oklch(0.92 0.009 240)",
-      400: "oklch(0.85 0.015 245)",
-      500: "oklch(0.71 0.025 245)",
-      700: "oklch(0.45 0.025 250)",
-      900: "oklch(0.25 0.02 250)",
+      50: "oklch(0.97 0.005 275)",
+      100: "oklch(0.93 0.007 275)",
+      200: "oklch(0.86 0.009 275)",
+      300: "oklch(0.74 0.012 275)",
+      400: "oklch(0.6 0.016 275)",
+      500: "oklch(0.48 0.018 275)",
+      600: "oklch(0.38 0.02 275)",
+      700: "oklch(0.29 0.02 275)",
+      800: "oklch(0.22 0.018 275)",
+      900: "oklch(0.16 0.016 275)",
+      950: "oklch(0.12 0.014 275)",
+    },
+    indigo: {
+      300: "oklch(0.78 0.11 275)",
+      400: "oklch(0.7 0.15 275)",
+      500: "oklch(0.62 0.19 275)",
+      600: "oklch(0.55 0.2 275)",
+      700: "oklch(0.46 0.18 276)",
     },
     red: {
-      100: "oklch(0.97 0.013 20)",
-      200: "oklch(0.91 0.045 20)",
-      300: "oklch(0.83 0.085 20)",
-      400: "oklch(0.74 0.13 22)",
-      500: "oklch(0.67 0.16 25)",
-      700: "oklch(0.5 0.15 25)",
+      300: "oklch(0.78 0.1 22)",
+      400: "oklch(0.68 0.16 24)",
+      500: "oklch(0.6 0.19 25)",
     },
-    blue: {
-      100: "oklch(0.96 0.02 230)",
-      200: "oklch(0.90 0.05 230)",
-      300: "oklch(0.82 0.09 235)",
-      400: "oklch(0.73 0.12 240)",
-      500: "oklch(0.65 0.14 245)",
-      700: "oklch(0.48 0.13 250)",
-    },
-    white: "oklch(1 0 0)",
   },
 
   semantic: {
     color: {
-      surface: "{palette.white}",
-      surfaceMuted: "{palette.gray.100}",
-      text: "{palette.gray.900}",
-      textMuted: "{palette.gray.700}",
-      border: "{palette.gray.300}",
-      borderFocus: "{palette.blue.500}",
-      accent: "{palette.blue.500}",
-      accentHover: "{palette.blue.700}",
+      surface: "{palette.gray.900}",
+      surfaceMuted: "{palette.gray.800}",
+      surfaceRaised: "{palette.gray.800}",
+      text: "{palette.gray.50}",
+      textMuted: "{palette.gray.400}",
+      border: "{palette.gray.600}",
+      borderHover: "{palette.gray.500}",
+      borderFocus: "{palette.indigo.500}",
+      accent: "{palette.indigo.500}",
+      accentHover: "{palette.indigo.400}",
+      accentText: "{palette.gray.50}",
       danger: "{palette.red.500}",
-      dangerText: "{palette.red.700}",
+      dangerText: "{palette.red.300}",
     },
-  },
-
-  fontSize: {
-    sm: "0.875rem",
-    md: "1rem",
-    lg: "1.125rem",
   },
 
   radius: {
     sm: "4px",
-    md: "6px",
-    lg: "8px",
+    md: "8px",
+    lg: "12px",
   },
 
   space: {
@@ -62,5 +58,17 @@ export const TOKENS = {
     4: "16px",
     5: "20px",
     6: "24px",
+    8: "32px",
+  },
+
+  fontSize: {
+    sm: "0.875rem",
+    md: "0.9375rem",
+    lg: "1.0625rem",
+  },
+
+  duration: {
+    fast: "120ms",
+    base: "180ms",
   },
 } as const;

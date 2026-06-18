@@ -8,3 +8,5 @@ export {
   FieldRoot,
   FieldControl,
 } from "./field";
+
+export { TextInput } from "./text-input";
