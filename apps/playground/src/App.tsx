@@ -1,10 +1,8 @@
 import { Field, TextInput } from "@blankjs/react";
+import "@blankjs/react/styles.css";
 import { useState } from "react";
 
 import "./index.css";
-
-import "../../../packages/tokens/dist/tokens.css";
-import "../../../packages/react/src/text-input/text-input.css";
 
 function App() {
   const [invalid, setInvalid] = useState(false);

@@ -14,18 +14,20 @@
     ".": {
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
-    }
+    },
+    "./styles.css": "./dist/style.css"
   },
   "files": [
     "dist"
   ],
   "dependencies": {
-    "@blankjs/core": "workspace:*"
+    "@blankjs/core": "workspace:*",
+    "@blankjs/tokens": "workspace:*"
   },
   "peerDependencies": {
+    "@types/react": "^19.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "@types/react": "^19.0.0"
+    "react-dom": "^19.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -33,6 +35,7 @@
     }
   },
   "devDependencies": {
+    "@tsdown/css": "^0.22.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "react": "^19.2.7",
