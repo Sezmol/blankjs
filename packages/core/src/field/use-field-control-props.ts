@@ -1,20 +1,24 @@
-import { useMemo } from "react";
-import { useFieldContext } from "./context";
+import { useContext, useMemo } from "react";
+import { FieldContext } from "./context";
 import type { FieldControlProps } from "./types";
 
 export const useFieldControlProps = (): FieldControlProps => {
-  const {
-    hasDescription,
-    descriptionId,
-    hasError,
-    errorId,
-    controlId,
-    disabled,
-    required,
-    invalid,
-  } = useFieldContext();
+  const context = useContext(FieldContext);
 
-  return useMemo(() => {
+  return useMemo<FieldControlProps>(() => {
+    if (!context) return {} as FieldControlProps;
+
+    const {
+      hasDescription,
+      descriptionId,
+      hasError,
+      errorId,
+      controlId,
+      disabled,
+      required,
+      invalid,
+    } = context;
+
     const describedBy =
       [hasDescription && descriptionId, hasError && errorId]
         .filter(Boolean)
@@ -27,14 +31,5 @@ export const useFieldControlProps = (): FieldControlProps => {
       id: controlId,
       disabled,
     };
-  }, [
-    hasDescription,
-    descriptionId,
-    hasError,
-    errorId,
-    controlId,
-    disabled,
-    required,
-    invalid,
-  ]);
+  }, [context]);
 };

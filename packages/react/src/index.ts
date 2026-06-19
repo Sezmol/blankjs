@@ -10,3 +10,4 @@ export {
 } from "./field";
 
 export { TextInput } from "./text-input";
+export { PasswordField } from "./password-field";
