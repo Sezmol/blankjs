@@ -1,12 +1,18 @@
 import { useCallback, useMemo, useRef } from "react";
 
-type CollectionItem<T> = { node: HTMLElement; value: T };
+export type CollectionItem<T> = { node: HTMLElement; value: T; label: string };
+
+export type RegisterItemFn<T> = (
+  node: HTMLElement,
+  value: T,
+  label: string,
+) => () => void;
 
 export const useCollection = <T>() => {
   const itemsRef = useRef(new Map<HTMLElement, CollectionItem<T>>());
 
-  const registerItem = useCallback((node: HTMLElement, value: T) => {
-    itemsRef.current.set(node, { node, value });
+  const registerItem = useCallback<RegisterItemFn<T>>((node, value, label) => {
+    itemsRef.current.set(node, { node, value, label });
 
     return () => {
       itemsRef.current.delete(node);

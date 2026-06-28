@@ -1,3 +1,4 @@
 @import "@blankjs/tokens/css";
 @import "./text-input/text-input.css";
 @import "./password-field//password-field.css";
+@import "./select/select.css";

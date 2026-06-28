@@ -1,8 +1,9 @@
-import { Field, PasswordField, TextInput } from "@blankjs/react";
+import { Field, PasswordField, TextInput, Select } from "@blankjs/react";
 import "@blankjs/react/styles.css";
 import { useState } from "react";
 
 import "./index.css";
+import { countries } from "./countries";
 
 function App() {
   const [invalid, setInvalid] = useState(false);
@@ -46,6 +47,37 @@ function App() {
         <Field.Label>Name</Field.Label>
 
         <PasswordField placeholder="Enter your password" />
+
+        <Field.Description>Please enter your name</Field.Description>
+
+        {invalid && <Field.Error>Name is required</Field.Error>}
+      </Field.Root>
+
+      <Field.Root
+        invalid={invalid}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          width: "fit-content",
+        }}
+      >
+        <Field.Label>Name</Field.Label>
+
+        <Select.Root>
+          <Select.Trigger>
+            <Select.Value placeholder="Select value">
+              {(value) => `Value: ${value}`}
+            </Select.Value>
+          </Select.Trigger>
+          <Select.Content>
+            {countries.map(({ label, value }) => (
+              <Select.Item key={value} value={value} style={{ padding: 12 }}>
+                {label}
+              </Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Root>
 
         <Field.Description>Please enter your name</Field.Description>
 
