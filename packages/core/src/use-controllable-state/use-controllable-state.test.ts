@@ -59,7 +59,7 @@ test("controlled: calls onChange with the resolved value", () => {
   expect(onChange).toHaveBeenCalledWith(5);
 
   act(() => {
-    result.current[1]((x) => x + 1);
+    result.current[1]((x) => (x ?? 0) + 1);
   });
 
   expect(onChange).toHaveBeenLastCalledWith(1);
@@ -83,7 +83,7 @@ test("uncontrolled: supports an updater function", () => {
 
   act(() => {
     result.current[1](5);
-    result.current[1]((x) => x + 1);
+    result.current[1]((x) => (x ?? 0) + 1);
   });
 
   expect(result.current[0]).toBe(6);
@@ -111,4 +111,20 @@ test("keeps a stable setValue identity across rerenders", () => {
   rerender();
 
   expect(result.current[1]).toBe(setValueOld);
+});
+
+test("uncontrolled: starts as undefined without defaultProp", () => {
+  const { result } = renderHook(() => useControllableState<number>({}));
+
+  expect(result.current[0]).toBeUndefined();
+});
+
+test("uncontrolled: updater receives undefined when no value is set", () => {
+  const { result } = renderHook(() => useControllableState<string>({}));
+
+  act(() => {
+    result.current[1]((prev) => prev ?? "fallback");
+  });
+
+  expect(result.current[0]).toBe("fallback");
 });

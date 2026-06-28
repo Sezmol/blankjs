@@ -1,10 +1,16 @@
 import { useEffect, useRef } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { useCollection } from "./use-collection";
+import { useCollection, type RegisterItemFn } from "./use-collection";
 
-type RegisterFn = (node: HTMLElement, value: string) => () => void;
-
-const Item = ({ value, register }: { value: string; register: RegisterFn }) => {
+const Item = ({
+  value,
+  textValue,
+  register,
+}: {
+  value: string;
+  textValue?: string;
+  register: RegisterItemFn<string>;
+}) => {
   const ref = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
@@ -12,8 +18,8 @@ const Item = ({ value, register }: { value: string; register: RegisterFn }) => {
 
     if (!node) return;
 
-    return register(node, value);
-  }, [register, value]);
+    return register(node, value, textValue ?? node.textContent ?? "");
+  }, [register, textValue, value]);
 
   return <li ref={ref}>{value}</li>;
 };
@@ -34,6 +40,37 @@ const Harness = ({
       ))}
 
       <button onClick={() => onRead(getItems().map((item) => item.value))}>
+        read
+      </button>
+    </ul>
+  );
+};
+
+const LabelHarness = ({
+  items,
+  onRead,
+}: {
+  items: { value: string; textValue?: string }[];
+  onRead: (pairs: string[]) => void;
+}) => {
+  const { registerItem, getItems } = useCollection<string>();
+
+  return (
+    <ul>
+      {items.map((item) => (
+        <Item
+          key={item.value}
+          value={item.value}
+          textValue={item.textValue}
+          register={registerItem}
+        />
+      ))}
+
+      <button
+        onClick={() =>
+          onRead(getItems().map((item) => `${item.value}:${item.label}`))
+        }
+      >
         read
       </button>
     </ul>
@@ -82,4 +119,29 @@ test("drops an item from the list after it unmounts", () => {
   fireEvent.click(screen.getByRole("button", { name: "read" }));
 
   expect(onRead).toHaveBeenLastCalledWith(["a", "c"]);
+});
+
+test("stores the provided textValue as label", () => {
+  const onRead = vi.fn();
+
+  render(
+    <LabelHarness
+      items={[{ value: "us", textValue: "United States" }]}
+      onRead={onRead}
+    />,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: "read" }));
+
+  expect(onRead).toHaveBeenLastCalledWith(["us:United States"]);
+});
+
+test("falls back to textContent as label when textValue is absent", () => {
+  const onRead = vi.fn();
+
+  render(<LabelHarness items={[{ value: "de" }]} onRead={onRead} />);
+
+  fireEvent.click(screen.getByRole("button", { name: "read" }));
+
+  expect(onRead).toHaveBeenLastCalledWith(["de:de"]);
 });
