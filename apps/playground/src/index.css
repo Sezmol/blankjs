@@ -8,3 +8,7 @@ body,
 #root {
   height: 100vh;
 }
+
+div[data-active] {
+  background: #fff;
+}

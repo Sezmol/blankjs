@@ -6,3 +6,13 @@ export type {
   UseFieldRootOptions,
   FieldControlProps,
 } from "./field/types";
+
+export {
+  useCollection,
+  type CollectionItem,
+  type RegisterItemFn,
+} from "./use-collection";
+export {
+  useControllableState,
+  type SetStateFn,
+} from "./use-controllable-state";

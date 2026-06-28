@@ -2,18 +2,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseControllableStateProps<T> {
   prop?: T;
-  defaultProp: T;
+  defaultProp?: T;
   onChange?: (value: T) => void;
 }
 
-type SetStateFn<T> = (value: T | ((prev: T) => T)) => void;
+export type SetStateFn<T> = (value: T | ((prev: T | undefined) => T)) => void;
 
 export const useControllableState = <T>({
   prop,
   defaultProp,
   onChange,
-}: UseControllableStateProps<T>): [T, SetStateFn<T>] => {
-  const [state, setState] = useState<T>(defaultProp);
+}: UseControllableStateProps<T>): [T | undefined, SetStateFn<T>] => {
+  const [state, setState] = useState<T | undefined>(defaultProp);
   const onChangeRef = useRef(onChange);
 
   useEffect(() => {
@@ -27,13 +27,17 @@ export const useControllableState = <T>({
     (next) => {
       if (isControlled) {
         const resolved =
-          typeof next === "function" ? (next as (p: T) => T)(prop) : next;
+          typeof next === "function"
+            ? (next as (prev: T | undefined) => T)(prop)
+            : next;
 
         if (resolved !== prop) onChangeRef.current?.(resolved);
       } else {
         setState((prev) => {
           const resolved =
-            typeof next === "function" ? (next as (p: T) => T)(prev) : next;
+            typeof next === "function"
+              ? (next as (prev: T | undefined) => T)(prev)
+              : next;
           onChangeRef.current?.(resolved);
 
           return resolved;
