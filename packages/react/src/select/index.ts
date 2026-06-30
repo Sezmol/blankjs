@@ -7,6 +7,7 @@ import { SelectValue } from "./value";
 export { SelectRoot, SelectTrigger, SelectContent, SelectItem, SelectValue };
 
 export type { SelectTriggerProps } from "./trigger";
+export type { SelectContentProps } from "./content";
 
 export const Select = {
   Root: SelectRoot,

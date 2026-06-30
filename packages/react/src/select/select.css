@@ -77,7 +77,7 @@
   z-index: 50;
   box-sizing: border-box;
   max-height: 16rem;
-  overflow-y: auto;
+  overflow: hidden auto;
   padding: var(--bk-space-1);
   background-color: var(--bk-color-surface-raised);
   border: 1px solid var(--bk-color-border);
