@@ -18,5 +18,8 @@ export {
   SelectContent,
   SelectRoot,
   SelectTrigger,
+  SelectItem,
+  SelectValue,
+  type SelectContentProps,
   type SelectTriggerProps,
 } from "./select";

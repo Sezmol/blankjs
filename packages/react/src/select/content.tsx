@@ -1,31 +1,56 @@
-import { useEffect, type ComponentProps } from "react";
+import { useEffect, useState, type ComponentProps } from "react";
+import { createPortal } from "react-dom";
 import {
   autoUpdate,
   flip,
   offset,
   shift,
+  size,
   useFloating,
 } from "@floating-ui/react";
 import { useSelectContext } from "./context";
 
-type SelectContentProps = ComponentProps<"div">;
+export interface SelectContentProps extends ComponentProps<"div"> {
+  container?: HTMLElement;
+}
 
 const SelectContentInner = ({
   children,
   style,
   className,
+  container,
   ...props
 }: SelectContentProps) => {
-  const { triggerElement, listboxId, setOpen } = useSelectContext();
+  const {
+    triggerElement,
+    listboxId,
+    setOpen,
+    getItems,
+    value,
+    setActiveValue,
+  } = useSelectContext();
 
   const { refs, floatingStyles, elements } = useFloating({
     placement: "bottom-start",
-    middleware: [offset(4), flip(), shift({ padding: 8 })],
+    middleware: [
+      offset(4),
+      flip(),
+      shift({ padding: 8 }),
+      size({
+        apply({ elements: floatingState, rects }) {
+          Object.assign(floatingState.floating.style, {
+            width: `${rects.reference.width}px`,
+          });
+        },
+      }),
+    ],
     whileElementsMounted: autoUpdate,
     elements: { reference: triggerElement },
   });
 
   const { setFloating } = refs;
+
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -52,7 +77,27 @@ const SelectContentInner = ({
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [setOpen, triggerElement, elements.floating]);
 
-  return (
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const items = getItems();
+    const selectedExists =
+      value !== undefined && items.some((item) => item.value === value);
+
+    setActiveValue(selectedExists ? value : items[0]?.value);
+
+    return () => setActiveValue(undefined);
+    // re-runs when mounted flips true: the commit after Items registered
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted]);
+  if (!mounted) return null;
+
+  const target = container ?? document.body;
+
+  return createPortal(
     <div
       {...props}
       ref={setFloating}
@@ -62,7 +107,8 @@ const SelectContentInner = ({
       id={listboxId}
     >
       {children}
-    </div>
+    </div>,
+    target,
   );
 };
 
