@@ -1,4 +1,10 @@
-import { Field, PasswordField, TextInput, Select } from "@blankjs/react";
+import {
+  Field,
+  PasswordField,
+  TextInput,
+  Select,
+  Button,
+} from "@blankjs/react";
 import "@blankjs/react/styles.css";
 import { useState } from "react";
 
@@ -84,9 +90,15 @@ function App() {
         {invalid && <Field.Error>Name is required</Field.Error>}
       </Field.Root>
 
-      <button onClick={() => setInvalid((v) => !v)} style={{ marginTop: 16 }}>
-        toggle error
-      </button>
+      <Button
+        asChild
+        variant="outline"
+        size="md"
+        onClick={() => setInvalid((v) => !v)}
+        style={{ marginTop: 16 }}
+      >
+        <a href="#"> toggle error</a>
+      </Button>
     </div>
   );
 }
