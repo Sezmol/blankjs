@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ComponentProps } from "react";
+import { useEffect, useId, useRef, type ComponentProps } from "react";
 import { useSelectContext } from "./context";
 
 export interface SelectItemProps extends ComponentProps<"div"> {
@@ -29,27 +29,32 @@ export const SelectItem = ({
   ...props
 }: SelectItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const optionId = useId();
 
   const {
     value: selectedValue,
-    activeValue,
+    activeItem,
     setValue,
     setOpen,
     registerItem,
-    getOptionId,
   } = useSelectContext();
 
   const isSelected = value === selectedValue;
 
-  const isActive = value === activeValue;
+  const isActive = value === activeItem?.value;
 
   useEffect(() => {
     const node = ref.current;
 
     if (!node) return;
 
-    return registerItem(node, value, textValue ?? node.textContent ?? "");
-  }, [registerItem, textValue, value]);
+    return registerItem({
+      node,
+      value,
+      label: textValue ?? node.textContent ?? "",
+      id: optionId,
+    });
+  }, [registerItem, textValue, value, optionId]);
 
   useEffect(() => {
     if (isActive) {
@@ -63,7 +68,7 @@ export const SelectItem = ({
       ref={ref}
       className={["bk-select-item", className].filter(Boolean).join(" ")}
       role="option"
-      id={getOptionId(value)}
+      id={optionId}
       aria-selected={isSelected}
       data-active={isActive ? "" : undefined}
       onClick={(e) => {
