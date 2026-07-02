@@ -23,26 +23,28 @@ export const useControllableState = <T>({
   const isControlled = prop !== undefined;
   const value = isControlled ? prop : state;
 
+  const valueRef = useRef(value);
+
+  useEffect(() => {
+    valueRef.current = value;
+  });
+
   const setValue = useCallback<SetStateFn<T>>(
     (next) => {
-      if (isControlled) {
-        const resolved =
-          typeof next === "function"
-            ? (next as (prev: T | undefined) => T)(prop)
-            : next;
+      const prev = isControlled ? prop : valueRef.current;
+      const resolved =
+        typeof next === "function"
+          ? (next as (prev: T | undefined) => T)(prev)
+          : next;
 
-        if (resolved !== prop) onChangeRef.current?.(resolved);
-      } else {
-        setState((prev) => {
-          const resolved =
-            typeof next === "function"
-              ? (next as (prev: T | undefined) => T)(prev)
-              : next;
-          onChangeRef.current?.(resolved);
+      if (resolved === prev) return;
 
-          return resolved;
-        });
+      if (!isControlled) {
+        setState(resolved);
+        valueRef.current = resolved;
       }
+
+      onChangeRef.current?.(resolved);
     },
     [isControlled, prop],
   );
