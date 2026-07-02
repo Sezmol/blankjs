@@ -44,6 +44,20 @@ test("keeps the slot handler when child has none", () => {
   expect(slotClick).toHaveBeenCalledTimes(1);
 });
 
+test("keeps the slot handler when child passes undefined", () => {
+  const slotClick = vi.fn();
+  const merged = mergeProps({ onClick: slotClick }, { onClick: undefined });
+  (merged.onClick as (e: unknown) => void)({});
+
+  expect(slotClick).toHaveBeenCalledTimes(1);
+});
+
+test("keeps the slot value when child passes undefined for a plain prop", () => {
+  const merged = mergeProps({ id: "slot" }, { id: undefined });
+
+  expect(merged.id).toBe("slot");
+});
+
 test("joins className from both sides", () => {
   const merged = mergeProps(
     { className: "bk-trigger" },
