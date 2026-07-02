@@ -6,7 +6,9 @@ interface UseControllableStateProps<T> {
   onChange?: (value: T) => void;
 }
 
-export type SetStateFn<T> = (value: T | ((prev: T | undefined) => T)) => void;
+export type SetStateFn<T> = (
+  value: T | undefined | ((prev: T | undefined) => T | undefined),
+) => void;
 
 export const useControllableState = <T>({
   prop,
@@ -34,7 +36,7 @@ export const useControllableState = <T>({
       const prev = isControlled ? prop : valueRef.current;
       const resolved =
         typeof next === "function"
-          ? (next as (prev: T | undefined) => T)(prev)
+          ? (next as (prev: T | undefined) => T | undefined)(prev)
           : next;
 
       if (resolved === prev) return;
@@ -44,7 +46,7 @@ export const useControllableState = <T>({
         valueRef.current = resolved;
       }
 
-      onChangeRef.current?.(resolved);
+      if (resolved !== undefined) onChangeRef.current?.(resolved);
     },
     [isControlled, prop],
   );
