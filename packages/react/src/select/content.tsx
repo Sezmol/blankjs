@@ -21,14 +21,8 @@ const SelectContentInner = ({
   container,
   ...props
 }: SelectContentProps) => {
-  const {
-    triggerElement,
-    listboxId,
-    setOpen,
-    getItems,
-    value,
-    setActiveItem,
-  } = useSelectContext();
+  const { triggerElement, listboxId, setOpen, getItems, value, setActiveItem } =
+    useSelectContext();
 
   const { refs, floatingStyles, elements } = useFloating({
     placement: "bottom-start",
@@ -54,7 +48,11 @@ const SelectContentInner = ({
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+
+      e.preventDefault();
+
+      setOpen(false);
     };
 
     document.addEventListener("keydown", onKeyDown);

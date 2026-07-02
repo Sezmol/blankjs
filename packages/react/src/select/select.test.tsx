@@ -98,3 +98,27 @@ test("closes on Escape", () => {
 
   expect(screen.queryByRole("listbox")).toBeNull();
 });
+
+test("ignores an already handled Escape", () => {
+  renderSelect();
+
+  fireEvent.click(screen.getByRole("combobox"));
+
+  const onKeyDown = (e: KeyboardEvent) => e.preventDefault();
+  document.addEventListener("keydown", onKeyDown, { capture: true });
+  fireEvent.keyDown(document, { key: "Escape" });
+  document.removeEventListener("keydown", onKeyDown, { capture: true });
+
+  expect(screen.getByRole("listbox")).toBeInTheDocument();
+});
+
+test("marks Escape as handled when it closes the listbox", () => {
+  renderSelect();
+
+  fireEvent.click(screen.getByRole("combobox"));
+
+  const notPrevented = fireEvent.keyDown(document, { key: "Escape" });
+
+  expect(notPrevented).toBe(false);
+  expect(screen.queryByRole("listbox")).toBeNull();
+});
