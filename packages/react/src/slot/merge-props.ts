@@ -9,6 +9,11 @@ export const mergeProps = (slotProps: Props, childProps: Props): Props => {
     const slotValue = slotProps[key];
     const childValue = childProps[key];
 
+    if (childValue === undefined) {
+      merged[key] = slotValue;
+      continue;
+    }
+
     const isHandler = /^on[A-Z]/.test(key);
 
     if (isHandler) {
