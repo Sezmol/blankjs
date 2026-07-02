@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { SelectContext } from "./context";
+import { SelectHiddenInput } from "./hidden-input";
 import type { UseSelectRootOptions } from "./types";
 import { useSelectRoot } from "./use-select-root";
 
@@ -9,9 +10,15 @@ export const SelectRoot = ({ children, ...options }: SelectRootProps) => {
   const contextValue = useSelectRoot(options);
 
   return (
-    <SelectContext.Provider value={contextValue}>
+    <SelectContext value={contextValue}>
       {children}
-    </SelectContext.Provider>
+      {options.name && (
+        <SelectHiddenInput
+          name={options.name}
+          defaultValue={options.defaultValue}
+        />
+      )}
+    </SelectContext>
   );
 };
 

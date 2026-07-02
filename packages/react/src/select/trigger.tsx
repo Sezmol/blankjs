@@ -180,6 +180,7 @@ export const SelectTrigger = ({
   };
 
   const triggerProps: ComponentProps<"button"> = {
+    type: "button" as const,
     ...props,
     ...fieldProps,
     className: ["bk-select-trigger", className].filter(Boolean).join(" "),
