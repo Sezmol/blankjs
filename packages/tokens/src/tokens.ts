@@ -34,6 +34,7 @@ export const TOKENS = {
       surfaceRaised: "{palette.gray.800}",
       surfaceHover: "{palette.gray.700}",
       text: "{palette.gray.50}",
+      textOnAccent: "{palette.gray.50}",
       textMuted: "{palette.gray.400}",
       border: "{palette.gray.600}",
       borderHover: "{palette.gray.500}",

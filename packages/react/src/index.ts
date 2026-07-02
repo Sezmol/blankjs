@@ -23,3 +23,5 @@ export {
   type SelectContentProps,
   type SelectTriggerProps,
 } from "./select";
+
+export { Button, type ButtonProps } from "./button";
