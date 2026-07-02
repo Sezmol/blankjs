@@ -12,11 +12,17 @@
     "test": "vitest run"
   },
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    },
-    "./styles.css": "./dist/style.css"
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.mts",
+        "import": "./dist/index.mjs"
+      },
+      "./styles.css": "./dist/style.css"
+    }
   },
   "files": [
     "dist"
