@@ -10,11 +10,17 @@
     "lint": "eslint src"
   },
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    },
+    ".": "./src/index.ts",
     "./css": "./dist/tokens.css"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.mts",
+        "import": "./dist/index.mjs"
+      },
+      "./css": "./dist/tokens.css"
+    }
   },
   "devDependencies": {
     "@types/node": "^25.9.3",
