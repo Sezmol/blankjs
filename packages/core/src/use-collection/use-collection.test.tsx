@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useCollection, type RegisterItemFn } from "./use-collection";
 
@@ -12,14 +12,20 @@ const Item = ({
   register: RegisterItemFn<string>;
 }) => {
   const ref = useRef<HTMLLIElement>(null);
+  const id = useId();
 
   useEffect(() => {
     const node = ref.current;
 
     if (!node) return;
 
-    return register(node, value, textValue ?? node.textContent ?? "");
-  }, [register, textValue, value]);
+    return register({
+      node,
+      value,
+      label: textValue ?? node.textContent ?? "",
+      id,
+    });
+  }, [register, textValue, value, id]);
 
   return <li ref={ref}>{value}</li>;
 };

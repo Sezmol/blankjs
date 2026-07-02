@@ -9,12 +9,12 @@ test("generates unique trigger and listbox ids", () => {
   expect(result.current.triggerId).not.toBe(result.current.listboxId);
 });
 
-test("defaults to closed, no value, no active value, enabled", () => {
+test("defaults to closed, no value, no active item, enabled", () => {
   const { result } = renderHook(() => useSelectRoot());
 
   expect(result.current.open).toBe(false);
   expect(result.current.value).toBeUndefined();
-  expect(result.current.activeValue).toBeUndefined();
+  expect(result.current.activeItem).toBeUndefined();
   expect(result.current.disabled).toBe(false);
 });
 
@@ -28,13 +28,6 @@ test("reflects the disabled option in context", () => {
   const { result } = renderHook(() => useSelectRoot({ disabled: true }));
 
   expect(result.current.disabled).toBe(true);
-});
-
-test("builds an option id scoped to the listbox id", () => {
-  const { result } = renderHook(() => useSelectRoot());
-  const { listboxId, getOptionId } = result.current;
-
-  expect(getOptionId("test")).toBe(`${listboxId}-option-test`);
 });
 
 test("keeps ids stable across rerenders", () => {

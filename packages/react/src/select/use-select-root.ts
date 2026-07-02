@@ -1,5 +1,9 @@
-import { useCallback, useId, useMemo, useState } from "react";
-import { useCollection, useControllableState } from "@blankjs/core";
+import { useId, useMemo, useState } from "react";
+import {
+  useCollection,
+  useControllableState,
+  type CollectionItem,
+} from "@blankjs/core";
 
 import type { SelectContextValue, UseSelectRootOptions } from "./types";
 
@@ -20,7 +24,9 @@ export const useSelectRoot = (
 
   const { getItems, registerItem } = useCollection<string>();
 
-  const [activeValue, setActiveValue] = useState<string | undefined>(undefined);
+  const [activeItem, setActiveItem] = useState<
+    CollectionItem<string> | undefined
+  >(undefined);
 
   const [triggerElement, setTriggerElement] = useState<HTMLElement | null>(
     null,
@@ -29,26 +35,19 @@ export const useSelectRoot = (
   const triggerId = useId();
   const listboxId = useId();
 
-  const getOptionId = useCallback(
-    (value: string) => `${listboxId}-option-${value}`,
-    [listboxId],
-  );
-
   return useMemo<SelectContextValue>(
     () => ({
       open: open ?? false,
       setOpen,
 
-      activeValue,
-      setActiveValue,
+      activeItem,
+      setActiveItem,
 
       value,
       setValue,
 
       triggerElement,
       setTriggerElement,
-
-      getOptionId,
 
       listboxId,
       triggerId,
@@ -59,9 +58,8 @@ export const useSelectRoot = (
       disabled: options.disabled ?? false,
     }),
     [
-      activeValue,
+      activeItem,
       getItems,
-      getOptionId,
       listboxId,
       open,
       options.disabled,

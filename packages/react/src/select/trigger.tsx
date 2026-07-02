@@ -47,19 +47,17 @@ export const SelectTrigger = ({
     triggerId,
     listboxId,
     disabled,
-    activeValue,
-    getOptionId,
+    activeItem,
     setTriggerElement,
     getItems,
-    setActiveValue,
+    setActiveItem,
     setValue,
   } = useSelectContext();
 
   const isDisabled = fieldProps.disabled || disabled;
   const id = fieldProps.id ?? triggerId;
 
-  const activeDescendant =
-    open && activeValue ? getOptionId(activeValue) : undefined;
+  const activeDescendant = open ? activeItem?.id : undefined;
 
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (isDisabled) return;
@@ -88,7 +86,7 @@ export const SelectTrigger = ({
     }
 
     const items = getItems();
-    const index = items.findIndex((item) => item.value === activeValue);
+    const index = items.findIndex((item) => item.value === activeItem?.value);
 
     const isPrintable =
       key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey;
@@ -112,7 +110,7 @@ export const SelectTrigger = ({
         const item = items[i];
 
         if (item && item.label.toLowerCase().startsWith(query)) {
-          setActiveValue(item.value);
+          setActiveItem(item);
 
           break;
         }
@@ -125,10 +123,10 @@ export const SelectTrigger = ({
       case "ArrowDown": {
         e.preventDefault();
 
-        const next = items[Math.min(index + 1, items.length - 1)]?.value;
+        const next = items[Math.min(index + 1, items.length - 1)];
 
         if (next) {
-          setActiveValue(next);
+          setActiveItem(next);
         }
 
         break;
@@ -137,10 +135,10 @@ export const SelectTrigger = ({
       case "ArrowUp": {
         e.preventDefault();
 
-        const prev = items[Math.max(index - 1, 0)]?.value;
+        const prev = items[Math.max(index - 1, 0)];
 
         if (prev) {
-          setActiveValue(prev);
+          setActiveItem(prev);
         }
 
         break;
@@ -150,8 +148,8 @@ export const SelectTrigger = ({
       case " ": {
         e.preventDefault();
 
-        if (activeValue && searchRef.current === "") {
-          setValue(activeValue);
+        if (activeItem && searchRef.current === "") {
+          setValue(activeItem.value);
           setOpen(false);
         }
 
@@ -165,14 +163,14 @@ export const SelectTrigger = ({
       case "Home":
         e.preventDefault();
 
-        setActiveValue(items[0]?.value);
+        setActiveItem(items[0]);
 
         break;
 
       case "End":
         e.preventDefault();
 
-        setActiveValue(items[items.length - 1]?.value);
+        setActiveItem(items[items.length - 1]);
 
         break;
 
@@ -204,7 +202,10 @@ export const SelectTrigger = ({
 
   if (asChild) {
     return (
-      <Slot {...triggerProps} ref={setTriggerElement}>
+      <Slot
+        {...triggerProps}
+        ref={composeRefs<HTMLButtonElement>(setTriggerElement, props.ref)}
+      >
         {children as ReactElement}
       </Slot>
     );

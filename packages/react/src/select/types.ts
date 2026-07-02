@@ -8,15 +8,14 @@ export interface SelectContextValue {
   value: string | undefined;
   setValue: SetStateFn<string>;
 
-  activeValue: string | undefined;
-  setActiveValue: Dispatch<SetStateAction<string | undefined>>;
+  activeItem: CollectionItem<string> | undefined;
+  setActiveItem: Dispatch<SetStateAction<CollectionItem<string> | undefined>>;
 
   triggerElement: HTMLElement | null;
   setTriggerElement: (node: HTMLElement | null) => void;
 
   triggerId: string;
   listboxId: string;
-  getOptionId: (value: string) => string;
 
   registerItem: RegisterItemFn<string>;
   getItems: () => CollectionItem<string>[];

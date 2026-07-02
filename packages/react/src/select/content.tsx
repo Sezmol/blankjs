@@ -27,7 +27,7 @@ const SelectContentInner = ({
     setOpen,
     getItems,
     value,
-    setActiveValue,
+    setActiveItem,
   } = useSelectContext();
 
   const { refs, floatingStyles, elements } = useFloating({
@@ -84,12 +84,14 @@ const SelectContentInner = ({
     if (!mounted) return;
 
     const items = getItems();
-    const selectedExists =
-      value !== undefined && items.some((item) => item.value === value);
+    const selected =
+      value !== undefined
+        ? items.find((item) => item.value === value)
+        : undefined;
 
-    setActiveValue(selectedExists ? value : items[0]?.value);
+    setActiveItem(selected ?? items[0]);
 
-    return () => setActiveValue(undefined);
+    return () => setActiveItem(undefined);
     // re-runs when mounted flips true: the commit after Items registered
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted]);
