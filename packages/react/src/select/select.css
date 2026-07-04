@@ -78,11 +78,13 @@
   box-sizing: border-box;
   max-height: 16rem;
   overflow: hidden auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bk-color-border) transparent;
   padding: var(--bk-space-1);
   background-color: var(--bk-color-surface-raised);
   border: 1px solid var(--bk-color-border);
   border-radius: var(--bk-radius-md);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.4);
+  box-shadow: var(--bk-shadow-popover);
 }
 
 .bk-select-item {

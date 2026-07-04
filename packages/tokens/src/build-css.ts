@@ -2,7 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { TOKENS } from "./tokens.ts";
 
-const STRIP_SEGMENTS = new Set(["palette", "semantic"]);
 const PREFIX = "bk";
 const OUTPUT_PATH = path.join(process.cwd(), "dist", "tokens.css");
 
@@ -10,11 +9,9 @@ const toKebab = (s: string) =>
   s.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
 const getVariableName = (segments: string[]): string => {
-  const filtered = segments.filter((s) => !STRIP_SEGMENTS.has(s));
+  const filtered = segments.filter((s) => s !== "palette");
 
-  const kebab = filtered.map(toKebab).join("-");
-
-  return `--${PREFIX}-${kebab}`;
+  return `--${PREFIX}-${filtered.map(toKebab).join("-")}`;
 };
 
 const validateRef = (refPath: string): string[] => {
@@ -44,6 +41,7 @@ const formatTokenValue = (value: string): string => {
 
     return `var(${getVariableName(segments)})`;
   }
+
   return value;
 };
 
@@ -55,18 +53,82 @@ const generateLines = (node: object, currentPath: string[] = []): string[] => {
 
     if (typeof value === "object" && value !== null) {
       lines.push(...generateLines(value, nextPath));
-    } else {
-      lines.push(
-        `  ${getVariableName(nextPath)}: ${formatTokenValue(String(value))};`,
-      );
+      continue;
     }
+
+    lines.push(
+      `  ${getVariableName(nextPath)}: ${formatTokenValue(String(value))};`,
+    );
   }
 
   return lines;
 };
 
-const cssLines = generateLines(TOKENS);
-const fileContent = [":root {", ...cssLines, "}", ""].join("\n");
+const collectLeafPaths = (
+  node: object,
+  currentPath: string[] = [],
+): string[] => {
+  const result: string[] = [];
+
+  for (const [key, value] of Object.entries(node)) {
+    const nextPath = [...currentPath, key];
+
+    if (typeof value === "object" && value !== null) {
+      result.push(...collectLeafPaths(value, nextPath));
+    } else {
+      result.push(nextPath.join("."));
+    }
+  }
+
+  return result;
+};
+
+const validateThemeParity = (dark: object, light: object) => {
+  const darkKeys = new Set(collectLeafPaths(dark));
+  const lightKeys = new Set(collectLeafPaths(light));
+
+  const missingInLight = [...darkKeys].filter((key) => !lightKeys.has(key));
+  const missingInDark = [...lightKeys].filter((key) => !darkKeys.has(key));
+
+  const errors: string[] = [];
+
+  if (missingInLight.length > 0) {
+    errors.push(`Missing in light theme: ${missingInLight.join(", ")}`);
+  }
+
+  if (missingInDark.length > 0) {
+    errors.push(`Missing in dark theme: ${missingInDark.join(", ")}`);
+  }
+
+  if (errors.length > 0) {
+    throw new Error(errors.join("\n"));
+  }
+};
+
+const { palette, themes, ...statics } = TOKENS;
+
+validateThemeParity(themes.dark, themes.light);
+
+const rootLines = [
+  ...generateLines(palette, ["palette"]),
+  ...generateLines(statics),
+  ...generateLines(themes.dark),
+];
+
+const lightLines = generateLines(themes.light);
+
+const fileContent = [
+  ':root, [data-bk-theme="dark"] {',
+  "  color-scheme: dark;",
+  ...rootLines,
+  "}",
+  "",
+  '[data-bk-theme="light"] {',
+  "  color-scheme: light;",
+  ...lightLines,
+  "}",
+  "",
+].join("\n");
 
 fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
 fs.writeFileSync(OUTPUT_PATH, fileContent, "utf-8");
