@@ -4,6 +4,7 @@ import {
   TextInput,
   Select,
   Button,
+  Combobox,
 } from "@blankjs/react";
 import "@blankjs/react/styles.css";
 import { useState } from "react";
@@ -13,6 +14,8 @@ import { countries } from "./countries";
 
 function App() {
   const [invalid, setInvalid] = useState(false);
+
+  const [comboboxInputValue, setComboboxInputValue] = useState("");
 
   return (
     <div
@@ -84,6 +87,47 @@ function App() {
             ))}
           </Select.Content>
         </Select.Root>
+
+        <Field.Description>Please enter your name</Field.Description>
+
+        {invalid && <Field.Error>Name is required</Field.Error>}
+      </Field.Root>
+
+      <Field.Root
+        invalid={invalid}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          width: "fit-content",
+        }}
+      >
+        <Field.Label>Name</Field.Label>
+
+        <Combobox.Root
+          inputValue={comboboxInputValue}
+          onInputValueChange={(value) => setComboboxInputValue(value)}
+        >
+          <Combobox.Input placeholder="Select value" />
+
+          <Combobox.Content>
+            {countries
+              .filter(({ label }) =>
+                label
+                  .toLocaleLowerCase()
+                  .includes(comboboxInputValue.toLocaleLowerCase()),
+              )
+              .map(({ label, value }) => (
+                <Combobox.Item
+                  key={value}
+                  value={value}
+                  style={{ padding: 12 }}
+                >
+                  {label}
+                </Combobox.Item>
+              ))}
+          </Combobox.Content>
+        </Combobox.Root>
 
         <Field.Description>Please enter your name</Field.Description>
 

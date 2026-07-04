@@ -25,3 +25,11 @@ export {
 } from "./select";
 
 export { Button, type ButtonProps } from "./button";
+
+export {
+  Combobox,
+  ComboboxContent,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxRoot,
+} from "./combobox";
