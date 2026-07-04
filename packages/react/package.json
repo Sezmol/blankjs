@@ -16,6 +16,7 @@
     "./styles.css": "./src/styles.css"
   },
   "publishConfig": {
+    "access": "public",
     "exports": {
       ".": {
         "types": "./dist/index.d.mts",
@@ -49,5 +50,21 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tsdown": "^0.22.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sezmol/blankjs.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/Sezmol/blankjs#readme",
+  "bugs": "https://github.com/Sezmol/blankjs/issues",
+  "author": "Sezmol",
+  "keywords": [
+    "react",
+    "ui",
+    "headless",
+    "components",
+    "form",
+    "accessible"
+  ]
 }
