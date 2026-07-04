@@ -23,3 +23,4 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm lint
+      - run: pnpm --filter "@blankjs/*" exec publint

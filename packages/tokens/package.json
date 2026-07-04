@@ -1,7 +1,7 @@
 {
   "name": "@blankjs/tokens",
   "version": "0.0.0",
-  "description": "",
+  "description": "Design tokens for blankjs",
   "type": "module",
   "license": "MIT",
   "sideEffects": false,
@@ -14,6 +14,7 @@
     "./css": "./dist/tokens.css"
   },
   "publishConfig": {
+    "access": "public",
     "exports": {
       ".": {
         "types": "./dist/index.d.mts",
@@ -22,8 +23,27 @@
       "./css": "./dist/tokens.css"
     }
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/node": "^25.9.3",
     "tsdown": "^0.22.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sezmol/blankjs.git",
+    "directory": "packages/tokens"
+  },
+  "homepage": "https://github.com/Sezmol/blankjs#readme",
+  "bugs": "https://github.com/Sezmol/blankjs/issues",
+  "author": "Sezmol",
+  "keywords": [
+    "react",
+    "ui",
+    "headless",
+    "components",
+    "form",
+    "accessible"
+  ]
 }
