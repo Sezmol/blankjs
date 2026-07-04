@@ -37,6 +37,7 @@ export const SelectItem = ({
     setValue,
     setOpen,
     registerItem,
+    setActiveItem,
   } = useSelectContext();
 
   const isSelected = value === selectedValue;
@@ -48,13 +49,18 @@ export const SelectItem = ({
 
     if (!node) return;
 
-    return registerItem({
+    const unregister = registerItem({
       node,
       value,
       label: textValue ?? node.textContent ?? "",
       id: optionId,
     });
-  }, [registerItem, textValue, value, optionId]);
+
+    return () => {
+      unregister();
+      setActiveItem((prev) => (prev?.value === value ? undefined : prev));
+    };
+  }, [registerItem, textValue, value, optionId, setActiveItem]);
 
   useEffect(() => {
     if (isActive) {

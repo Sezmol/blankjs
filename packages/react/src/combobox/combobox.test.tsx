@@ -245,6 +245,21 @@ test("filtering away the active option clears aria-activedescendant", async () =
   expect(getInput()).not.toHaveAttribute("aria-activedescendant");
 });
 
+test("marks the listbox with data-empty when the filter matches nothing", async () => {
+  const user = userEvent.setup();
+
+  render(<Harness />);
+
+  await user.type(getInput(), "zzz");
+
+  expect(screen.getByRole("listbox")).toHaveAttribute("data-empty");
+
+  await user.clear(getInput());
+  await user.type(getInput(), "ba");
+
+  expect(screen.getByRole("listbox")).not.toHaveAttribute("data-empty");
+});
+
 test("reopening after a commit starts from the committed label", async () => {
   const user = userEvent.setup();
 

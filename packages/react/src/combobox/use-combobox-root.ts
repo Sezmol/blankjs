@@ -61,12 +61,14 @@ export const useComboboxRoot = (
 
     setInputValue(defaultInputValue);
     setValue(options.defaultValue);
+    setOpen(false);
 
     committedLabelRef.current = defaultInputValue;
   }, [
     options.defaultInputValue,
     options.defaultValue,
     setInputValue,
+    setOpen,
     setValue,
   ]);
 

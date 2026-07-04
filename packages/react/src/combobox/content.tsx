@@ -1,4 +1,5 @@
 import {
+  Children,
   useEffect,
   useState,
   type ComponentProps,
@@ -129,6 +130,7 @@ const ComboboxContentInner = ({
       className={["bk-combobox-content", className].filter(Boolean).join(" ")}
       role="listbox"
       id={listboxId}
+      data-empty={Children.count(children) === 0 ? "" : undefined}
     >
       {children}
     </div>,
