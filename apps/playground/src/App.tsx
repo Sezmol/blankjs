@@ -7,15 +7,20 @@ import {
   Combobox,
 } from "@blankjs/react";
 import "@blankjs/react/styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./index.css";
 import { countries } from "./countries";
 
 function App() {
   const [invalid, setInvalid] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   const [comboboxInputValue, setComboboxInputValue] = useState("");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bk-theme", theme);
+  }, [theme]);
 
   return (
     <div
@@ -142,6 +147,19 @@ function App() {
         style={{ marginTop: 16 }}
       >
         <a href="#"> toggle error</a>
+      </Button>
+
+      <Button onClick={() => setInvalid((v) => !v)} style={{ marginTop: 16 }}>
+        TEST
+      </Button>
+
+      <Button
+        variant="ghost"
+        size="md"
+        onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+        style={{ marginTop: 16, marginLeft: 8 }}
+      >
+        theme: {theme}
       </Button>
     </div>
   );
