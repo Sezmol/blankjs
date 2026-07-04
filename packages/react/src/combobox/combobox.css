@@ -87,6 +87,10 @@
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.4);
 }
 
+.bk-combobox-content[data-empty] {
+  display: none;
+}
+
 .bk-combobox-item {
   display: flex;
   align-items: center;
