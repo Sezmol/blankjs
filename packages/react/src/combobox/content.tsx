@@ -1,4 +1,9 @@
-import { useEffect, useState, type ComponentProps } from "react";
+import {
+  useEffect,
+  useState,
+  type ComponentProps,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import { createPortal } from "react-dom";
 import {
   autoUpdate,
@@ -8,21 +13,28 @@ import {
   size,
   useFloating,
 } from "@floating-ui/react";
-import { useSelectContext } from "./context";
+import { useComboboxContext } from "./context";
 
-export interface SelectContentProps extends ComponentProps<"div"> {
+export interface ComboboxContentProps extends ComponentProps<"div"> {
   container?: HTMLElement;
 }
 
-const SelectContentInner = ({
+const ComboboxContentInner = ({
   children,
   style,
   className,
   container,
   ...props
-}: SelectContentProps) => {
-  const { triggerElement, listboxId, setOpen, getItems, value, setActiveItem } =
-    useSelectContext();
+}: ComboboxContentProps) => {
+  const {
+    inputGroupElement,
+    listboxId,
+    setOpen,
+    getItems,
+    value,
+    setActiveItem,
+    revertInputValue,
+  } = useComboboxContext();
 
   const { refs, floatingStyles, elements } = useFloating({
     placement: "bottom-start",
@@ -33,18 +45,26 @@ const SelectContentInner = ({
       size({
         apply({ elements: floatingState, rects }) {
           Object.assign(floatingState.floating.style, {
-            width: `${rects.reference.width}px`,
+            minWidth: `${rects.reference.width}px`,
           });
         },
       }),
     ],
     whileElementsMounted: autoUpdate,
-    elements: { reference: triggerElement },
+    elements: { reference: inputGroupElement },
   });
 
   const { setFloating } = refs;
 
   const [mounted, setMounted] = useState(false);
+
+  const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    props.onPointerDown?.(e);
+
+    if (e.defaultPrevented) return;
+
+    e.preventDefault();
+  };
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -52,31 +72,30 @@ const SelectContentInner = ({
 
       e.preventDefault();
 
+      revertInputValue();
       setOpen(false);
     };
 
     document.addEventListener("keydown", onKeyDown);
 
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [setOpen]);
+  }, [setOpen, revertInputValue]);
 
   useEffect(() => {
-    const onPointerDown = (e: PointerEvent) => {
+    const onPointerDownHandler = (e: PointerEvent) => {
       const target = e.target as Node;
 
       if (elements.floating?.contains(target)) return;
-      if (triggerElement?.contains(target)) return;
+      if (inputGroupElement?.contains(target)) return;
 
       setOpen(false);
     };
 
-    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("pointerdown", onPointerDownHandler);
 
-    return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [setOpen, triggerElement, elements.floating]);
-
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setMounted(true), []);
+    return () =>
+      document.removeEventListener("pointerdown", onPointerDownHandler);
+  }, [setOpen, inputGroupElement, elements.floating]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -94,6 +113,9 @@ const SelectContentInner = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+
   if (!mounted) return null;
 
   const target = container ?? document.body;
@@ -101,9 +123,10 @@ const SelectContentInner = ({
   return createPortal(
     <div
       {...props}
+      onPointerDown={onPointerDown}
       ref={setFloating}
       style={{ ...style, ...floatingStyles }}
-      className={["bk-select-content", className].filter(Boolean).join(" ")}
+      className={["bk-combobox-content", className].filter(Boolean).join(" ")}
       role="listbox"
       id={listboxId}
     >
@@ -113,12 +136,15 @@ const SelectContentInner = ({
   );
 };
 
-export const SelectContent = ({ children, ...props }: SelectContentProps) => {
-  const { open } = useSelectContext();
+export const ComboboxContent = ({
+  children,
+  ...props
+}: ComboboxContentProps) => {
+  const { open } = useComboboxContext();
 
   if (!open) return null;
 
-  return <SelectContentInner {...props}>{children}</SelectContentInner>;
+  return <ComboboxContentInner {...props}>{children}</ComboboxContentInner>;
 };
 
-SelectContent.displayName = "Select.Content";
+ComboboxContent.displayName = "Combobox.Content";
