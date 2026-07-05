@@ -1,0 +1,81 @@
+.bk-switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+}
+
+.bk-switch-input {
+  appearance: none;
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  background-color: var(--bk-color-border);
+  border: none;
+  border-radius: 999px;
+  outline: none;
+  transition:
+    background-color var(--bk-duration-fast) ease,
+    box-shadow var(--bk-duration-fast) ease;
+}
+
+.bk-switch-input:hover {
+  background-color: var(--bk-color-border-hover);
+}
+
+.bk-switch-input:focus-visible {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}
+
+.bk-switch-input:checked {
+  background-color: var(--bk-color-accent);
+}
+
+.bk-switch-input:checked:hover {
+  background-color: var(--bk-color-accent-hover);
+}
+
+.bk-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  background-color: white;
+  border-radius: 50%;
+  transition: translate var(--bk-duration-base) ease;
+}
+
+.bk-switch-input:checked + .bk-switch-thumb {
+  translate: 16px 0;
+}
+
+.bk-switch-input[aria-invalid="true"] {
+  box-shadow: 0 0 0 1px var(--bk-color-danger);
+}
+
+.bk-switch-input[aria-invalid="true"]:checked {
+  background-color: var(--bk-color-danger);
+  box-shadow: none;
+}
+
+.bk-switch-input[aria-invalid="true"]:focus-visible {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-danger) 30%, transparent);
+}
+
+.bk-switch-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.bk-switch-input:disabled + .bk-switch-thumb {
+  opacity: 0.6;
+}
