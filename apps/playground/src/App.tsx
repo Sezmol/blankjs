@@ -5,6 +5,7 @@ import {
   Select,
   Button,
   Combobox,
+  Checkbox,
 } from "@blankjs/react";
 import "@blankjs/react/styles.css";
 import { useEffect, useState } from "react";
@@ -133,6 +134,24 @@ function App() {
               ))}
           </Combobox.Content>
         </Combobox.Root>
+
+        <Field.Description>Please enter your name</Field.Description>
+
+        {invalid && <Field.Error>Name is required</Field.Error>}
+      </Field.Root>
+
+      <Field.Root
+        invalid={invalid}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          width: "fit-content",
+        }}
+      >
+        <Field.Label>Checkbox</Field.Label>
+
+        <Checkbox />
 
         <Field.Description>Please enter your name</Field.Description>
 

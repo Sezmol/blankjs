@@ -26,6 +26,8 @@ export {
 
 export { Button, type ButtonProps } from "./button";
 
+export { Checkbox, type CheckboxProps } from "./checkbox";
+
 export {
   Combobox,
   ComboboxContent,
