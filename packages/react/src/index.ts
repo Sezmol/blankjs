@@ -28,6 +28,8 @@ export { Button, type ButtonProps } from "./button";
 
 export { Checkbox, type CheckboxProps } from "./checkbox";
 
+export { Switch, type SwitchProps } from "./switch";
+
 export {
   Combobox,
   ComboboxContent,
