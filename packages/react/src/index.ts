@@ -31,6 +31,14 @@ export { Checkbox, type CheckboxProps } from "./checkbox";
 export { Switch, type SwitchProps } from "./switch";
 
 export {
+  RadioGroup,
+  RadioGroupRoot,
+  RadioGroupItem,
+  type RadioGroupRootProps,
+  type RadioGroupItemProps,
+} from "./radio";
+
+export {
   Combobox,
   ComboboxContent,
   ComboboxInput,

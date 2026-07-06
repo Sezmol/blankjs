@@ -1,0 +1,80 @@
+.bk-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-2);
+}
+
+.bk-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bk-space-2);
+  cursor: pointer;
+  font-size: var(--bk-font-size-md);
+  color: var(--bk-color-text);
+}
+
+.bk-radio-label:has(.bk-radio-item:disabled) {
+  cursor: not-allowed;
+  color: var(--bk-color-text-muted);
+}
+
+.bk-radio-item {
+  appearance: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  background-color: var(--bk-color-surface-muted);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 8px;
+  border: 1px solid var(--bk-color-border);
+  border-radius: 50%;
+  outline: none;
+  transition:
+    background-color var(--bk-duration-fast) ease,
+    border-color var(--bk-duration-fast) ease,
+    box-shadow var(--bk-duration-fast) ease;
+}
+
+.bk-radio-item:hover {
+  border-color: var(--bk-color-border-hover);
+}
+
+.bk-radio-item:focus-visible {
+  border-color: var(--bk-color-border-focus);
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}
+
+.bk-radio-item:checked {
+  background-color: var(--bk-color-accent);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3ccircle cx='4' cy='4' r='3' fill='white'/%3e%3c/svg%3e");
+  border-color: var(--bk-color-accent);
+}
+
+.bk-radio-item:checked:hover {
+  background-color: var(--bk-color-accent-hover);
+  border-color: var(--bk-color-accent-hover);
+}
+
+[aria-invalid="true"].bk-radio-group .bk-radio-item {
+  border-color: var(--bk-color-danger);
+}
+
+[aria-invalid="true"].bk-radio-group .bk-radio-item:checked {
+  background-color: var(--bk-color-danger);
+  border-color: var(--bk-color-danger);
+}
+
+[aria-invalid="true"].bk-radio-group .bk-radio-item:focus-visible {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-danger) 30%, transparent);
+}
+
+.bk-radio-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

@@ -1,5 +1,6 @@
 export interface FieldContextValue {
   controlId: string;
+  labelId: string;
   descriptionId: string;
   errorId: string;
 
@@ -7,8 +8,10 @@ export interface FieldContextValue {
   disabled: boolean;
   required: boolean;
 
+  hasLabel: boolean;
   hasDescription: boolean;
   hasError: boolean;
+  registerLabel: () => () => void;
   registerDescription: () => () => void;
   registerError: () => () => void;
 }
