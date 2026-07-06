@@ -7,6 +7,8 @@ import {
   Combobox,
   Checkbox,
   Switch,
+  RadioGroupRoot,
+  RadioGroupItem,
 } from "@blankjs/react";
 import "@blankjs/react/styles.css";
 import { useEffect, useState } from "react";
@@ -171,6 +173,26 @@ function App() {
         <Field.Label>Checkbox</Field.Label>
 
         <Switch />
+
+        <Field.Description>Please enter your name</Field.Description>
+
+        {invalid && <Field.Error>Name is required</Field.Error>}
+      </Field.Root>
+
+      <Field.Root
+        invalid={invalid}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          width: "fit-content",
+        }}
+      >
+        <RadioGroupRoot>
+          <RadioGroupItem value="1">1</RadioGroupItem>
+          <RadioGroupItem value="2">2</RadioGroupItem>
+          <RadioGroupItem value="3">3</RadioGroupItem>
+        </RadioGroupRoot>
 
         <Field.Description>Please enter your name</Field.Description>
 

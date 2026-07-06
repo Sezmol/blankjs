@@ -7,11 +7,19 @@ export const useFieldRoot = (
   const { invalid = false, disabled = false, required = false } = options ?? {};
 
   const controlId = useId();
+  const labelId = useId();
   const descriptionId = useId();
   const errorId = useId();
 
+  const [hasLabel, setHasLabel] = useState(false);
   const [hasDescription, setHasDescription] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  const registerLabel = useCallback(() => {
+    setHasLabel(true);
+
+    return () => setHasLabel(false);
+  }, []);
 
   const registerDescription = useCallback(() => {
     setHasDescription(true);
@@ -28,6 +36,7 @@ export const useFieldRoot = (
   return useMemo(
     () => ({
       controlId,
+      labelId,
       descriptionId,
       errorId,
 
@@ -35,20 +44,25 @@ export const useFieldRoot = (
       disabled,
       required,
 
+      hasLabel,
       hasDescription,
       hasError,
+      registerLabel,
       registerDescription,
       registerError,
     }),
     [
       controlId,
+      labelId,
       descriptionId,
       errorId,
       invalid,
       disabled,
       required,
+      hasLabel,
       hasDescription,
       hasError,
+      registerLabel,
       registerDescription,
       registerError,
     ],
