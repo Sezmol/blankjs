@@ -1,5 +1,6 @@
 @import "@blankjs/tokens/css";
 @import "./text-input/text-input.css";
+@import "./textarea/textarea.css";
 @import "./password-field//password-field.css";
 @import "./select/select.css";
 @import "./combobox/combobox.css";

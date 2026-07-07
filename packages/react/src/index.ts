@@ -11,6 +11,8 @@ export {
 
 export { TextInput } from "./text-input";
 
+export { Textarea } from "./textarea";
+
 export { PasswordField } from "./password-field";
 
 export {

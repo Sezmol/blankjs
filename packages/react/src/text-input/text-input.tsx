@@ -6,8 +6,8 @@ export const TextInput = ({ className, ...props }: ComponentProps<"input">) => {
 
   return (
     <input
-      {...props}
       {...fieldProps}
+      {...props}
       className={["bk-input", className].filter(Boolean).join(" ")}
     />
   );
