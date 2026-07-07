@@ -79,6 +79,31 @@ test("displays the selected option's label in the trigger", () => {
   expect(screen.getByRole("combobox")).toHaveTextContent("Banana");
 });
 
+test("onClick veto (preventDefault) blocks the selection", () => {
+  render(
+    <Select.Root>
+      <Select.Trigger>
+        <Select.Value placeholder="Pick one fruit" />
+      </Select.Trigger>
+      <Select.Content>
+        <Select.Item value="a" onClick={(e) => e.preventDefault()}>
+          Apple
+        </Select.Item>
+      </Select.Content>
+    </Select.Root>,
+  );
+
+  fireEvent.click(screen.getByRole("combobox"));
+
+  fireEvent.click(screen.getByRole("option", { name: "Apple" }));
+
+  expect(screen.getByRole("listbox")).toBeInTheDocument();
+  expect(screen.getByRole("option", { name: "Apple" })).toHaveAttribute(
+    "aria-selected",
+    "false",
+  );
+});
+
 test("closes on outside press", () => {
   renderSelect();
 

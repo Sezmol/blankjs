@@ -79,6 +79,9 @@ export const SelectItem = ({
       data-active={isActive ? "" : undefined}
       onClick={(e) => {
         props.onClick?.(e);
+
+        if (e.defaultPrevented) return;
+
         setValue(value);
         setOpen(false);
       }}

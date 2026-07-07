@@ -255,6 +255,29 @@ test("form reset returns to defaultValue and survives a rerender", () => {
   expect(new FormData(form).getAll("fruits")).toEqual(["a"]);
 });
 
+test("onClick veto (preventDefault) blocks the toggle", () => {
+  const onValueChange = vi.fn();
+
+  render(
+    <MultiSelect.Root onValueChange={onValueChange}>
+      <MultiSelect.Trigger>
+        <MultiSelect.Value placeholder="Pick fruits" />
+      </MultiSelect.Trigger>
+      <MultiSelect.Content>
+        <MultiSelect.Item value="a" onClick={(e) => e.preventDefault()}>
+          Apple
+        </MultiSelect.Item>
+      </MultiSelect.Content>
+    </MultiSelect.Root>,
+  );
+
+  fireEvent.click(getTrigger());
+  fireEvent.click(getOption("Apple"));
+
+  expect(onValueChange).not.toHaveBeenCalled();
+  expect(getOption("Apple")).toHaveAttribute("aria-selected", "false");
+});
+
 test("marks Escape as handled when it closes the listbox", () => {
   renderMultiSelect();
 
