@@ -79,6 +79,8 @@ export const MultiSelectItem = ({
       onClick={(e) => {
         props.onClick?.(e);
 
+        if (e.defaultPrevented) return;
+
         toggleValue(value);
       }}
     >
