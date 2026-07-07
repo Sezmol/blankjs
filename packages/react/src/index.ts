@@ -39,6 +39,19 @@ export {
 } from "./radio";
 
 export {
+  MultiSelect,
+  MultiSelectRoot,
+  MultiSelectTrigger,
+  MultiSelectContent,
+  MultiSelectItem,
+  MultiSelectValue,
+  type MultiSelectTriggerProps,
+  type MultiSelectContentProps,
+  type MultiSelectItemProps,
+  type MultiSelectValueProps,
+} from "./multi-select";
+
+export {
   Combobox,
   ComboboxContent,
   ComboboxInput,
