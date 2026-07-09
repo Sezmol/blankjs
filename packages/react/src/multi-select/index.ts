@@ -3,6 +3,7 @@ import { MultiSelectTrigger } from "./trigger";
 import { MultiSelectContent } from "./content";
 import { MultiSelectItem } from "./item";
 import { MultiSelectValue } from "./value";
+import { MultiSelectClear } from "./clear";
 
 export {
   MultiSelectRoot,
@@ -10,6 +11,7 @@ export {
   MultiSelectContent,
   MultiSelectItem,
   MultiSelectValue,
+  MultiSelectClear,
 };
 
 export type { MultiSelectTriggerProps } from "./trigger";
@@ -23,4 +25,5 @@ export const MultiSelect = {
   Content: MultiSelectContent,
   Item: MultiSelectItem,
   Value: MultiSelectValue,
+  Clear: MultiSelectClear,
 };

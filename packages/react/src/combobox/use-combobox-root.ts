@@ -72,6 +72,12 @@ export const useComboboxRoot = (
     setValue,
   ]);
 
+  const clear = useCallback(() => {
+    setValue(undefined);
+    setInputValue("");
+    committedLabelRef.current = "";
+  }, [setInputValue, setValue]);
+
   return useMemo(
     () => ({
       open: open ?? false,
@@ -102,9 +108,12 @@ export const useComboboxRoot = (
       revertInputValue,
 
       resetToDefault,
+
+      clear,
     }),
     [
       activeItem,
+      clear,
       commitItem,
       getItems,
       inputGroupElement,

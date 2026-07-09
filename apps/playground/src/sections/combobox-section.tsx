@@ -19,6 +19,7 @@ export const ComboboxSection = () => {
           onInputValueChange={setInputValue}
         >
           <Combobox.Input placeholder="Search a country" />
+          <Combobox.Clear />
           <Combobox.Content>
             {filtered.map(({ label, value }) => (
               <Combobox.Item key={value} value={value}>
