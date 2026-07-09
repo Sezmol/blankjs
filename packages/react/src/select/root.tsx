@@ -11,13 +11,15 @@ export const SelectRoot = ({ children, ...options }: SelectRootProps) => {
 
   return (
     <SelectContext value={contextValue}>
-      {children}
-      {options.name && (
-        <SelectHiddenInput
-          name={options.name}
-          defaultValue={options.defaultValue}
-        />
-      )}
+      <div className="bk-select-root">
+        {children}
+        {options.name && (
+          <SelectHiddenInput
+            name={options.name}
+            defaultValue={options.defaultValue}
+          />
+        )}
+      </div>
     </SelectContext>
   );
 };

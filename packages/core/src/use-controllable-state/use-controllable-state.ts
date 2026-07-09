@@ -46,7 +46,7 @@ export const useControllableState = <T>({
         valueRef.current = resolved;
       }
 
-      if (resolved !== undefined) onChangeRef.current?.(resolved);
+      onChangeRef.current?.(resolved as T);
     },
     [isControlled, prop],
   );

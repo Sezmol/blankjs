@@ -26,7 +26,7 @@ export interface SelectContextValue {
 export type UseSelectRootOptions = {
   value?: string;
   defaultValue?: string;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: string | undefined) => void;
 
   open?: boolean;
   defaultOpen?: boolean;

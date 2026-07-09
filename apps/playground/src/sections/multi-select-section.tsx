@@ -14,6 +14,7 @@ export const MultiSelectSection = () => (
             {(values) => values.map((v) => labelOf.get(v)).join(", ")}
           </MultiSelect.Value>
         </MultiSelect.Trigger>
+        <MultiSelect.Clear />
         <MultiSelect.Content>
           {countries.map(({ label, value }) => (
             <MultiSelect.Item key={value} value={value}>

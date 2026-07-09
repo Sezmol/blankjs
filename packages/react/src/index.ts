@@ -22,6 +22,7 @@ export {
   SelectTrigger,
   SelectItem,
   SelectValue,
+  SelectClear,
   type SelectContentProps,
   type SelectTriggerProps,
 } from "./select";
@@ -47,6 +48,7 @@ export {
   MultiSelectContent,
   MultiSelectItem,
   MultiSelectValue,
+  MultiSelectClear,
   type MultiSelectTriggerProps,
   type MultiSelectContentProps,
   type MultiSelectItemProps,
@@ -59,4 +61,5 @@ export {
   ComboboxInput,
   ComboboxItem,
   ComboboxRoot,
+  ComboboxClear,
 } from "./combobox";

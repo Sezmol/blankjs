@@ -11,9 +11,11 @@ export const ComboboxRoot = ({ children, ...options }: ComboboxRootProps) => {
 
   return (
     <ComboboxContext value={contextValue}>
-      {children}
+      <div className="bk-combobox-root">
+        {children}
 
-      {options.name && <ComboboxHiddenInput name={options.name} />}
+        {options.name && <ComboboxHiddenInput name={options.name} />}
+      </div>
     </ComboboxContext>
   );
 };

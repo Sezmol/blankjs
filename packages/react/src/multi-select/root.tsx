@@ -14,13 +14,15 @@ export const MultiSelectRoot = ({
 
   return (
     <MultiSelectContext value={contextValue}>
-      {children}
-      {options.name && (
-        <MultiSelectHiddenInput
-          name={options.name}
-          defaultValue={options.defaultValue}
-        />
-      )}
+      <div className="bk-multi-select-root">
+        {children}
+        {options.name && (
+          <MultiSelectHiddenInput
+            name={options.name}
+            defaultValue={options.defaultValue}
+          />
+        )}
+      </div>
     </MultiSelectContext>
   );
 };
