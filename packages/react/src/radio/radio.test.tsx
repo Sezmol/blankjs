@@ -236,6 +236,19 @@ test("is labelled by Field.Label via aria-labelledby", () => {
   ).toBeInTheDocument();
 });
 
+test("Field.Label drops htmlFor next to a radiogroup", () => {
+  render(
+    <Field.Root>
+      <Field.Label>Fruit</Field.Label>
+      <RadioGroup.Root>
+        <RadioGroup.Item value="apple">Apple</RadioGroup.Item>
+      </RadioGroup.Root>
+    </Field.Root>,
+  );
+
+  expect(screen.getByText("Fruit")).not.toHaveAttribute("for");
+});
+
 test("submits the selected value through FormData", async () => {
   const user = userEvent.setup();
 

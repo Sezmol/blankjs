@@ -17,9 +17,11 @@ const makeContext = (
   hasLabel: false,
   hasDescription: false,
   hasError: false,
+  hasGroupControl: false,
   registerLabel: () => () => {},
   registerDescription: () => () => {},
   registerError: () => () => {},
+  registerGroupControl: () => () => {},
   ...overrides,
 });
 

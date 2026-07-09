@@ -22,6 +22,9 @@ export const RadioGroupRoot = ({
 
   const fieldContext = useContext(FieldContext);
   const labelledBy = fieldContext?.hasLabel ? fieldContext.labelId : undefined;
+  const registerGroupControl = fieldContext?.registerGroupControl;
+
+  useEffect(() => registerGroupControl?.(), [registerGroupControl]);
 
   const contextValue = useRadioGroupRoot({
     value,
