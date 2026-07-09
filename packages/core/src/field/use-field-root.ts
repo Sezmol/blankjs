@@ -14,11 +14,18 @@ export const useFieldRoot = (
   const [hasLabel, setHasLabel] = useState(false);
   const [hasDescription, setHasDescription] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [hasGroupControl, setHasGroupControl] = useState(false);
 
   const registerLabel = useCallback(() => {
     setHasLabel(true);
 
     return () => setHasLabel(false);
+  }, []);
+
+  const registerGroupControl = useCallback(() => {
+    setHasGroupControl(true);
+
+    return () => setHasGroupControl(false);
   }, []);
 
   const registerDescription = useCallback(() => {
@@ -47,9 +54,11 @@ export const useFieldRoot = (
       hasLabel,
       hasDescription,
       hasError,
+      hasGroupControl,
       registerLabel,
       registerDescription,
       registerError,
+      registerGroupControl,
     }),
     [
       controlId,
@@ -62,9 +71,11 @@ export const useFieldRoot = (
       hasLabel,
       hasDescription,
       hasError,
+      hasGroupControl,
       registerLabel,
       registerDescription,
       registerError,
+      registerGroupControl,
     ],
   );
 };

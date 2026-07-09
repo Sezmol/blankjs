@@ -11,9 +11,11 @@ export interface FieldContextValue {
   hasLabel: boolean;
   hasDescription: boolean;
   hasError: boolean;
+  hasGroupControl: boolean;
   registerLabel: () => () => void;
   registerDescription: () => () => void;
   registerError: () => () => void;
+  registerGroupControl: () => () => void;
 }
 
 export type UseFieldRootOptions = Partial<
