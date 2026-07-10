@@ -1,20 +1,17 @@
 import {
   Children,
-  useEffect,
-  useState,
+  useCallback,
   type ComponentProps,
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { createPortal } from "react-dom";
-import {
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  size,
-  useFloating,
-} from "@floating-ui/react";
+
 import { useComboboxContext } from "./context";
+import {
+  useInitialActiveItem,
+  usePopover,
+  type UsePopoverOptions,
+} from "../internal";
 
 export interface ComboboxContentProps extends ComponentProps<"div"> {
   container?: HTMLElement;
@@ -37,27 +34,22 @@ const ComboboxContentInner = ({
     revertInputValue,
   } = useComboboxContext();
 
-  const { refs, floatingStyles, elements } = useFloating({
-    placement: "bottom-start",
-    middleware: [
-      offset(4),
-      flip(),
-      shift({ padding: 8 }),
-      size({
-        apply({ elements: floatingState, rects }) {
-          Object.assign(floatingState.floating.style, {
-            minWidth: `${rects.reference.width}px`,
-          });
-        },
-      }),
-    ],
-    whileElementsMounted: autoUpdate,
-    elements: { reference: inputGroupElement },
+  const onDismiss: UsePopoverOptions["onDismiss"] = useCallback(
+    (reason) => {
+      if (reason === "escape") {
+        revertInputValue();
+      }
+
+      setOpen(false);
+    },
+    [revertInputValue, setOpen],
+  );
+
+  const { setFloating, floatingStyles } = usePopover({
+    anchor: inputGroupElement,
+    onDismiss,
+    matchWidth: "min",
   });
-
-  const { setFloating } = refs;
-
-  const [mounted, setMounted] = useState(false);
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     props.onPointerDown?.(e);
@@ -67,55 +59,11 @@ const ComboboxContentInner = ({
     e.preventDefault();
   };
 
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== "Escape" || e.defaultPrevented) return;
-
-      e.preventDefault();
-
-      revertInputValue();
-      setOpen(false);
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [setOpen, revertInputValue]);
-
-  useEffect(() => {
-    const onPointerDownHandler = (e: PointerEvent) => {
-      const target = e.target as Node;
-
-      if (elements.floating?.contains(target)) return;
-      if (inputGroupElement?.contains(target)) return;
-
-      setOpen(false);
-    };
-
-    document.addEventListener("pointerdown", onPointerDownHandler);
-
-    return () =>
-      document.removeEventListener("pointerdown", onPointerDownHandler);
-  }, [setOpen, inputGroupElement, elements.floating]);
-
-  useEffect(() => {
-    if (!mounted) return;
-
-    const items = getItems();
-    const selected =
-      value !== undefined
-        ? items.find((item) => item.value === value)
-        : undefined;
-
-    setActiveItem(selected ?? items[0]);
-
-    return () => setActiveItem(undefined);
-    // re-runs when mounted flips true: the commit after Items registered
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted]);
-
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setMounted(true), []);
+  const mounted = useInitialActiveItem({
+    getItems,
+    setActiveItem,
+    isSelected: (item) => item.value === value,
+  });
 
   if (!mounted) return null;
 
