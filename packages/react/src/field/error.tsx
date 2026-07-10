@@ -6,8 +6,14 @@ type FieldErrorProps = ComponentProps<"div"> & {
 };
 
 export const FieldError = ({ children, match, ...props }: FieldErrorProps) => {
-  const { errorId, registerError, invalid, validity, validationMessage } =
-    useFieldContext();
+  const {
+    errorId,
+    registerError,
+    invalid,
+    validity,
+    validationMessage,
+    serverError,
+  } = useFieldContext();
 
   const visible = match ? validity?.[match] === true : invalid;
 
@@ -25,7 +31,7 @@ export const FieldError = ({ children, match, ...props }: FieldErrorProps) => {
 
   return (
     <div {...props} id={errorId}>
-      {children ?? validationMessage}
+      {children ?? serverError ?? validationMessage}
     </div>
   );
 };

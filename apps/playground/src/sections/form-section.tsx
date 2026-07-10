@@ -1,12 +1,14 @@
-import { useState, type ComponentProps } from "react";
+import { useState } from "react";
 import {
   Button,
   Checkbox,
   Combobox,
   Field,
+  Form,
   MultiSelect,
   RadioGroup,
   Select,
+  serialize,
   Switch,
   Textarea,
   TextInput,
@@ -21,33 +23,29 @@ const labelOf = new Map(shortList.map(({ value, label }) => [value, label]));
 export const FormSection = () => {
   const [output, setOutput] = useState("");
   const [comboboxInput, setComboboxInput] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>();
 
-  const onSubmit: ComponentProps<"form">["onSubmit"] = (e) => {
-    e.preventDefault();
+  const onSubmit = (data: FormData) => {
+    if (data.get("name") === "admin") {
+      setErrors({ name: "This name is already taken" });
+      setOutput("");
 
-    const data = new FormData(e.currentTarget);
-    const result: Record<string, string | string[]> = {};
-
-    for (const key of new Set(data.keys())) {
-      const values = data.getAll(key).map(String);
-
-      result[key] = values.length > 1 ? values : (values[0] ?? "");
+      return;
     }
 
-    setOutput(JSON.stringify(result, null, 2));
+    setErrors(undefined);
+    setOutput(JSON.stringify(serialize(data), null, 2));
   };
 
   return (
     <Section title="Form">
-      <form className="pg-form" onSubmit={onSubmit}>
-        <Field.Root className="pg-field" required>
+      <Form className="pg-form" onSubmit={onSubmit} errors={errors}>
+        <Field.Root className="pg-field" required name="name">
           <Field.Label>Name</Field.Label>
 
-          <TextInput name="name" />
+          <TextInput name="name" placeholder={'Try "admin"'} />
 
-          <Field.Error className="pg-error" match="valueMissing">
-            Enter your name
-          </Field.Error>
+          <Field.Error className="pg-error" />
         </Field.Root>
 
         <Field.Root className="pg-field" required validationMode="blur">
@@ -159,7 +157,7 @@ export const FormSection = () => {
             Reset
           </Button>
         </div>
-      </form>
+      </Form>
 
       {output && <pre className="pg-output">{output}</pre>}
     </Section>
