@@ -17,6 +17,8 @@ export interface FieldContextValue {
   validity: ValidityState | null;
   validationMessage: string;
 
+  serverError?: string;
+
   hasLabel: boolean;
   hasDescription: boolean;
   hasError: boolean;
