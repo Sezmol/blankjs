@@ -40,9 +40,28 @@ export const FormSection = () => {
   return (
     <Section title="Form">
       <form className="pg-form" onSubmit={onSubmit}>
-        <Field.Root className="pg-field">
+        <Field.Root className="pg-field" required>
           <Field.Label>Name</Field.Label>
-          <TextInput name="name" defaultValue="Test" />
+
+          <TextInput name="name" />
+
+          <Field.Error className="pg-error" match="valueMissing">
+            Enter your name
+          </Field.Error>
+        </Field.Root>
+
+        <Field.Root className="pg-field" required validationMode="blur">
+          <Field.Label>Email</Field.Label>
+
+          <TextInput name="email" type="email" placeholder="you@example.com" />
+
+          <Field.Error className="pg-error" match="valueMissing">
+            Enter your email
+          </Field.Error>
+
+          <Field.Error className="pg-error" match="typeMismatch">
+            This does not look like an email
+          </Field.Error>
         </Field.Root>
 
         <Field.Root className="pg-field">

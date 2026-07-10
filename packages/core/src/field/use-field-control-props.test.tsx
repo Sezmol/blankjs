@@ -22,6 +22,8 @@ const makeContext = (
   registerDescription: () => () => {},
   registerError: () => () => {},
   registerGroupControl: () => () => {},
+  validationMessage: "",
+  validity: null,
   ...overrides,
 });
 

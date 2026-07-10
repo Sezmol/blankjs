@@ -1,10 +1,41 @@
 import { useCallback, useId, useMemo, useState } from "react";
-import type { FieldContextValue, UseFieldRootOptions } from "./types";
+import type {
+  FieldContextValue,
+  FieldRootHandlerProps,
+  OnBlurCaptureHandler,
+  OnChangeCaptureHandler,
+  OnInvalidCaptureHandler,
+  UseFieldRootOptions,
+} from "./types";
+
+const hasValidity = (
+  target: EventTarget,
+): target is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement =>
+  "validity" in target;
+
+const snapshotValidity = (v: ValidityState): ValidityState => ({
+  badInput: v.badInput,
+  customError: v.customError,
+  patternMismatch: v.patternMismatch,
+  rangeOverflow: v.rangeOverflow,
+  rangeUnderflow: v.rangeUnderflow,
+  stepMismatch: v.stepMismatch,
+  tooLong: v.tooLong,
+  tooShort: v.tooShort,
+  typeMismatch: v.typeMismatch,
+  valid: v.valid,
+  valueMissing: v.valueMissing,
+});
 
 export const useFieldRoot = (
   options?: UseFieldRootOptions,
-): FieldContextValue => {
-  const { invalid = false, disabled = false, required = false } = options ?? {};
+): FieldContextValue & FieldRootHandlerProps => {
+  const {
+    invalid,
+    disabled = false,
+    required = false,
+    validationMode,
+  } = options ?? {};
 
   const controlId = useId();
   const labelId = useId();
@@ -15,6 +46,56 @@ export const useFieldRoot = (
   const [hasDescription, setHasDescription] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [hasGroupControl, setHasGroupControl] = useState(false);
+
+  const [validity, setValidity] = useState<ValidityState | null>(null);
+  const [validationMessage, setValidationMessage] = useState("");
+  const [revealed, setRevealed] = useState(false);
+
+  const readValidity = (
+    target: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+  ) => {
+    setValidity(snapshotValidity(target.validity));
+    setValidationMessage(target.validationMessage);
+  };
+
+  const onInvalidCapture = useCallback<OnInvalidCaptureHandler>((e) => {
+    e.preventDefault();
+
+    if (hasValidity(e.target)) {
+      readValidity(e.target);
+      setRevealed(true);
+    }
+  }, []);
+
+  const onChangeCapture = useCallback<OnChangeCaptureHandler>(
+    (e) => {
+      if (hasValidity(e.target) && (revealed || validationMode === "change")) {
+        readValidity(e.target);
+        setRevealed(true);
+      }
+    },
+    [revealed, validationMode],
+  );
+
+  const onBlurCapture = useCallback<OnBlurCaptureHandler>(
+    (e) => {
+      if (
+        hasValidity(e.target) &&
+        !e.target.validity.valid &&
+        validationMode === "blur"
+      ) {
+        readValidity(e.target);
+        setRevealed(true);
+      }
+    },
+    [validationMode],
+  );
+
+  const resetValidation = useCallback(() => {
+    setRevealed(false);
+    setValidity(null);
+    setValidationMessage("");
+  }, []);
 
   const registerLabel = useCallback(() => {
     setHasLabel(true);
@@ -40,6 +121,8 @@ export const useFieldRoot = (
     return () => setHasError(false);
   }, []);
 
+  const isInvalid = invalid ?? (revealed && validity ? !validity.valid : false);
+
   return useMemo(
     () => ({
       controlId,
@@ -47,9 +130,12 @@ export const useFieldRoot = (
       descriptionId,
       errorId,
 
-      invalid,
+      invalid: isInvalid,
       disabled,
       required,
+
+      validity,
+      validationMessage,
 
       hasLabel,
       hasDescription,
@@ -59,15 +145,22 @@ export const useFieldRoot = (
       registerDescription,
       registerError,
       registerGroupControl,
+
+      onBlurCapture,
+      onChangeCapture,
+      onInvalidCapture,
+      resetValidation,
     }),
     [
       controlId,
       labelId,
       descriptionId,
       errorId,
-      invalid,
+      isInvalid,
       disabled,
       required,
+      validity,
+      validationMessage,
       hasLabel,
       hasDescription,
       hasError,
@@ -76,6 +169,10 @@ export const useFieldRoot = (
       registerDescription,
       registerError,
       registerGroupControl,
+      onBlurCapture,
+      onChangeCapture,
+      onInvalidCapture,
+      resetValidation,
     ],
   );
 };

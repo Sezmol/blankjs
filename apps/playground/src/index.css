@@ -68,6 +68,11 @@ body {
   gap: var(--bk-space-2);
 }
 
+.pg-error {
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-danger);
+}
+
 .pg-indent {
   margin-left: var(--bk-space-6);
 }

@@ -30,6 +30,7 @@ export const useFieldControlProps = (): FieldControlProps => {
       "aria-required": required ? true : undefined,
       id: controlId,
       disabled,
+      required,
     };
   }, [context]);
 };
