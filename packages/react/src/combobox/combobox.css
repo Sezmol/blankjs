@@ -80,6 +80,14 @@
   width: 100%;
 }
 
+.bk-combobox-hidden-input {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .bk-combobox-root:has(.bk-combobox-clear) .bk-combobox-input {
   padding-right: calc(var(--bk-space-3) * 2 + 16px + 14px + var(--bk-space-2));
 }

@@ -6,7 +6,11 @@ import { useSelectRoot } from "./use-select-root";
 
 type SelectRootProps = PropsWithChildren<UseSelectRootOptions>;
 
-export const SelectRoot = ({ children, ...options }: SelectRootProps) => {
+export const SelectRoot = ({
+  children,
+  required,
+  ...options
+}: SelectRootProps) => {
   const contextValue = useSelectRoot(options);
 
   return (
@@ -17,6 +21,7 @@ export const SelectRoot = ({ children, ...options }: SelectRootProps) => {
           <SelectHiddenInput
             name={options.name}
             defaultValue={options.defaultValue}
+            required={required}
           />
         )}
       </div>

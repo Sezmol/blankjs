@@ -78,6 +78,14 @@
   width: 100%;
 }
 
+.bk-multi-select-hidden-input {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .bk-multi-select-root:has(.bk-multi-select-clear) .bk-multi-select-value {
   margin-right: calc(14px + var(--bk-space-2));
 }

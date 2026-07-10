@@ -42,6 +42,22 @@ export const FieldRoot = ({
     return () => form.removeEventListener("reset", resetValidation);
   }, [resetValidation]);
 
+  useEffect(() => {
+    const node = innerRef.current;
+
+    if (!node || !onChangeCapture) return;
+
+    const handler = (e: Event) => onChangeCapture(e as never);
+
+    node.addEventListener("change", handler, true);
+    node.addEventListener("input", handler, true);
+
+    return () => {
+      node.removeEventListener("change", handler, true);
+      node.removeEventListener("input", handler, true);
+    };
+  }, [onChangeCapture]);
+
   return (
     <FieldContext value={contextValue}>
       <div
@@ -50,7 +66,6 @@ export const FieldRoot = ({
         data-invalid={contextValue.invalid ? "" : undefined}
         data-disabled={disabled ? "" : undefined}
         onBlurCapture={onBlurCapture}
-        onChangeCapture={onChangeCapture}
         onInvalidCapture={onInvalidCapture}
       >
         {children}

@@ -44,7 +44,7 @@ export const ComboboxInput = ({ className, ...props }: ComboboxInputProps) => {
     commitItem,
     revertInputValue,
   } = useComboboxContext();
-  const fieldProps = useFieldControlProps();
+  const { required: _required, ...fieldProps } = useFieldControlProps();
 
   const id = fieldProps.id ?? inputId;
   const isDisabled = fieldProps.disabled || props.disabled || disabled;

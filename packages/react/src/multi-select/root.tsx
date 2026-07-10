@@ -8,6 +8,7 @@ type MultiSelectRootProps = PropsWithChildren<UseMultiSelectRootOptions>;
 
 export const MultiSelectRoot = ({
   children,
+  required,
   ...options
 }: MultiSelectRootProps) => {
   const contextValue = useMultiSelectRoot(options);
@@ -20,6 +21,7 @@ export const MultiSelectRoot = ({
           <MultiSelectHiddenInput
             name={options.name}
             defaultValue={options.defaultValue}
+            required={required}
           />
         )}
       </div>
