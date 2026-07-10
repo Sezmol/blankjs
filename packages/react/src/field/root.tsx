@@ -3,7 +3,8 @@ import {
   useFieldRoot,
   type UseFieldRootOptions,
 } from "@blankjs/core";
-import type { ComponentProps } from "react";
+import { useEffect, useRef, type ComponentProps } from "react";
+import { composeRefs } from "../slot";
 
 type FieldRootProps = UseFieldRootOptions & ComponentProps<"div">;
 
@@ -12,20 +13,49 @@ export const FieldRoot = ({
   invalid,
   disabled,
   required,
+  validationMode,
+  ref,
   ...props
 }: FieldRootProps) => {
-  const contextValue = useFieldRoot({ invalid, disabled, required });
+  const {
+    onBlurCapture,
+    onChangeCapture,
+    onInvalidCapture,
+    resetValidation,
+    ...contextValue
+  } = useFieldRoot({
+    invalid,
+    disabled,
+    required,
+    validationMode,
+  });
+
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const form = innerRef.current?.closest("form");
+
+    if (!form) return;
+
+    form.addEventListener("reset", resetValidation);
+
+    return () => form.removeEventListener("reset", resetValidation);
+  }, [resetValidation]);
 
   return (
-    <FieldContext.Provider value={contextValue}>
+    <FieldContext value={contextValue}>
       <div
         {...props}
-        data-invalid={invalid ? "" : undefined}
+        ref={composeRefs(innerRef, ref)}
+        data-invalid={contextValue.invalid ? "" : undefined}
         data-disabled={disabled ? "" : undefined}
+        onBlurCapture={onBlurCapture}
+        onChangeCapture={onChangeCapture}
+        onInvalidCapture={onInvalidCapture}
       >
         {children}
       </div>
-    </FieldContext.Provider>
+    </FieldContext>
   );
 };
 

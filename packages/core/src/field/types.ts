@@ -1,3 +1,9 @@
+import type { ComponentProps } from "react";
+
+export type FieldValidationMode = "submit" | "blur" | "change";
+
+type DivProps = Required<ComponentProps<"div">>;
+
 export interface FieldContextValue {
   controlId: string;
   labelId: string;
@@ -7,6 +13,9 @@ export interface FieldContextValue {
   invalid: boolean;
   disabled: boolean;
   required: boolean;
+
+  validity: ValidityState | null;
+  validationMessage: string;
 
   hasLabel: boolean;
   hasDescription: boolean;
@@ -18,9 +27,23 @@ export interface FieldContextValue {
   registerGroupControl: () => () => void;
 }
 
-export type UseFieldRootOptions = Partial<
+export interface UseFieldRootOptions extends Partial<
   Pick<FieldContextValue, "invalid" | "disabled" | "required">
->;
+> {
+  validationMode?: FieldValidationMode;
+}
+
+export type OnInvalidCaptureHandler = DivProps["onInvalidCapture"];
+export type OnChangeCaptureHandler = DivProps["onChangeCapture"];
+export type OnBlurCaptureHandler = DivProps["onBlurCapture"];
+
+export interface FieldRootHandlerProps {
+  onInvalidCapture: OnInvalidCaptureHandler;
+  onChangeCapture: OnChangeCaptureHandler;
+  onBlurCapture: OnBlurCaptureHandler;
+
+  resetValidation: () => void;
+}
 
 export interface FieldControlProps {
   id: string;
@@ -28,4 +51,5 @@ export interface FieldControlProps {
   "aria-invalid": true | undefined;
   "aria-required": true | undefined;
   disabled: boolean;
+  required: boolean;
 }
