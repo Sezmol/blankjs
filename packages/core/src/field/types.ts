@@ -33,6 +33,7 @@ export interface UseFieldRootOptions extends Partial<
   Pick<FieldContextValue, "invalid" | "disabled" | "required">
 > {
   validationMode?: FieldValidationMode;
+  validate?: (value: string) => string | null | undefined;
 }
 
 export type OnInvalidCaptureHandler = DivProps["onInvalidCapture"];
@@ -45,6 +46,8 @@ export interface FieldRootHandlerProps {
   onBlurCapture: OnBlurCaptureHandler;
 
   resetValidation: () => void;
+
+  validateControl: (control: Element) => void;
 }
 
 export interface FieldControlProps {

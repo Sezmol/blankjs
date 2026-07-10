@@ -1,4 +1,11 @@
-import { useCallback, useId, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type {
   FieldContextValue,
   FieldRootHandlerProps,
@@ -35,6 +42,7 @@ export const useFieldRoot = (
     disabled = false,
     required = false,
     validationMode,
+    validate,
   } = options ?? {};
 
   const controlId = useId();
@@ -58,6 +66,18 @@ export const useFieldRoot = (
     setValidationMessage(target.validationMessage);
   };
 
+  const validateRef = useRef(validate);
+
+  useEffect(() => {
+    validateRef.current = validate;
+  });
+
+  const validateControl = useCallback((control: Element) => {
+    if (!validateRef.current || !hasValidity(control)) return;
+
+    control.setCustomValidity(validateRef.current(control.value) ?? "");
+  }, []);
+
   const onInvalidCapture = useCallback<OnInvalidCaptureHandler>((e) => {
     e.preventDefault();
 
@@ -69,26 +89,30 @@ export const useFieldRoot = (
 
   const onChangeCapture = useCallback<OnChangeCaptureHandler>(
     (e) => {
-      if (hasValidity(e.target) && (revealed || validationMode === "change")) {
+      if (!hasValidity(e.target)) return;
+
+      validateControl(e.target);
+
+      if (revealed || validationMode === "change") {
         readValidity(e.target);
         setRevealed(true);
       }
     },
-    [revealed, validationMode],
+    [revealed, validateControl, validationMode],
   );
 
   const onBlurCapture = useCallback<OnBlurCaptureHandler>(
     (e) => {
-      if (
-        hasValidity(e.target) &&
-        !e.target.validity.valid &&
-        validationMode === "blur"
-      ) {
+      if (!hasValidity(e.target)) return;
+
+      validateControl(e.target);
+
+      if (!e.target.validity.valid && validationMode === "blur") {
         readValidity(e.target);
         setRevealed(true);
       }
     },
-    [validationMode],
+    [validateControl, validationMode],
   );
 
   const resetValidation = useCallback(() => {
@@ -149,7 +173,10 @@ export const useFieldRoot = (
       onBlurCapture,
       onChangeCapture,
       onInvalidCapture,
+
       resetValidation,
+
+      validateControl,
     }),
     [
       controlId,
@@ -173,6 +200,7 @@ export const useFieldRoot = (
       onChangeCapture,
       onInvalidCapture,
       resetValidation,
+      validateControl,
     ],
   );
 };
