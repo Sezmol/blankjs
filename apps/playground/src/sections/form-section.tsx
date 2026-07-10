@@ -69,14 +69,15 @@ export const FormSection = () => {
           <Textarea name="about" placeholder="A few words" />
         </Field.Root>
 
-        <Field.Root className="pg-field">
+        <Field.Root className="pg-field" required>
           <Field.Label>Country</Field.Label>
-          <Select.Root name="country" defaultValue="AU">
+          <Select.Root name="country">
             <Select.Trigger>
               <Select.Value placeholder="Select">
                 {(value) => labelOf.get(value)}
               </Select.Value>
             </Select.Trigger>
+            <Select.Clear />
             <Select.Content>
               {shortList.map(({ label, value }) => (
                 <Select.Item key={value} value={value}>
@@ -85,6 +86,9 @@ export const FormSection = () => {
               ))}
             </Select.Content>
           </Select.Root>
+          <Field.Error className="pg-error" match="valueMissing">
+            Pick a country
+          </Field.Error>
         </Field.Root>
 
         <Field.Root className="pg-field">

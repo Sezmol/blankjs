@@ -6,7 +6,11 @@ import { ComboboxContext } from "./context";
 
 type ComboboxRootProps = PropsWithChildren<UseComboboxRootOptions>;
 
-export const ComboboxRoot = ({ children, ...options }: ComboboxRootProps) => {
+export const ComboboxRoot = ({
+  children,
+  required,
+  ...options
+}: ComboboxRootProps) => {
   const contextValue = useComboboxRoot(options);
 
   return (
@@ -14,7 +18,9 @@ export const ComboboxRoot = ({ children, ...options }: ComboboxRootProps) => {
       <div className="bk-combobox-root">
         {children}
 
-        {options.name && <ComboboxHiddenInput name={options.name} />}
+        {options.name && (
+          <ComboboxHiddenInput name={options.name} required={required} />
+        )}
       </div>
     </ComboboxContext>
   );

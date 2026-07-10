@@ -69,7 +69,8 @@ test("renders a hidden input bound to the name prop", () => {
   const hidden = getHiddenInput();
 
   expect(hidden).toBeInTheDocument();
-  expect(hidden).not.toBeVisible();
+  expect(hidden).toHaveAttribute("aria-hidden", "true");
+  expect(hidden).toHaveAttribute("tabindex", "-1");
 });
 
 test("renders no hidden input without a name", () => {

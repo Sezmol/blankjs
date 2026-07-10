@@ -39,7 +39,7 @@ export const SelectTrigger = ({
   const searchRef = useRef("");
   const timerRef = useRef<number | null>(null);
 
-  const fieldProps = useFieldControlProps();
+  const { required: _, ...fieldProps } = useFieldControlProps();
 
   const {
     open,

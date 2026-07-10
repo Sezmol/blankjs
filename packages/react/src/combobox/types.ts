@@ -48,6 +48,7 @@ export type UseComboboxRootOptions = {
   onInputValueChange?: (inputValue: string) => void;
 
   disabled?: boolean;
+  required?: boolean;
 
   name?: string;
 };

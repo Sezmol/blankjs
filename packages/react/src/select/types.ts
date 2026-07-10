@@ -33,6 +33,7 @@ export type UseSelectRootOptions = {
   onOpenChange?: (open: boolean) => void;
 
   disabled?: boolean;
+  required?: boolean;
 
   name?: string;
 };

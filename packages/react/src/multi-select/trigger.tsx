@@ -38,7 +38,7 @@ export const MultiSelectTrigger = ({
   const searchRef = useRef("");
   const timerRef = useRef<number | null>(null);
 
-  const fieldProps = useFieldControlProps();
+  const { required: _required, ...fieldProps } = useFieldControlProps();
 
   const {
     open,

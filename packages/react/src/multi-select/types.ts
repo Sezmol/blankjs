@@ -35,6 +35,7 @@ export type UseMultiSelectRootOptions = {
   onOpenChange?: (open: boolean) => void;
 
   disabled?: boolean;
+  required?: boolean;
 
   name?: string;
 };
