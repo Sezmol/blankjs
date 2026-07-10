@@ -40,10 +40,18 @@ export const FormSection = () => {
   return (
     <Section title="Form">
       <Form className="pg-form" onSubmit={onSubmit} errors={errors}>
-        <Field.Root className="pg-field" required name="name">
+        <Field.Root
+          className="pg-field"
+          required
+          name="name"
+          validationMode="change"
+          validate={(value) =>
+            value.includes(" ") ? "No spaces allowed" : null
+          }
+        >
           <Field.Label>Name</Field.Label>
 
-          <TextInput name="name" placeholder={'Try "admin"'} />
+          <TextInput name="name" placeholder={'Try "admin" or a space'} />
 
           <Field.Error className="pg-error" />
         </Field.Root>

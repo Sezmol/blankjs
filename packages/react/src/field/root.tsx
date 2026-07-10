@@ -27,6 +27,7 @@ export const FieldRoot = ({
   validationMode,
   name,
   ref,
+  validate,
   ...props
 }: FieldRootProps) => {
   const formContext = useContext(FormContext);
@@ -40,15 +41,25 @@ export const FieldRoot = ({
     onChangeCapture,
     onInvalidCapture,
     resetValidation,
+    validateControl,
     ...contextValue
   } = useFieldRoot({
     invalid: invalid ?? (activeServerError ? true : undefined),
     disabled,
     required,
     validationMode,
+    validate,
   });
 
   const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const control = innerRef.current?.querySelector(
+      "input:not([type=hidden]), textarea, select",
+    );
+
+    if (control) validateControl(control);
+  }, [validateControl]);
 
   useEffect(() => {
     // a dismissed server error must come back when the server responds again,
