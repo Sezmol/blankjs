@@ -1,5 +1,6 @@
 import type { CollectionItem, RegisterItemFn, SetStateFn } from "@blankjs/core";
 import type { Dispatch, SetStateAction } from "react";
+import type { Size } from "../types";
 
 export interface ComboboxContextValue {
   open: boolean;
@@ -32,6 +33,8 @@ export interface ComboboxContextValue {
   resetToDefault: () => void;
 
   clear: () => void;
+
+  size: Size;
 }
 
 export type UseComboboxRootOptions = {
@@ -51,4 +54,6 @@ export type UseComboboxRootOptions = {
   required?: boolean;
 
   name?: string;
+
+  size?: Size;
 };

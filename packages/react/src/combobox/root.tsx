@@ -15,7 +15,7 @@ export const ComboboxRoot = ({
 
   return (
     <ComboboxContext value={contextValue}>
-      <div className="bk-combobox-root">
+      <div className="bk-combobox-root" data-size={contextValue.size}>
         {children}
 
         {options.name && (

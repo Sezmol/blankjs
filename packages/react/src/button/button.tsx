@@ -1,10 +1,11 @@
 import type { ComponentProps, ReactElement } from "react";
 import { Slot } from "../slot";
+import type { Size } from "../types";
 
 export interface ButtonProps extends ComponentProps<"button"> {
   asChild?: boolean;
   variant?: "solid" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg";
+  size?: Size;
 }
 
 export const Button = ({

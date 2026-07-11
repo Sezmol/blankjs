@@ -19,8 +19,15 @@ const MultiSelectContentInner = ({
   container,
   ...props
 }: MultiSelectContentProps) => {
-  const { triggerElement, listboxId, setOpen, getItems, value, setActiveItem } =
-    useMultiSelectContext();
+  const {
+    triggerElement,
+    listboxId,
+    setOpen,
+    getItems,
+    value,
+    setActiveItem,
+    size,
+  } = useMultiSelectContext();
 
   const onDismiss: UsePopoverOptions["onDismiss"] = useCallback(
     () => setOpen(false),
@@ -53,6 +60,7 @@ const MultiSelectContentInner = ({
       role="listbox"
       aria-multiselectable="true"
       id={listboxId}
+      data-size={size}
     >
       {children}
     </div>,

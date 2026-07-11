@@ -4,9 +4,12 @@ import { RadioGroupContext } from "./context";
 import { useRadioGroupRoot } from "./use-radio-group-root";
 import { FieldContext, useFieldControlProps } from "@blankjs/core";
 import { composeRefs } from "../slot";
+import type { Size } from "../types";
 
 export type RadioGroupRootProps = UseRadioGroupRootOptions &
-  Omit<ComponentProps<"div">, "defaultValue" | "onChange">;
+  Omit<ComponentProps<"div">, "defaultValue" | "onChange"> & {
+    size?: Size;
+  };
 
 export const RadioGroupRoot = ({
   children,
@@ -16,6 +19,7 @@ export const RadioGroupRoot = ({
   disabled,
   name,
   className,
+  size = "md",
   ...props
 }: RadioGroupRootProps) => {
   const { disabled: fieldDisabled, ...fieldProps } = useFieldControlProps();
@@ -57,6 +61,7 @@ export const RadioGroupRoot = ({
         {...props}
         ref={composeRefs(ref, props.ref)}
         role="radiogroup"
+        data-size={size}
         aria-labelledby={props["aria-labelledby"] ?? labelledBy}
         className={["bk-radio-group", className].filter(Boolean).join(" ")}
       >

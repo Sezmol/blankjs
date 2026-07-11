@@ -163,3 +163,23 @@
 .bk-multi-select-item[aria-selected="true"] .bk-multi-select-check {
   opacity: 1;
 }
+
+.bk-multi-select-root[data-size="sm"] .bk-multi-select-trigger {
+  padding: var(--bk-space-1) var(--bk-space-2);
+  font-size: var(--bk-font-size-sm);
+}
+
+.bk-multi-select-root[data-size="lg"] .bk-multi-select-trigger {
+  padding: var(--bk-space-3) var(--bk-space-4);
+  font-size: var(--bk-font-size-lg);
+}
+
+.bk-multi-select-content[data-size="sm"] .bk-multi-select-item {
+  padding: var(--bk-space-1) var(--bk-space-2);
+  font-size: var(--bk-font-size-sm);
+}
+
+.bk-multi-select-content[data-size="lg"] .bk-multi-select-item {
+  padding: var(--bk-space-3) var(--bk-space-4);
+  font-size: var(--bk-font-size-lg);
+}

@@ -1,5 +1,6 @@
 import type { CollectionItem, RegisterItemFn, SetStateFn } from "@blankjs/core";
 import type { Dispatch, SetStateAction } from "react";
+import type { Size } from "../types";
 
 export interface MultiSelectContextValue {
   open: boolean;
@@ -23,6 +24,8 @@ export interface MultiSelectContextValue {
   toggleValue: (value: string) => void;
 
   disabled: boolean;
+
+  size: Size;
 }
 
 export type UseMultiSelectRootOptions = {
@@ -38,4 +41,6 @@ export type UseMultiSelectRootOptions = {
   required?: boolean;
 
   name?: string;
+
+  size?: Size;
 };

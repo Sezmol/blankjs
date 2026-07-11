@@ -6,16 +6,18 @@ import {
   type ComponentProps,
 } from "react";
 import { composeRefs } from "../slot";
+import type { Size } from "../types";
 
 export interface CheckboxProps extends Omit<
   ComponentProps<"input">,
-  "type" | "checked" | "defaultChecked" | "onChange"
+  "type" | "checked" | "defaultChecked" | "onChange" | "size"
 > {
   checked?: boolean;
   defaultChecked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   indeterminate?: boolean;
   onChange?: ComponentProps<"input">["onChange"];
+  size?: Size;
 }
 
 export const Checkbox = ({
@@ -26,6 +28,7 @@ export const Checkbox = ({
   onChange,
   disabled,
   className,
+  size = "md",
   ...props
 }: CheckboxProps) => {
   const fieldProps = useFieldControlProps();
@@ -72,6 +75,7 @@ export const Checkbox = ({
       onChange={handleChange}
       ref={composeRefs(ref, props.ref)}
       disabled={isDisabled}
+      data-size={size}
       className={["bk-checkbox", className].filter(Boolean).join(" ")}
       type="checkbox"
     />

@@ -65,3 +65,5 @@ export {
 } from "./combobox";
 
 export { Form, FormContext, serialize } from "./form";
+
+export type { Size } from "./types";

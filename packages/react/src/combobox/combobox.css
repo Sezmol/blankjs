@@ -169,3 +169,25 @@
 .bk-combobox-item[aria-selected="true"] .bk-combobox-check {
   opacity: 1;
 }
+
+.bk-combobox-root[data-size="sm"] .bk-combobox-input {
+  padding-block: var(--bk-space-1);
+  padding-left: var(--bk-space-2);
+  font-size: var(--bk-font-size-sm);
+}
+
+.bk-combobox-root[data-size="lg"] .bk-combobox-input {
+  padding-block: var(--bk-space-3);
+  padding-left: var(--bk-space-4);
+  font-size: var(--bk-font-size-lg);
+}
+
+.bk-combobox-content[data-size="sm"] .bk-combobox-item {
+  padding: var(--bk-space-1) var(--bk-space-2);
+  font-size: var(--bk-font-size-sm);
+}
+
+.bk-combobox-content[data-size="lg"] .bk-combobox-item {
+  padding: var(--bk-space-3) var(--bk-space-4);
+  font-size: var(--bk-font-size-lg);
+}

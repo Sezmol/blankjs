@@ -53,3 +53,13 @@
   opacity: 0.6;
   resize: none;
 }
+
+.bk-textarea[data-size="sm"] {
+  padding: var(--bk-space-1) var(--bk-space-2);
+  font-size: var(--bk-font-size-sm);
+}
+
+.bk-textarea[data-size="lg"] {
+  padding: var(--bk-space-3) var(--bk-space-4);
+  font-size: var(--bk-font-size-lg);
+}

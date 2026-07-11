@@ -110,10 +110,13 @@ export const useComboboxRoot = (
       resetToDefault,
 
       clear,
+
+      size: options.size ?? "md",
     }),
     [
       activeItem,
       clear,
+      options.size,
       commitItem,
       getItems,
       inputGroupElement,
