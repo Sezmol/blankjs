@@ -78,3 +78,23 @@
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+.bk-radio-group[data-size="sm"] .bk-radio-item {
+  width: 16px;
+  height: 16px;
+  background-size: 7px;
+}
+
+.bk-radio-group[data-size="sm"] .bk-radio-label {
+  font-size: var(--bk-font-size-sm);
+}
+
+.bk-radio-group[data-size="lg"] .bk-radio-item {
+  width: 20px;
+  height: 20px;
+  background-size: 9px;
+}
+
+.bk-radio-group[data-size="lg"] .bk-radio-label {
+  font-size: var(--bk-font-size-lg);
+}

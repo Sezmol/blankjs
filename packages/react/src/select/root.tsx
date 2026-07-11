@@ -15,7 +15,7 @@ export const SelectRoot = ({
 
   return (
     <SelectContext value={contextValue}>
-      <div className="bk-select-root">
+      <div className="bk-select-root" data-size={contextValue.size}>
         {children}
         {options.name && (
           <SelectHiddenInput

@@ -91,3 +91,32 @@ body {
   border: 1px solid var(--bk-color-border);
   border-radius: var(--bk-radius-md);
 }
+
+.pg-size-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.pg-size-row .bk-select-root {
+  flex: 0 1 220px;
+  min-width: 140px;
+}
+
+.pg-size-row .bk-input {
+  flex: 0 1 220px;
+  min-width: 140px;
+  width: auto;
+}
+
+.pg-size-label {
+  width: 24px;
+  font-size: 0.8125rem;
+  color: var(--bk-color-text-muted);
+  text-transform: uppercase;
+}
+
+.pg-card-wide {
+  grid-column: 1 / -1;
+}

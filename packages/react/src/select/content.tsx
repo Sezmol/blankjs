@@ -19,8 +19,15 @@ const SelectContentInner = ({
   container,
   ...props
 }: SelectContentProps) => {
-  const { triggerElement, listboxId, setOpen, getItems, value, setActiveItem } =
-    useSelectContext();
+  const {
+    triggerElement,
+    listboxId,
+    setOpen,
+    getItems,
+    value,
+    setActiveItem,
+    size,
+  } = useSelectContext();
 
   const onDismiss: UsePopoverOptions["onDismiss"] = useCallback(
     () => setOpen(false),
@@ -51,6 +58,7 @@ const SelectContentInner = ({
       className={["bk-select-content", className].filter(Boolean).join(" ")}
       role="listbox"
       id={listboxId}
+      data-size={size}
     >
       {children}
     </div>,

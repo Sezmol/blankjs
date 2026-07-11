@@ -15,7 +15,7 @@ export const MultiSelectRoot = ({
 
   return (
     <MultiSelectContext value={contextValue}>
-      <div className="bk-multi-select-root">
+      <div className="bk-multi-select-root" data-size={contextValue.size}>
         {children}
         {options.name && (
           <MultiSelectHiddenInput

@@ -79,3 +79,31 @@
 .bk-switch-input:disabled + .bk-switch-thumb {
   opacity: 0.6;
 }
+
+.bk-switch[data-size="sm"] {
+  width: 30px;
+  height: 16px;
+}
+
+.bk-switch[data-size="sm"] .bk-switch-thumb {
+  width: 12px;
+  height: 12px;
+}
+
+.bk-switch[data-size="sm"] .bk-switch-input:checked + .bk-switch-thumb {
+  translate: 14px 0;
+}
+
+.bk-switch[data-size="lg"] {
+  width: 44px;
+  height: 24px;
+}
+
+.bk-switch[data-size="lg"] .bk-switch-thumb {
+  width: 20px;
+  height: 20px;
+}
+
+.bk-switch[data-size="lg"] .bk-switch-input:checked + .bk-switch-thumb {
+  translate: 20px 0;
+}

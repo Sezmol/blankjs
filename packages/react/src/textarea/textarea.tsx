@@ -1,10 +1,16 @@
 import { useFieldControlProps } from "@blankjs/core";
 import type { ComponentProps } from "react";
+import type { Size } from "../types";
+
+export interface TextareaProps extends ComponentProps<"textarea"> {
+  size?: Size;
+}
 
 export const Textarea = ({
   className,
+  size = "md",
   ...props
-}: ComponentProps<"textarea">) => {
+}: TextareaProps) => {
   const fieldProps = useFieldControlProps();
 
   return (
@@ -12,6 +18,7 @@ export const Textarea = ({
       rows={3}
       {...fieldProps}
       {...props}
+      data-size={size}
       className={["bk-textarea", className].filter(Boolean).join(" ")}
     />
   );

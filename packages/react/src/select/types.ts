@@ -1,5 +1,6 @@
 import type { CollectionItem, RegisterItemFn, SetStateFn } from "@blankjs/core";
 import type { Dispatch, SetStateAction } from "react";
+import type { Size } from "../types";
 
 export interface SelectContextValue {
   open: boolean;
@@ -21,6 +22,8 @@ export interface SelectContextValue {
   getItems: () => CollectionItem<string>[];
 
   disabled: boolean;
+
+  size: Size;
 }
 
 export type UseSelectRootOptions = {
@@ -36,4 +39,6 @@ export type UseSelectRootOptions = {
   required?: boolean;
 
   name?: string;
+
+  size?: Size;
 };

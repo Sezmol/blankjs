@@ -69,6 +69,8 @@ export const useMultiSelectRoot = (
       toggleValue,
 
       disabled: options.disabled ?? false,
+
+      size: options.size ?? "md",
     }),
     [
       activeItem,
@@ -76,6 +78,7 @@ export const useMultiSelectRoot = (
       listboxId,
       open,
       options.disabled,
+      options.size,
       registerItem,
       setOpen,
       setValue,

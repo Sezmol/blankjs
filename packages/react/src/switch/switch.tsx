@@ -6,14 +6,16 @@ import {
   type ComponentProps,
 } from "react";
 import { composeRefs } from "../slot";
+import type { Size } from "../types";
 
 export interface SwitchProps extends Omit<
   ComponentProps<"input">,
-  "type" | "checked" | "defaultChecked"
+  "type" | "checked" | "defaultChecked" | "size"
 > {
   checked?: boolean;
   defaultChecked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
+  size?: Size;
 }
 
 export const Switch = ({
@@ -24,6 +26,7 @@ export const Switch = ({
   className,
   style,
   onChange,
+  size = "md",
   ...props
 }: SwitchProps) => {
   const fieldProps = useFieldControlProps();
@@ -62,6 +65,7 @@ export const Switch = ({
     <span
       className={["bk-switch", className].filter(Boolean).join(" ")}
       style={style}
+      data-size={size}
     >
       <input
         {...fieldProps}

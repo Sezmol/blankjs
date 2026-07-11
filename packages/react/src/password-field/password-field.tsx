@@ -1,5 +1,6 @@
 import { useFieldControlProps } from "@blankjs/core";
 import { useState, type ComponentProps } from "react";
+import type { Size } from "../types";
 
 const EyeIcon = ({ off }: { off: boolean }) => (
   <svg
@@ -17,11 +18,14 @@ const EyeIcon = ({ off }: { off: boolean }) => (
   </svg>
 );
 
-type PasswordFieldProps = ComponentProps<"input">;
+type PasswordFieldProps = Omit<ComponentProps<"input">, "size"> & {
+  size?: Size;
+};
 
 export const PasswordField = ({
   className,
   disabled,
+  size = "md",
   ...rest
 }: PasswordFieldProps) => {
   const fieldProps = useFieldControlProps();
@@ -33,7 +37,7 @@ export const PasswordField = ({
   const mergedInput = ["bk-input", className].filter(Boolean).join(" ");
 
   return (
-    <div className="bk-password">
+    <div className="bk-password" data-size={size}>
       <input
         {...rest}
         {...fieldProps}

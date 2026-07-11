@@ -32,6 +32,7 @@ const ComboboxContentInner = ({
     value,
     setActiveItem,
     revertInputValue,
+    size,
   } = useComboboxContext();
 
   const onDismiss: UsePopoverOptions["onDismiss"] = useCallback(
@@ -78,6 +79,7 @@ const ComboboxContentInner = ({
       className={["bk-combobox-content", className].filter(Boolean).join(" ")}
       role="listbox"
       id={listboxId}
+      data-size={size}
       data-empty={Children.count(children) === 0 ? "" : undefined}
     >
       {children}

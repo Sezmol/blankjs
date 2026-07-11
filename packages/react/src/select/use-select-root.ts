@@ -56,6 +56,8 @@ export const useSelectRoot = (
       registerItem,
 
       disabled: options.disabled ?? false,
+
+      size: options.size ?? "md",
     }),
     [
       activeItem,
@@ -63,6 +65,7 @@ export const useSelectRoot = (
       listboxId,
       open,
       options.disabled,
+      options.size,
       registerItem,
       setOpen,
       setValue,
