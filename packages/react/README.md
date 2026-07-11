@@ -1,6 +1,13 @@
 # blankjs
 
+[![npm](https://img.shields.io/npm/v/@blankjs/react?label=%40blankjs%2Freact)](https://www.npmjs.com/package/@blankjs/react)
+[![npm](https://img.shields.io/npm/v/@blankjs/core?label=%40blankjs%2Fcore)](https://www.npmjs.com/package/@blankjs/core)
+
 Form-first React components built on native form elements.
+
+```bash
+npm install @blankjs/react
+```
 
 blankjs is a component library that treats the browser as an ally instead of an obstacle. Where other libraries rebuild form controls from `<div>`s and ARIA, blankjs styles the real elements and lets the platform do the work.
 
@@ -10,7 +17,8 @@ blankjs is a component library that treats the browser as an ally instead of an 
 |---------|----------|
 | `@blankjs/react` | Styled, accessible components |
 | `@blankjs/core` | Headless hooks: `useControllableState`, `useFieldControlProps`, `useCollection` |
-| `@blankjs/tokens` | Design tokens as CSS variables |
+
+Design tokens live in a private `@blankjs/tokens` workspace package and ship inlined in `styles.css` as CSS variables.
 
 ## Philosophy
 
@@ -72,6 +80,33 @@ How it works:
 
 No form library required. React Hook Form and friends still work if you want them, but they stop being a prerequisite.
 
+### Validation through the browser
+
+Validation rides on the Constraint Validation API instead of a schema library:
+
+```tsx
+<Form onSubmit={(data) => send(serialize(data))} errors={serverErrors}>
+  <Field.Root
+    name="username"
+    required
+    validationMode="change"
+    validate={(value) => (value.includes(" ") ? "No spaces allowed" : null)}
+  >
+    <Field.Label>Username</Field.Label>
+    <TextInput name="username" />
+    <Field.Error match="valueMissing">Enter a username</Field.Error>
+    <Field.Error />
+  </Field.Root>
+</Form>
+```
+
+- HTML constraints (`required`, `pattern`, `minLength`, `type="email"`) report through `ValidityState`; `Field.Error match` filters by flag, and without children it renders the browser's localized message
+- Errors reveal on submit by default; `validationMode="blur"` or `"change"` reveals them earlier
+- `validate` feeds `setCustomValidity`, so a failing custom rule blocks submit exactly like a native constraint
+- Composite widgets participate: `required` on an empty Select blocks submit and moves focus to the trigger
+- `<Form errors={{ username: "Taken" }}>` routes server errors to fields by `name`; editing the field clears the error
+- `serialize(formData)` returns a plain object, with arrays for repeated names
+
 ### A predictable event contract
 
 Every component follows one rule: your handler runs first, then the library acts, unless you veto.
@@ -119,7 +154,10 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `Select` | Single value, typeahead, hidden input, `Select.Clear` |
 | `MultiSelect` | Multiple values, stays open while picking, `formData.getAll` |
 | `Combobox` | Controlled filtering, draft revert on Escape and blur |
-| `Field` | Label, description, and error wiring through ARIA |
+| `Field` | Label, description, error wiring, native validation |
+| `Form` | `FormData` in `onSubmit`, server errors, focuses the first invalid field |
+
+Every control takes `size="sm" | "md" | "lg"` (default `md`). Composite widgets size through their `Root`.
 
 ### Field
 
@@ -159,7 +197,9 @@ import { Select, Field, Checkbox } from "@blankjs/react";
 import "@blankjs/react/styles.css";
 ```
 
-The packages are not published to npm yet. To explore locally:
+Requires React 19. The components lean on 19-only APIs: `ref` as a regular prop and `<Context>` as a provider.
+
+To explore locally:
 
 ```bash
 pnpm install
@@ -172,7 +212,7 @@ The playground demonstrates every component plus a full form submitting through 
 
 - pnpm workspaces + Turborepo
 - React 19, TypeScript strict
-- Vitest + Testing Library, 230+ tests across core and react
+- Vitest + Testing Library, 260+ tests across core and react
 - tsdown for package builds
 
 ```bash
@@ -183,7 +223,7 @@ pnpm lint
 
 ## Status
 
-Pre-release. The API may change before 1.0.
+Published as 0.1.x. The API may change before 1.0.
 
 ## License
 
