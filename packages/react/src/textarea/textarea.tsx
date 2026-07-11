@@ -2,7 +2,10 @@ import { useFieldControlProps } from "@blankjs/core";
 import type { ComponentProps } from "react";
 import type { Size } from "../types";
 
-export interface TextareaProps extends ComponentProps<"textarea"> {
+export interface TextareaProps extends Omit<
+  ComponentProps<"textarea">,
+  "children" | "dangerouslySetInnerHTML"
+> {
   size?: Size;
 }
 

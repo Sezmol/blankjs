@@ -3,7 +3,7 @@ import { useRadioGroupContext } from "./context";
 
 export interface RadioGroupItemProps extends Omit<
   ComponentProps<"input">,
-  "type" | "name" | "checked" | "defaultChecked" | "value"
+  "type" | "name" | "checked" | "defaultChecked" | "value" | "size"
 > {
   value: string;
 }

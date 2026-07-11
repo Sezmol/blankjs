@@ -25,7 +25,7 @@ const ComboboxArrow = () => (
 
 export type ComboboxInputProps = Omit<
   ComponentProps<"input">,
-  "value" | "defaultValue"
+  "value" | "defaultValue" | "size" | "children" | "dangerouslySetInnerHTML"
 >;
 
 export const ComboboxInput = ({ className, ...props }: ComboboxInputProps) => {
