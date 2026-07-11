@@ -2,7 +2,10 @@ import type { ComponentProps } from "react";
 import { useFieldControlProps } from "@blankjs/core";
 import type { Size } from "../types";
 
-export interface TextInputProps extends Omit<ComponentProps<"input">, "size"> {
+export interface TextInputProps extends Omit<
+  ComponentProps<"input">,
+  "size" | "children" | "dangerouslySetInnerHTML"
+> {
   size?: Size;
 }
 

@@ -10,7 +10,12 @@ import type { Size } from "../types";
 
 export interface SwitchProps extends Omit<
   ComponentProps<"input">,
-  "type" | "checked" | "defaultChecked" | "size"
+  | "type"
+  | "checked"
+  | "defaultChecked"
+  | "size"
+  | "children"
+  | "dangerouslySetInnerHTML"
 > {
   checked?: boolean;
   defaultChecked?: boolean;

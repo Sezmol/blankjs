@@ -18,7 +18,10 @@ const EyeIcon = ({ off }: { off: boolean }) => (
   </svg>
 );
 
-type PasswordFieldProps = Omit<ComponentProps<"input">, "size"> & {
+type PasswordFieldProps = Omit<
+  ComponentProps<"input">,
+  "size" | "children" | "dangerouslySetInnerHTML" | "type"
+> & {
   size?: Size;
 };
 
