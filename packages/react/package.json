@@ -1,10 +1,12 @@
 {
   "name": "@blankjs/react",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Form-first React components",
   "type": "module",
   "license": "MIT",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc",
@@ -30,7 +32,6 @@
   ],
   "dependencies": {
     "@blankjs/core": "workspace:*",
-    "@blankjs/tokens": "workspace:*",
     "@floating-ui/react": "^0.27.19"
   },
   "peerDependencies": {
@@ -44,6 +45,7 @@
     }
   },
   "devDependencies": {
+    "@blankjs/tokens": "workspace:*",
     "@tsdown/css": "^0.22.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

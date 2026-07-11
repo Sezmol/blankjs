@@ -328,13 +328,13 @@ importers:
       '@blankjs/core':
         specifier: workspace:*
         version: link:../core
-      '@blankjs/tokens':
-        specifier: workspace:*
-        version: link:../tokens
       '@floating-ui/react':
         specifier: ^0.27.19
         version: 0.27.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
     devDependencies:
+      '@blankjs/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       '@tsdown/css':
         specifier: ^0.22.3
         version: 0.22.3(postcss@8.5.15)(tsdown@0.22.3)

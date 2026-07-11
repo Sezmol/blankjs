@@ -1,6 +1,6 @@
 {
   "name": "@blankjs/tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Design tokens for blankjs",
   "type": "module",
   "license": "MIT",
@@ -12,16 +12,6 @@
   "exports": {
     ".": "./src/index.ts",
     "./css": "./dist/tokens.css"
-  },
-  "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "types": "./dist/index.d.mts",
-        "import": "./dist/index.mjs"
-      },
-      "./css": "./dist/tokens.css"
-    }
   },
   "files": [
     "dist"
@@ -45,5 +35,6 @@
     "components",
     "form",
     "accessible"
-  ]
+  ],
+  "private": true
 }
