@@ -1,0 +1,313 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+  background-color: var(--bk-color-surface);
+  color: var(--bk-color-text);
+  line-height: 1.65;
+}
+
+/* ---------- header ---------- */
+
+.docs-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--bk-color-border);
+  background-color: color-mix(in oklch, var(--bk-color-surface) 85%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.docs-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  height: 3.5rem;
+  margin: 0 auto;
+  padding: 0 var(--bk-space-5);
+}
+
+.docs-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--bk-space-2);
+  font-size: var(--bk-font-size-lg);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--bk-color-text);
+  text-decoration: none;
+}
+
+.docs-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--bk-space-2);
+}
+
+.docs-header-link {
+  padding: var(--bk-space-1) var(--bk-space-2);
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-text-muted);
+  text-decoration: none;
+  border-radius: var(--bk-radius-md);
+}
+
+.docs-header-link:hover {
+  color: var(--bk-color-text);
+  background-color: var(--bk-color-surface-hover);
+}
+
+.docs-menu-button {
+  display: none;
+}
+
+.docs-menu-dialog .docs-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-4);
+}
+
+/* ---------- body grid ---------- */
+
+.docs-body {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 3.5rem;
+  align-self: start;
+  height: calc(100vh - 3.5rem);
+  overflow-y: auto;
+  padding: var(--bk-space-6) var(--bk-space-5) var(--bk-space-8) var(--bk-space-5);
+  border-right: 1px solid var(--bk-color-border);
+}
+
+.docs-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-5);
+}
+
+.docs-nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.docs-nav-heading {
+  margin-bottom: var(--bk-space-1);
+  font-size: var(--bk-font-size-sm);
+  font-weight: 600;
+  color: var(--bk-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.docs-nav-link {
+  padding: var(--bk-space-1) var(--bk-space-2);
+  font-size: var(--bk-font-size-md);
+  color: var(--bk-color-text-muted);
+  text-decoration: none;
+  border-radius: var(--bk-radius-md);
+}
+
+.docs-nav-link:hover {
+  color: var(--bk-color-text);
+  background-color: var(--bk-color-surface-hover);
+}
+
+.docs-nav-link[aria-current="page"] {
+  color: var(--bk-color-accent);
+  background-color: color-mix(in oklch, var(--bk-color-accent) 12%, transparent);
+  font-weight: 500;
+}
+
+.docs-content {
+  padding: var(--bk-space-6) var(--bk-space-6) var(--bk-space-8);
+  min-width: 0;
+}
+
+/* ---------- page typography ---------- */
+
+.docs-page {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-4);
+}
+
+.docs-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.docs-page h2 {
+  margin-top: var(--bk-space-5);
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.docs-page h3 {
+  margin-top: var(--bk-space-3);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.docs-lead {
+  font-size: var(--bk-font-size-lg);
+  color: var(--bk-color-text-muted);
+}
+
+.docs-page a {
+  color: var(--bk-color-accent);
+  text-decoration: none;
+}
+
+.docs-page a:hover {
+  text-decoration: underline;
+}
+
+.docs-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-2);
+  padding-left: var(--bk-space-5);
+}
+
+.docs-page code {
+  padding: 0.15em 0.4em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875em;
+  background-color: var(--bk-color-surface-muted);
+  border-radius: var(--bk-radius-sm);
+}
+
+/* ---------- code blocks ---------- */
+
+.docs-code pre {
+  padding: var(--bk-space-4);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  background-color: var(--bk-color-surface-muted) !important;
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+}
+
+.docs-code code {
+  padding: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: none;
+  border-radius: 0;
+}
+
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+
+[data-bk-theme="dark"] .shiki,
+[data-bk-theme="dark"] .shiki span {
+  color: var(--shiki-dark);
+}
+
+/* ---------- demo ---------- */
+
+.docs-demo-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bk-space-3);
+  padding: var(--bk-space-6) var(--bk-space-5);
+  background-color: var(--bk-color-surface-raised);
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+}
+
+.docs-demo-preview form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-3);
+  width: 100%;
+}
+
+.docs-demo-preview form .bk-button {
+  align-self: flex-start;
+}
+
+.docs-demo-preview output {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-text-muted);
+}
+
+/* ---------- props table ---------- */
+
+.docs-props-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+}
+
+.docs-props {
+  width: 100%;
+  font-size: var(--bk-font-size-sm);
+  border-collapse: collapse;
+}
+
+.docs-props th {
+  padding: var(--bk-space-2) var(--bk-space-3);
+  font-weight: 600;
+  text-align: left;
+  color: var(--bk-color-text-muted);
+  background-color: var(--bk-color-surface-muted);
+}
+
+.docs-props td {
+  padding: var(--bk-space-2) var(--bk-space-3);
+  border-top: 1px solid var(--bk-color-border);
+  vertical-align: top;
+}
+
+.docs-props td:nth-child(2) code {
+  color: var(--bk-color-accent);
+  background: none;
+  padding: 0;
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 860px) {
+  .docs-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-sidebar {
+    display: none;
+  }
+
+  .docs-menu-button {
+    display: inline-flex;
+  }
+
+  .docs-content {
+    padding: var(--bk-space-5) var(--bk-space-4) var(--bk-space-8);
+  }
+}
