@@ -1,0 +1,113 @@
+.bk-dialog-content {
+  /* consumer CSS resets often zero out the UA margin that centers a native dialog */
+  margin: auto;
+  padding: 0;
+  max-width: min(28rem, calc(100vw - var(--bk-space-8)));
+  max-height: min(85vh, calc(100vh - var(--bk-space-8)));
+  color: var(--bk-color-text);
+  background-color: var(--bk-color-surface-raised);
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-lg);
+  box-shadow: var(--bk-shadow-popover);
+  opacity: 0;
+  transform: translateY(8px) scale(0.97);
+  transition:
+    opacity var(--bk-duration-base) ease,
+    transform var(--bk-duration-base) ease,
+    overlay var(--bk-duration-base) ease allow-discrete,
+    display var(--bk-duration-base) ease allow-discrete;
+}
+
+.bk-dialog-content[open] {
+  opacity: 1;
+  transform: none;
+}
+
+@starting-style {
+  .bk-dialog-content[open] {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+.bk-dialog-content::backdrop {
+  background-color: rgb(0 0 0 / 0.5);
+  opacity: 0;
+  transition:
+    opacity var(--bk-duration-base) ease,
+    overlay var(--bk-duration-base) ease allow-discrete,
+    display var(--bk-duration-base) ease allow-discrete;
+}
+
+.bk-dialog-content[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .bk-dialog-content[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-dialog-content,
+  .bk-dialog-content::backdrop {
+    transition: none;
+  }
+}
+
+html:has(.bk-dialog-content:modal) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+.bk-dialog-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-3);
+  padding: var(--bk-space-5);
+}
+
+.bk-dialog-title {
+  margin: 0;
+  font-size: var(--bk-font-size-lg);
+  font-weight: 600;
+}
+
+.bk-dialog-description {
+  margin: 0;
+  font-size: var(--bk-font-size-md);
+  color: var(--bk-color-text-muted);
+}
+
+.bk-dialog-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bk-space-2);
+  padding: var(--bk-space-2) var(--bk-space-3);
+  font-family: inherit;
+  font-size: var(--bk-font-size-md);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--bk-color-text);
+  background-color: transparent;
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--bk-duration-base) ease,
+    border-color var(--bk-duration-base) ease,
+    box-shadow var(--bk-duration-base) ease;
+}
+
+.bk-dialog-close:hover {
+  background-color: var(--bk-color-surface-hover);
+}
+
+.bk-dialog-close:focus-visible {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}

@@ -69,3 +69,13 @@ export { Form, FormContext, serialize } from "./form";
 export type { Size } from "./types";
 
 export { Tabs, TabsRoot, TabsList, Tab, TabsPanel } from "./tabs";
+
+export {
+  Dialog,
+  DialogRoot,
+  DialogTrigger,
+  DialogContent,
+  DialogClose,
+  DialogTitle,
+  DialogDescription,
+} from "./dialog";
