@@ -17,6 +17,7 @@ import { FormSection } from "./sections/form-section";
 import { SizesSection } from "./sections/sizes-section";
 import { TabsSection } from "./sections/tabs-section";
 import { DialogSection } from "./sections/dialog-section";
+import { AccordionSection } from "./sections/accordion-section";
 
 function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -51,6 +52,7 @@ function App() {
         <FormSection />
         <TabsSection />
         <DialogSection />
+        <AccordionSection />
         <SizesSection />
       </main>
     </div>

@@ -1,0 +1,78 @@
+.bk-accordion {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+}
+
+.bk-accordion-item {
+  interpolate-size: allow-keywords;
+  border-bottom: 1px solid var(--bk-color-border);
+}
+
+.bk-accordion-item:last-child {
+  border-bottom: none;
+}
+
+.bk-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bk-space-2);
+  padding: var(--bk-space-3) var(--bk-space-4);
+  font-size: var(--bk-font-size-md);
+  font-weight: 500;
+  color: var(--bk-color-text);
+  list-style: none;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--bk-duration-fast) ease;
+}
+
+.bk-accordion-trigger::-webkit-details-marker {
+  display: none;
+}
+
+.bk-accordion-trigger:hover {
+  background-color: var(--bk-color-surface-hover);
+}
+
+.bk-accordion-trigger:focus-visible {
+  box-shadow: inset 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}
+
+.bk-accordion-arrow {
+  flex-shrink: 0;
+  color: var(--bk-color-text-muted);
+  transition: transform var(--bk-duration-fast) ease;
+}
+
+.bk-accordion-item[open] > .bk-accordion-trigger .bk-accordion-arrow {
+  transform: rotate(180deg);
+}
+
+.bk-accordion-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size var(--bk-duration-base) ease,
+    content-visibility var(--bk-duration-base) allow-discrete;
+}
+
+.bk-accordion-item[open]::details-content {
+  block-size: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-accordion-item::details-content,
+  .bk-accordion-arrow {
+    transition: none;
+  }
+}
+
+.bk-accordion-content {
+  padding: 0 var(--bk-space-4) var(--bk-space-3);
+  font-size: var(--bk-font-size-md);
+  color: var(--bk-color-text-muted);
+}
