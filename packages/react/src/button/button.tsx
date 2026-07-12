@@ -5,6 +5,7 @@ import type { Size } from "../types";
 export interface ButtonProps extends ComponentProps<"button"> {
   asChild?: boolean;
   variant?: "solid" | "outline" | "ghost";
+  color?: "accent" | "danger";
   size?: Size;
 }
 
@@ -14,6 +15,7 @@ export const Button = ({
   asChild,
   variant = "solid",
   size = "md",
+  color,
   ...props
 }: ButtonProps) => {
   const buttonProps = {
@@ -22,6 +24,7 @@ export const Button = ({
     className: ["bk-button", className].filter(Boolean).join(" "),
     "data-variant": variant,
     "data-size": size,
+    "data-color": color,
   };
 
   if (asChild) {

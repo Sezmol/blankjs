@@ -14,6 +14,15 @@ export const ButtonSection = () => (
       <Button size="lg">Large</Button>
     </div>
     <div className="pg-row">
+      <Button color="danger">Delete</Button>
+      <Button color="danger" variant="outline">
+        Delete
+      </Button>
+      <Button color="danger" variant="ghost">
+        Delete
+      </Button>
+    </div>
+    <div className="pg-row">
       <Button disabled>Disabled</Button>
       <Button asChild variant="outline">
         <a href="#top">Link as button</a>

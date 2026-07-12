@@ -75,3 +75,17 @@
   opacity: 0.6;
   box-shadow: none;
 }
+
+.bk-button[data-color="danger"] {
+  --bk-color-accent: var(--bk-color-danger);
+  --bk-color-accent-hover: var(--bk-color-danger-hover);
+}
+
+.bk-button[data-color="danger"][data-variant="outline"],
+.bk-button[data-color="danger"][data-variant="ghost"] {
+  color: var(--bk-color-danger-text);
+}
+
+.bk-button[data-color="danger"][data-variant="outline"] {
+  border-color: var(--bk-color-danger);
+}

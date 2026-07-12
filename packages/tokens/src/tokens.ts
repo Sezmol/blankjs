@@ -44,6 +44,7 @@ export const TOKENS = {
         accent: "{palette.indigo.500}",
         accentHover: "{palette.indigo.400}",
         danger: "{palette.red.500}",
+        dangerHover: "{palette.red.400}",
         dangerText: "{palette.red.300}",
       },
       shadow: {
@@ -65,6 +66,7 @@ export const TOKENS = {
         accent: "{palette.indigo.600}",
         accentHover: "{palette.indigo.700}",
         danger: "{palette.red.500}",
+        dangerHover: "{palette.red.600}",
         dangerText: "{palette.red.600}",
       },
       shadow: {
