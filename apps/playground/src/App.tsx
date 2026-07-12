@@ -16,6 +16,7 @@ import { MultiSelectSection } from "./sections/multi-select-section";
 import { FormSection } from "./sections/form-section";
 import { SizesSection } from "./sections/sizes-section";
 import { TabsSection } from "./sections/tabs-section";
+import { DialogSection } from "./sections/dialog-section";
 
 function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -49,6 +50,7 @@ function App() {
         <MultiSelectSection />
         <FormSection />
         <TabsSection />
+        <DialogSection />
         <SizesSection />
       </main>
     </div>
