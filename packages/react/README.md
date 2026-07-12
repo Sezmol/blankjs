@@ -36,6 +36,12 @@ The browser then handles, with zero JavaScript on our side:
 
 Checkbox, Switch, and RadioGroup are styled native inputs. Switch is a checkbox with `role="switch"`. No state mirroring, no synthetic focus management, no drift between what you see and what the form submits.
 
+The same idea extends beyond forms:
+
+- **Dialog** renders a real `<dialog>`. `showModal()` provides the focus trap, focus return, `Escape` handling, and the top layer — no portal, no focus-trap package, and `::backdrop` comes for free
+- **Accordion** renders `<details>`/`<summary>`. Exclusive mode is the native `name` attribute — one open item at a time with zero JavaScript — and closed items stay findable with the browser's find-in-page
+- **Tabs** hide inactive panels with `hidden="until-found"`, so their content is searchable with Ctrl+F and the matching tab activates automatically
+
 ### Form first, without a form library
 
 Every component participates in a plain `<form>`:
@@ -144,7 +150,7 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 
 | Component | Notes |
 |-----------|-------|
-| `Button` | Variants, native `type` handling |
+| `Button` | Variants, `color="danger"`, native `type` handling |
 | `TextInput` | Native input styled with tokens |
 | `PasswordField` | Visibility toggle |
 | `Textarea` | Auto-grows via CSS `field-sizing: content` |
@@ -156,6 +162,9 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `Combobox` | Controlled filtering, draft revert on Escape and blur |
 | `Field` | Label, description, error wiring, native validation |
 | `Form` | `FormData` in `onSubmit`, server errors, focuses the first invalid field |
+| `Tabs` | Sliding active indicator, `hidden="until-found"` panels, automatic or manual activation |
+| `Dialog` | Native `<dialog>` + `showModal()`: focus trap, top layer, `::backdrop` — no portal |
+| `Accordion` | Native `<details>`/`<summary>`, exclusive mode via the `name` attribute, animated height |
 
 Every control takes `size="sm" | "md" | "lg"` (default `md`). Composite widgets size through their `Root`.
 
@@ -212,7 +221,7 @@ The playground demonstrates every component plus a full form submitting through 
 
 - pnpm workspaces + Turborepo
 - React 19, TypeScript strict
-- Vitest + Testing Library, 260+ tests across core and react
+- Vitest + Testing Library, 290+ tests across core and react
 - tsdown for package builds
 
 ```bash
