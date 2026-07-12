@@ -120,3 +120,8 @@ body {
 .pg-card-wide {
   grid-column: 1 / -1;
 }
+
+.pg-danger {
+  color: var(--bk-color-danger);
+  border-color: var(--bk-color-danger);
+}
