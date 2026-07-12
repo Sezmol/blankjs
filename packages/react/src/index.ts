@@ -79,3 +79,11 @@ export {
   DialogTitle,
   DialogDescription,
 } from "./dialog";
+
+export {
+  Accordion,
+  AccordionRoot,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./accordion";
