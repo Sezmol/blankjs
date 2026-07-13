@@ -252,6 +252,18 @@ body {
   align-self: flex-start;
 }
 
+.docs-demo-preview .demo-check {
+  display: flex;
+  align-items: center;
+  gap: var(--bk-space-2);
+  font-size: var(--bk-font-size-md);
+}
+
+.docs-demo-preview .demo-actions {
+  display: flex;
+  gap: var(--bk-space-2);
+}
+
 .docs-demo-preview output {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: var(--bk-font-size-sm);
