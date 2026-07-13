@@ -3,7 +3,11 @@ import { useEffect, type ComponentProps } from "react";
 
 type FieldLabelProps = ComponentProps<"label">;
 
-export const FieldLabel = ({ children, ...props }: FieldLabelProps) => {
+export const FieldLabel = ({
+  children,
+  className,
+  ...props
+}: FieldLabelProps) => {
   const { controlId, labelId, registerLabel, hasGroupControl } =
     useFieldContext();
 
@@ -14,6 +18,7 @@ export const FieldLabel = ({ children, ...props }: FieldLabelProps) => {
       {...props}
       id={labelId}
       htmlFor={hasGroupControl ? undefined : controlId}
+      className={["bk-field-label", className].filter(Boolean).join(" ")}
     >
       {children}
     </label>

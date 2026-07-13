@@ -5,7 +5,12 @@ type FieldErrorProps = ComponentProps<"div"> & {
   match?: keyof ValidityState;
 };
 
-export const FieldError = ({ children, match, ...props }: FieldErrorProps) => {
+export const FieldError = ({
+  children,
+  match,
+  className,
+  ...props
+}: FieldErrorProps) => {
   const {
     errorId,
     registerError,
@@ -30,7 +35,11 @@ export const FieldError = ({ children, match, ...props }: FieldErrorProps) => {
   if (!visible) return null;
 
   return (
-    <div {...props} id={errorId}>
+    <div
+      {...props}
+      id={errorId}
+      className={["bk-field-error", className].filter(Boolean).join(" ")}
+    >
       {children ?? serverError ?? validationMessage}
     </div>
   );

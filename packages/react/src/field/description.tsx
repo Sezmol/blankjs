@@ -5,6 +5,7 @@ type FieldDescriptionProps = ComponentProps<"div">;
 
 export const FieldDescription = ({
   children,
+  className,
   ...props
 }: FieldDescriptionProps) => {
   const { descriptionId, registerDescription } = useFieldContext();
@@ -12,7 +13,11 @@ export const FieldDescription = ({
   useEffect(() => registerDescription(), [registerDescription]);
 
   return (
-    <div {...props} id={descriptionId}>
+    <div
+      {...props}
+      id={descriptionId}
+      className={["bk-field-description", className].filter(Boolean).join(" ")}
+    >
       {children}
     </div>
   );

@@ -1,0 +1,21 @@
+.bk-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-2);
+}
+
+.bk-field-label {
+  font-size: var(--bk-font-size-sm);
+  font-weight: 500;
+  color: var(--bk-color-text);
+}
+
+.bk-field-description {
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-text-muted);
+}
+
+.bk-field-error {
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-danger);
+}
