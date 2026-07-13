@@ -28,6 +28,7 @@ export const FieldRoot = ({
   name,
   ref,
   validate,
+  className,
   ...props
 }: FieldRootProps) => {
   const formContext = useContext(FormContext);
@@ -111,6 +112,7 @@ export const FieldRoot = ({
       <div
         {...props}
         ref={composeRefs(innerRef, ref)}
+        className={["bk-field", className].filter(Boolean).join(" ")}
         data-invalid={contextValue.invalid ? "" : undefined}
         data-disabled={disabled ? "" : undefined}
         onBlurCapture={onBlurCapture}
