@@ -1,0 +1,128 @@
+.bk-slider {
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.bk-slider:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.bk-slider:focus-visible {
+  outline: none;
+}
+
+/* track and thumb pseudo-elements cannot share a selector list:
+   one unknown pseudo makes the engine drop the whole rule */
+
+.bk-slider::-webkit-slider-runnable-track {
+  height: 5px;
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-full, 999px);
+  background: linear-gradient(
+    to right,
+    var(--bk-color-accent) 0 var(--bk-slider-fill, 0%),
+    var(--bk-color-surface-muted) var(--bk-slider-fill, 0%)
+  );
+}
+
+.bk-slider::-moz-range-track {
+  height: 5px;
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-full, 999px);
+  background: linear-gradient(
+    to right,
+    var(--bk-color-accent) 0 var(--bk-slider-fill, 0%),
+    var(--bk-color-surface-muted) var(--bk-slider-fill, 0%)
+  );
+}
+
+.bk-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -5.5px; /* (track 5px - thumb 16px) / 2, relative to the track content box */
+  border: none;
+  border-radius: 50%;
+  background-color: var(--bk-color-accent);
+  transition: background-color var(--bk-duration-fast) ease;
+}
+
+.bk-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--bk-color-accent);
+  transition: background-color var(--bk-duration-fast) ease;
+}
+
+.bk-slider:hover:not(:disabled)::-webkit-slider-thumb {
+  background-color: var(--bk-color-accent-hover);
+}
+
+.bk-slider:hover:not(:disabled)::-moz-range-thumb {
+  background-color: var(--bk-color-accent-hover);
+}
+
+.bk-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}
+
+.bk-slider:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}
+
+/* sizes */
+
+.bk-slider[data-size="sm"] {
+  height: 14px;
+}
+
+.bk-slider[data-size="sm"]::-webkit-slider-runnable-track {
+  height: 4px;
+}
+
+.bk-slider[data-size="sm"]::-moz-range-track {
+  height: 4px;
+}
+
+.bk-slider[data-size="sm"]::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+}
+
+.bk-slider[data-size="sm"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+}
+
+.bk-slider[data-size="lg"] {
+  height: 20px;
+}
+
+.bk-slider[data-size="lg"]::-webkit-slider-runnable-track {
+  height: 6px;
+}
+
+.bk-slider[data-size="lg"]::-moz-range-track {
+  height: 6px;
+}
+
+.bk-slider[data-size="lg"]::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+}
+
+.bk-slider[data-size="lg"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+}

@@ -87,3 +87,5 @@ export {
   AccordionTrigger,
   AccordionContent,
 } from "./accordion";
+
+export { Slider } from "./slider";
