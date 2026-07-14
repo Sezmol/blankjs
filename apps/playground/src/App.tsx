@@ -10,6 +10,7 @@ import { TextareaSection } from "./sections/textarea-section";
 import { CheckboxSection } from "./sections/checkbox-section";
 import { SwitchSection } from "./sections/switch-section";
 import { RadioSection } from "./sections/radio-section";
+import { SliderSection } from "./sections/slider-section";
 import { SelectSection } from "./sections/select-section";
 import { ComboboxSection } from "./sections/combobox-section";
 import { MultiSelectSection } from "./sections/multi-select-section";
@@ -46,6 +47,7 @@ function App() {
         <CheckboxSection />
         <SwitchSection />
         <RadioSection />
+        <SliderSection />
         <SelectSection />
         <ComboboxSection />
         <MultiSelectSection />
