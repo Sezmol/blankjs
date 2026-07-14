@@ -3,6 +3,7 @@ import { IntroductionPage } from "./pages/introduction";
 import { GettingStartedPage } from "./pages/getting-started";
 import { SelectPage } from "./pages/select";
 import { DialogPage } from "./pages/dialog";
+import { FieldPage } from "./pages/field";
 import { FormPage } from "./pages/form";
 
 export type NavItem = {
@@ -32,6 +33,7 @@ export const nav: NavSection[] = [
     title: "Components",
     items: [
       { title: "Dialog", path: "/components/dialog", element: <DialogPage /> },
+      { title: "Field", path: "/components/field", element: <FieldPage /> },
       { title: "Form", path: "/components/form", element: <FormPage /> },
       { title: "Select", path: "/components/select", element: <SelectPage /> },
     ],
