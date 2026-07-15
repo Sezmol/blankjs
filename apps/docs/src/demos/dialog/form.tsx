@@ -34,7 +34,7 @@ export const DialogForm = () => {
           <Field.Root name="username" required>
             <Field.Label>Username</Field.Label>
             <TextInput name="username" />
-            <Field.Error match="valueMissing">Enter a username</Field.Error>
+            <Field.Error>Enter a username</Field.Error>
           </Field.Root>
 
           <Button type="submit">Save</Button>

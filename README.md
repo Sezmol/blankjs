@@ -97,16 +97,16 @@ Validation rides on the Constraint Validation API instead of a schema library:
     required
     validationMode="change"
     validate={(value) => (value.includes(" ") ? "No spaces allowed" : null)}
+    errorMessages={{ valueMissing: "Enter a username" }}
   >
     <Field.Label>Username</Field.Label>
     <TextInput name="username" />
-    <Field.Error match="valueMissing">Enter a username</Field.Error>
     <Field.Error />
   </Field.Root>
 </Form>
 ```
 
-- HTML constraints (`required`, `pattern`, `minLength`, `type="email"`) report through `ValidityState`; `Field.Error match` filters by flag, and without children it renders the browser's localized message
+- HTML constraints (`required`, `pattern`, `minLength`, `type="email"`) report through `ValidityState`; `errorMessages` overrides the wording per constraint, and with no override the browser's localized message is rendered — a field shows one error at a time, like the platform
 - Errors reveal on submit by default; `validationMode="blur"` or `"change"` reveals them earlier
 - `validate` feeds `setCustomValidity`, so a failing custom rule blocks submit exactly like a native constraint
 - Composite widgets participate: `required` on an empty Select blocks submit and moves focus to the trigger

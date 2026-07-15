@@ -43,6 +43,7 @@ export const useFieldRoot = (
     required = false,
     validationMode,
     validate,
+    errorMessages,
   } = options ?? {};
 
   const controlId = useId();
@@ -147,6 +148,19 @@ export const useFieldRoot = (
 
   const isInvalid = invalid ?? (revealed && validity ? !validity.valid : false);
 
+  // first errorMessages key whose validity flag is raised wins:
+  // object key order is the consumer-controlled priority
+  let resolvedErrorMessage: FieldContextValue["resolvedErrorMessage"];
+
+  if (errorMessages && validity && !validity.valid) {
+    for (const key of Object.keys(errorMessages) as (keyof ValidityState)[]) {
+      if (validity[key] && errorMessages[key] !== undefined) {
+        resolvedErrorMessage = errorMessages[key];
+        break;
+      }
+    }
+  }
+
   return useMemo(
     () => ({
       controlId,
@@ -164,6 +178,7 @@ export const useFieldRoot = (
       hasLabel,
       hasDescription,
       hasError,
+      resolvedErrorMessage,
       hasGroupControl,
       registerLabel,
       registerDescription,
@@ -191,6 +206,7 @@ export const useFieldRoot = (
       hasLabel,
       hasDescription,
       hasError,
+      resolvedErrorMessage,
       hasGroupControl,
       registerLabel,
       registerDescription,

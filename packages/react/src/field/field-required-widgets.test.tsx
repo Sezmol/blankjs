@@ -22,7 +22,7 @@ describe("required Select inside Field", () => {
               <Select.Item value="a">Australia</Select.Item>
             </Select.Content>
           </Select.Root>
-          <Field.Error match="valueMissing">Pick a country</Field.Error>
+          <Field.Error>Pick a country</Field.Error>
         </Field.Root>
       </form>,
     );
@@ -83,7 +83,7 @@ describe("required Combobox inside Field", () => {
               <Combobox.Item value="ams">Amsterdam</Combobox.Item>
             </Combobox.Content>
           </Combobox.Root>
-          <Field.Error match="valueMissing">Pick a city</Field.Error>
+          <Field.Error>Pick a city</Field.Error>
         </Field.Root>
       </form>
     );
@@ -127,7 +127,7 @@ describe("required MultiSelect inside Field", () => {
               <MultiSelect.Item value="a">Apple</MultiSelect.Item>
             </MultiSelect.Content>
           </MultiSelect.Root>
-          <Field.Error match="valueMissing">Pick at least one</Field.Error>
+          <Field.Error>Pick at least one</Field.Error>
         </Field.Root>
       </form>,
     );

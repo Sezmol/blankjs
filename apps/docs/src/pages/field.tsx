@@ -56,8 +56,9 @@ export const FieldPage = () => (
       <code>required</code> from context — every blankjs control picks them up
       automatically. Native constraints (<code>required</code>,{" "}
       <code>type="email"</code>, <code>minLength</code>, <code>pattern</code>)
-      report through <code>ValidityState</code>, and each{" "}
-      <code>Field.Error match</code> renders only when its flag is raised.
+      report through <code>ValidityState</code>, and{" "}
+      <code>errorMessages</code> swaps the browser's wording for your own, per
+      constraint.
     </p>
 
     <h2>When errors appear</h2>
@@ -105,34 +106,177 @@ export const FieldPage = () => (
       <FieldValidate />
     </Demo>
 
-    <h2>Matching specific constraints</h2>
+    <h2>One error, your words</h2>
 
     <p>
-      <code>match</code> takes any <code>ValidityState</code> key:{" "}
-      <code>valueMissing</code>, <code>typeMismatch</code>,{" "}
-      <code>tooShort</code>, <code>patternMismatch</code>,{" "}
-      <code>rangeUnderflow</code>, <code>customError</code>, and friends. Two
-      fallbacks:
+      A field shows <strong>at most one error at a time</strong> — the same
+      way the browser reports a single <code>validationMessage</code>. There
+      is exactly one <code>&lt;Field.Error /&gt;</code> per field; what it
+      says is configured where the rules live, on <code>Field.Root</code>:
+    </p>
+
+    <CodeBlock
+      code={`<Field.Root
+  required
+  errorMessages={{
+    valueMissing: "Enter a username",
+    tooShort: "At least 4 characters",
+  }}
+>`}
+    />
+
+    <p>
+      Keys are <code>ValidityState</code> flags (<code>valueMissing</code>,{" "}
+      <code>typeMismatch</code>, <code>tooShort</code>,{" "}
+      <code>patternMismatch</code>, <code>customError</code>, and friends);
+      values are any <code>ReactNode</code>. When several flags are raised at
+      once, <strong>the first matching key in the object wins</strong> — key
+      order is the priority. The full message resolution:
     </p>
 
     <ul className="docs-list">
       <li>
-        <code>&lt;Field.Error /&gt;</code> without <code>match</code> shows
-        whenever the field is invalid
+        <code>Field.Error</code> children — a static text that always wins
       </li>
       <li>
-        <code>&lt;Field.Error /&gt;</code> without children renders the
-        browser's own message — localized to the user's language for free
+        the first <code>errorMessages</code> entry whose flag is raised
+      </li>
+      <li>the server error, if the Form routed one to this field</li>
+      <li>
+        the browser's own message — localized to the user's language for free
       </li>
     </ul>
 
     <p>
-      Each <code>Field.Error</code> decides its visibility{" "}
-      <strong>independently</strong> — there is no coordination between them.
-      Pick one strategy per field: either a set of mutually exclusive{" "}
-      <code>match</code> branches, or a single catch-all. Mixing both renders
-      the catch-all <em>alongside</em> a matched branch and duplicates the
-      message.
+      Messages for <code>validate</code>, schema rules, and server responses
+      already travel with their rules — <code>errorMessages</code> exists for
+      the native attributes, whose default wording belongs to the browser.
+    </p>
+
+    <h2>ValidityState reference</h2>
+
+    <div className="docs-props-wrap">
+      <table className="docs-props">
+        <thead>
+          <tr>
+            <th>Flag</th>
+            <th>Raised by</th>
+            <th>When</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>valueMissing</code>
+            </td>
+            <td>
+              <code>required</code>
+            </td>
+            <td>
+              Empty value; unchecked required checkbox; radio group with
+              nothing selected.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>typeMismatch</code>
+            </td>
+            <td>
+              <code>type="email"</code> / <code>type="url"</code>
+            </td>
+            <td>
+              The value does not parse as the type. Only these two types — a
+              number field raises <code>badInput</code> instead.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>patternMismatch</code>
+            </td>
+            <td>
+              <code>pattern</code>
+            </td>
+            <td>
+              The value does not match the regexp — matched against the{" "}
+              <em>whole</em> value, as if wrapped in <code>^…$</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>tooShort</code>
+            </td>
+            <td>
+              <code>minLength</code>
+            </td>
+            <td>
+              Shorter than the limit — but only after the user has edited the
+              field. A programmatically set short value does not raise it.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>tooLong</code>
+            </td>
+            <td>
+              <code>maxLength</code>
+            </td>
+            <td>
+              Rarely fires: the browser blocks typing past the limit. Only
+              possible when the initial value already exceeds it.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>rangeUnderflow</code> / <code>rangeOverflow</code>
+            </td>
+            <td>
+              <code>min</code> / <code>max</code>
+            </td>
+            <td>Number, range, and date/time inputs outside the bounds.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>stepMismatch</code>
+            </td>
+            <td>
+              <code>step</code>
+            </td>
+            <td>
+              Not a multiple of <code>step</code>, counted from{" "}
+              <code>min</code>: <code>min=0 step=10</code> and a value of 37.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>badInput</code>
+            </td>
+            <td>the input itself</td>
+            <td>
+              The browser cannot parse what was typed: letters in a number
+              field, a half-typed date.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>customError</code>
+            </td>
+            <td>
+              <code>validate</code>
+            </td>
+            <td>
+              Your rule returned a message. The message already travels with
+              the rule — map this key only to replace it with richer content.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Flags are not mutually exclusive — <code>"ab"</code> in a{" "}
+      <code>required minLength=4 pattern="\d+"</code> input raises{" "}
+      <code>tooShort</code> and <code>patternMismatch</code> at once, which is
+      exactly why the key order of <code>errorMessages</code> matters.
     </p>
 
     <h2>Server errors</h2>
@@ -224,21 +368,23 @@ export const FieldPage = () => (
           description:
             "Custom rule piped into setCustomValidity. A returned message blocks submit like a native constraint.",
         },
+        {
+          name: "errorMessages",
+          type: "Partial<Record<keyof ValidityState, ReactNode>>",
+          description:
+            "Overrides for native constraint messages. Key order sets the priority when several flags are raised.",
+        },
       ]}
     />
 
     <h3>Field.Error</h3>
 
-    <PropsTable
-      props={[
-        {
-          name: "match",
-          type: "keyof ValidityState",
-          description:
-            "Renders only when this validity flag is raised. Without it, renders whenever the field is invalid.",
-        },
-      ]}
-    />
+    <p>
+      No props of its own — renders when the field is invalid and there is
+      something to say. Children replace the resolved message; with no
+      resolvable text at all (a manual <code>invalid</code> without children)
+      it renders nothing.
+    </p>
 
     <h3>Field.Label / Field.Description / Field.Control</h3>
 

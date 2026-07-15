@@ -64,13 +64,17 @@ test("renders the native validationMessage without children", () => {
   expect(screen.getByText("Custom message")).toBeInTheDocument();
 });
 
-test("match renders only the error for its ValidityState flag", () => {
+test("errorMessages renders only the message for the raised flag", () => {
   render(
-    <Field.Root>
+    <Field.Root
+      errorMessages={{
+        valueMissing: "Enter your email",
+        typeMismatch: "Not an email",
+      }}
+    >
       <Field.Label>Email</Field.Label>
       <TextInput required />
-      <Field.Error match="valueMissing">Enter your email</Field.Error>
-      <Field.Error match="typeMismatch">Not an email</Field.Error>
+      <Field.Error />
     </Field.Root>,
   );
 

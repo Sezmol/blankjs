@@ -16,7 +16,7 @@ export const FormBasic = () => {
       <Field.Root name="name" required>
         <Field.Label>Name</Field.Label>
         <TextInput name="name" />
-        <Field.Error match="valueMissing">Enter your name</Field.Error>
+        <Field.Error>Enter your name</Field.Error>
       </Field.Root>
 
       <label className="demo-check">

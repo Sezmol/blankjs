@@ -56,18 +56,20 @@ export const FormSection = () => {
           <Field.Error className="pg-error" />
         </Field.Root>
 
-        <Field.Root className="pg-field" required validationMode="blur">
+        <Field.Root
+          className="pg-field"
+          required
+          validationMode="blur"
+          errorMessages={{
+            valueMissing: "Enter your email",
+            typeMismatch: "This does not look like an email",
+          }}
+        >
           <Field.Label>Email</Field.Label>
 
           <TextInput name="email" type="email" placeholder="you@example.com" />
 
-          <Field.Error className="pg-error" match="valueMissing">
-            Enter your email
-          </Field.Error>
-
-          <Field.Error className="pg-error" match="typeMismatch">
-            This does not look like an email
-          </Field.Error>
+          <Field.Error className="pg-error" />
         </Field.Root>
 
         <Field.Root className="pg-field">
@@ -92,9 +94,7 @@ export const FormSection = () => {
               ))}
             </Select.Content>
           </Select.Root>
-          <Field.Error className="pg-error" match="valueMissing">
-            Pick a country
-          </Field.Error>
+          <Field.Error className="pg-error">Pick a country</Field.Error>
         </Field.Root>
 
         <Field.Root className="pg-field">
