@@ -28,6 +28,7 @@ export const FieldRoot = ({
   name,
   ref,
   validate,
+  errorMessages,
   className,
   ...props
 }: FieldRootProps) => {
@@ -50,6 +51,7 @@ export const FieldRoot = ({
     required,
     validationMode,
     validate,
+    errorMessages,
   });
 
   const innerRef = useRef<HTMLDivElement>(null);

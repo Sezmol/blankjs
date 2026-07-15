@@ -41,15 +41,19 @@ test("change mode reveals the validate message while typing", async () => {
   expect(getInput()).toHaveAttribute("aria-invalid", "true");
 });
 
-test("match customError renders only for validate failures", async () => {
+test("errorMessages picks customError over valueMissing for validate failures", async () => {
   const user = userEvent.setup();
 
   render(
-    <Field.Root validate={noSpaces} validationMode="change" required>
+    <Field.Root
+      validate={noSpaces}
+      validationMode="change"
+      required
+      errorMessages={{ customError: "No spaces", valueMissing: "Required" }}
+    >
       <Field.Label>Username</Field.Label>
       <TextInput />
-      <Field.Error match="valueMissing">Required</Field.Error>
-      <Field.Error match="customError">No spaces</Field.Error>
+      <Field.Error />
     </Field.Root>,
   );
 

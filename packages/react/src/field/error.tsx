@@ -1,13 +1,10 @@
 import { useFieldContext } from "@blankjs/core";
 import { useEffect, type ComponentProps } from "react";
 
-type FieldErrorProps = ComponentProps<"div"> & {
-  match?: keyof ValidityState;
-};
+type FieldErrorProps = ComponentProps<"div">;
 
 export const FieldError = ({
   children,
-  match,
   className,
   ...props
 }: FieldErrorProps) => {
@@ -15,21 +12,20 @@ export const FieldError = ({
     errorId,
     registerError,
     invalid,
-    validity,
+    resolvedErrorMessage,
     validationMessage,
     serverError,
   } = useFieldContext();
 
-  const visible = match ? validity?.[match] === true : invalid;
+  const content =
+    children ?? resolvedErrorMessage ?? serverError ?? validationMessage;
+
+  const visible = invalid && content != null && content !== "";
 
   useEffect(() => {
-    let cleanup: (() => void) | null = null;
+    if (!visible) return;
 
-    if (visible) {
-      cleanup = registerError();
-    }
-
-    return () => cleanup?.();
+    return registerError();
   }, [registerError, visible]);
 
   if (!visible) return null;
@@ -40,7 +36,7 @@ export const FieldError = ({
       id={errorId}
       className={["bk-field-error", className].filter(Boolean).join(" ")}
     >
-      {children ?? serverError ?? validationMessage}
+      {content}
     </div>
   );
 };

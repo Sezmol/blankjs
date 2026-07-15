@@ -17,6 +17,7 @@ const makeContext = (
   hasLabel: false,
   hasDescription: false,
   hasError: false,
+  resolvedErrorMessage: undefined,
   hasGroupControl: false,
   registerLabel: () => () => {},
   registerDescription: () => () => {},

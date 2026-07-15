@@ -33,7 +33,7 @@ export const SelectForm = () => {
           </Select.Content>
         </Select.Root>
 
-        <Field.Error match="valueMissing">Pick a country first</Field.Error>
+        <Field.Error>Pick a country first</Field.Error>
       </Field.Root>
 
       <Button type="submit">Submit</Button>

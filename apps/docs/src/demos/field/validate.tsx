@@ -11,7 +11,6 @@ export const FieldValidate = () => (
 
       <TextInput name="username" />
 
-      <Field.Error match="customError" />
       <Field.Error />
     </Field.Root>
 

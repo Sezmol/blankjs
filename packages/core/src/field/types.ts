@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 export type FieldValidationMode = "submit" | "blur" | "change";
 
@@ -22,6 +22,8 @@ export interface FieldContextValue {
   hasLabel: boolean;
   hasDescription: boolean;
   hasError: boolean;
+
+  resolvedErrorMessage: ReactNode | undefined;
   hasGroupControl: boolean;
   registerLabel: () => () => void;
   registerDescription: () => () => void;
@@ -34,6 +36,8 @@ export interface UseFieldRootOptions extends Partial<
 > {
   validationMode?: FieldValidationMode;
   validate?: (value: string) => string | null | undefined;
+
+  errorMessages?: Partial<Record<keyof ValidityState, ReactNode>>;
 }
 
 export type OnInvalidCaptureHandler = DivProps["onInvalidCapture"];
