@@ -157,6 +157,7 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `Checkbox` | Native input, `indeterminate` support |
 | `Switch` | Native checkbox with `role="switch"` |
 | `RadioGroup` | Native radios, platform keyboard navigation |
+| `Slider` | Native `input type="range"`, CSS-only fill, form reset aware |
 | `Select` | Single value, typeahead, hidden input, `Select.Clear` |
 | `MultiSelect` | Multiple values, stays open while picking, `formData.getAll` |
 | `Combobox` | Controlled filtering, draft revert on Escape and blur |
