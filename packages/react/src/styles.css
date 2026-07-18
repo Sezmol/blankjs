@@ -10,6 +10,7 @@
 @import "./switch/switch.css";
 @import "./radio/radio.css";
 @import "./slider/slider.css";
+@import "./number-field/number-field.css";
 @import "./multi-select/multi-select.css";
 @import "./tabs/tabs.css";
 @import "./dialog/dialog.css";

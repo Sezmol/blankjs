@@ -89,3 +89,5 @@ export {
 } from "./accordion";
 
 export { Slider } from "./slider";
+
+export { NumberField } from "./number-field";
