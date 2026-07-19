@@ -11,6 +11,7 @@ import { PopoverPage } from "./pages/popover";
 import { TooltipPage } from "./pages/tooltip";
 import { AccordionPage } from "./pages/accordion";
 import { ButtonPage } from "./pages/button";
+import { CheckboxPage } from "./pages/checkbox";
 
 export type NavItem = {
   title: string;
@@ -47,6 +48,11 @@ export const nav: NavSection[] = [
         title: "Button",
         path: "/components/button",
         element: <ButtonPage />,
+      },
+      {
+        title: "Checkbox",
+        path: "/components/checkbox",
+        element: <CheckboxPage />,
       },
       { title: "Dialog", path: "/components/dialog", element: <DialogPage /> },
       { title: "Field", path: "/components/field", element: <FieldPage /> },
