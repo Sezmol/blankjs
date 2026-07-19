@@ -84,6 +84,11 @@ body {
   gap: var(--bk-space-4);
 }
 
+.pg-form[data-submitting] button[type="submit"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 .pg-output {
   padding: var(--bk-space-3);
   overflow-x: auto;
