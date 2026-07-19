@@ -17,6 +17,7 @@ import { TabsPage } from "./pages/tabs";
 import { TextInputPage } from "./pages/text-input";
 import { TextareaPage } from "./pages/textarea";
 import { PasswordFieldPage } from "./pages/password-field";
+import { ComboboxPage } from "./pages/combobox";
 
 export type NavItem = {
   title: string;
@@ -58,6 +59,11 @@ export const nav: NavSection[] = [
         title: "Checkbox",
         path: "/components/checkbox",
         element: <CheckboxPage />,
+      },
+      {
+        title: "Combobox",
+        path: "/components/combobox",
+        element: <ComboboxPage />,
       },
       { title: "Dialog", path: "/components/dialog", element: <DialogPage /> },
       { title: "Field", path: "/components/field", element: <FieldPage /> },
