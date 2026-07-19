@@ -6,6 +6,7 @@ import { DialogPage } from "./pages/dialog";
 import { FieldPage } from "./pages/field";
 import { FormPage } from "./pages/form";
 import { NumberFieldPage } from "./pages/number-field";
+import { SliderPage } from "./pages/slider";
 import { PopoverPage } from "./pages/popover";
 
 export type NavItem = {
@@ -48,6 +49,11 @@ export const nav: NavSection[] = [
         element: <PopoverPage />,
       },
       { title: "Select", path: "/components/select", element: <SelectPage /> },
+      {
+        title: "Slider",
+        path: "/components/slider",
+        element: <SliderPage />,
+      },
     ],
   },
 ];
