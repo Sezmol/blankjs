@@ -4,6 +4,8 @@ import { PasswordField } from "../password-field";
 import { NumberField } from "../number-field";
 import { Slider } from "../slider";
 import { Combobox } from "../combobox";
+import { Select } from "../select";
+import { MultiSelect } from "../multi-select";
 
 test.each([
   ["PasswordField", <PasswordField key="p" data-testid="control" disabled={false} />],
@@ -30,6 +32,42 @@ test("Combobox.Input: explicit disabled={false} beats Field and Root disabled", 
           <Combobox.Item value="a">A</Combobox.Item>
         </Combobox.Content>
       </Combobox.Root>
+    </Field.Root>,
+  );
+
+  expect(screen.getByTestId("control")).not.toBeDisabled();
+});
+
+test("Select.Trigger: explicit disabled={false} beats Field and Root disabled", () => {
+  render(
+    <Field.Root disabled>
+      <Field.Label>Label</Field.Label>
+      <Select.Root disabled>
+        <Select.Trigger data-testid="control" disabled={false}>
+          <Select.Value placeholder="Pick" />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Item value="a">A</Select.Item>
+        </Select.Content>
+      </Select.Root>
+    </Field.Root>,
+  );
+
+  expect(screen.getByTestId("control")).not.toBeDisabled();
+});
+
+test("MultiSelect.Trigger: explicit disabled={false} beats Field and Root disabled", () => {
+  render(
+    <Field.Root disabled>
+      <Field.Label>Label</Field.Label>
+      <MultiSelect.Root disabled>
+        <MultiSelect.Trigger data-testid="control" disabled={false}>
+          <MultiSelect.Value placeholder="Pick" />
+        </MultiSelect.Trigger>
+        <MultiSelect.Content>
+          <MultiSelect.Item value="a">A</MultiSelect.Item>
+        </MultiSelect.Content>
+      </MultiSelect.Root>
     </Field.Root>,
   );
 

@@ -46,8 +46,8 @@ export const SelectTrigger = ({
     setValue,
   } = useSelectContext();
 
-  const isDisabled = fieldProps.disabled || disabled;
-  const id = fieldProps.id ?? triggerId;
+  const isDisabled = props.disabled ?? (fieldProps.disabled || disabled);
+  const id = props.id ?? fieldProps.id ?? triggerId;
 
   const activeDescendant = open ? activeItem?.id : undefined;
 
@@ -65,8 +65,8 @@ export const SelectTrigger = ({
 
   const triggerProps: ComponentProps<"button"> = {
     type: "button" as const,
-    ...props,
     ...fieldProps,
+    ...props,
     className: ["bk-select-trigger", className].filter(Boolean).join(" "),
     id,
     role: "combobox",
