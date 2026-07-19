@@ -32,7 +32,7 @@ export const NumberField = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const isDisabled = disabled || fieldProps.disabled;
+  const isDisabled = disabled ?? fieldProps.disabled;
 
   const mergedInput = ["bk-input", className].filter(Boolean).join(" ");
 
@@ -102,8 +102,8 @@ export const NumberField = ({
       </button>
 
       <input
-        {...rest}
         {...fieldProps}
+        {...rest}
         ref={composeRefs(inputRef, ref)}
         type="number"
         disabled={isDisabled}

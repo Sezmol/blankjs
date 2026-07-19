@@ -35,15 +35,15 @@ export const PasswordField = ({
 
   const [visible, setVisible] = useState(false);
 
-  const isDisabled = disabled || fieldProps.disabled;
+  const isDisabled = disabled ?? fieldProps.disabled;
 
   const mergedInput = ["bk-input", className].filter(Boolean).join(" ");
 
   return (
     <div className="bk-password" data-size={size}>
       <input
-        {...rest}
         {...fieldProps}
+        {...rest}
         type={visible ? "text" : "password"}
         disabled={isDisabled}
         className={mergedInput}

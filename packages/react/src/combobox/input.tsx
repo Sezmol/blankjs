@@ -46,8 +46,9 @@ export const ComboboxInput = ({ className, ...props }: ComboboxInputProps) => {
   } = useComboboxContext();
   const { required: _required, ...fieldProps } = useFieldControlProps();
 
-  const id = fieldProps.id ?? inputId;
-  const isDisabled = fieldProps.disabled || props.disabled || disabled;
+  // explicit prop wins; the two contexts (field, combobox root) OR together
+  const id = props.id ?? fieldProps.id ?? inputId;
+  const isDisabled = props.disabled ?? (fieldProps.disabled || disabled);
 
   const activeDescendant = open ? activeItem?.id : undefined;
 
@@ -162,8 +163,8 @@ export const ComboboxInput = ({ className, ...props }: ComboboxInputProps) => {
   return (
     <div className="bk-combobox-group" ref={setInputGroupElement}>
       <input
-        {...props}
         {...fieldProps}
+        {...props}
         value={inputValue}
         onClick={onClick}
         onKeyDown={onKeyDown}

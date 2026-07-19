@@ -57,12 +57,12 @@ export const Slider = ({
     return () => form.removeEventListener("reset", onReset);
   }, []);
 
-  const isDisabled = fieldProps.disabled || disabled;
+  const isDisabled = disabled ?? fieldProps.disabled;
 
   return (
     <input
-      {...props}
       {...fieldProps}
+      {...props}
       disabled={isDisabled}
       ref={composeRefs(innerRef, ref)}
       type="range"
