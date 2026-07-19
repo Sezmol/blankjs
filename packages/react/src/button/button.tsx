@@ -19,7 +19,7 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const buttonProps = {
-    type: "button" as const,
+    ...(asChild ? null : { type: "button" as const }),
     ...props,
     className: ["bk-button", className].filter(Boolean).join(" "),
     "data-variant": variant,
