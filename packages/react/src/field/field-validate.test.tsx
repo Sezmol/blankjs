@@ -134,6 +134,39 @@ test("reveals the custom error on the invalid event", async () => {
   expect(screen.getByText("No spaces allowed")).toBeInTheDocument();
 });
 
+test("validate sees the whole form for cross-field rules", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <form>
+      <Field.Root name="password">
+        <Field.Label>Password</Field.Label>
+        <TextInput name="password" />
+      </Field.Root>
+
+      <Field.Root
+        validate={(value, formData) =>
+          value !== formData.get("password") ? "Passwords do not match" : null
+        }
+        validationMode="change"
+      >
+        <Field.Label>Confirm</Field.Label>
+        <TextInput name="confirm" />
+        <Field.Error />
+      </Field.Root>
+    </form>,
+  );
+
+  await user.type(screen.getByLabelText("Password"), "secret");
+  await user.type(screen.getByLabelText("Confirm"), "secre");
+
+  expect(screen.getByText("Passwords do not match")).toBeInTheDocument();
+
+  await user.type(screen.getByLabelText("Confirm"), "t");
+
+  expect(screen.queryByText("Passwords do not match")).toBeNull();
+});
+
 test("stays silent without validate", async () => {
   const user = userEvent.setup();
 

@@ -35,7 +35,7 @@ export interface UseFieldRootOptions extends Partial<
   Pick<FieldContextValue, "invalid" | "disabled" | "required">
 > {
   validationMode?: FieldValidationMode;
-  validate?: (value: string) => string | null | undefined;
+  validate?: (value: string, formData: FormData) => string | null | undefined;
 
   errorMessages?: Partial<Record<keyof ValidityState, ReactNode>>;
 }

@@ -76,7 +76,11 @@ export const useFieldRoot = (
   const validateControl = useCallback((control: Element) => {
     if (!validateRef.current || !hasValidity(control)) return;
 
-    control.setCustomValidity(validateRef.current(control.value) ?? "");
+    const formData = control.form ? new FormData(control.form) : new FormData();
+
+    control.setCustomValidity(
+      validateRef.current(control.value, formData) ?? "",
+    );
   }, []);
 
   const onInvalidCapture = useCallback<OnInvalidCaptureHandler>((e) => {
