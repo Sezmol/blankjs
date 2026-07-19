@@ -5,6 +5,7 @@ import { SelectPage } from "./pages/select";
 import { DialogPage } from "./pages/dialog";
 import { FieldPage } from "./pages/field";
 import { FormPage } from "./pages/form";
+import { PopoverPage } from "./pages/popover";
 
 export type NavItem = {
   title: string;
@@ -35,6 +36,11 @@ export const nav: NavSection[] = [
       { title: "Dialog", path: "/components/dialog", element: <DialogPage /> },
       { title: "Field", path: "/components/field", element: <FieldPage /> },
       { title: "Form", path: "/components/form", element: <FormPage /> },
+      {
+        title: "Popover",
+        path: "/components/popover",
+        element: <PopoverPage />,
+      },
       { title: "Select", path: "/components/select", element: <SelectPage /> },
     ],
   },
