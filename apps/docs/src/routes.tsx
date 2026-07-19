@@ -13,6 +13,7 @@ import { AccordionPage } from "./pages/accordion";
 import { ButtonPage } from "./pages/button";
 import { CheckboxPage } from "./pages/checkbox";
 import { SwitchPage } from "./pages/switch";
+import { TabsPage } from "./pages/tabs";
 
 export type NavItem = {
   title: string;
@@ -78,6 +79,11 @@ export const nav: NavSection[] = [
         title: "Switch",
         path: "/components/switch",
         element: <SwitchPage />,
+      },
+      {
+        title: "Tabs",
+        path: "/components/tabs",
+        element: <TabsPage />,
       },
       {
         title: "Tooltip",
