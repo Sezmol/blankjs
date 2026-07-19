@@ -158,6 +158,7 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `Switch` | Native checkbox with `role="switch"` |
 | `RadioGroup` | Native radios, platform keyboard navigation |
 | `Slider` | Native `input type="range"`, CSS-only fill, form reset aware |
+| `NumberField` | Native `type="number"`, step buttons, disables them at min/max |
 | `Select` | Single value, typeahead, hidden input, `Select.Clear` |
 | `MultiSelect` | Multiple values, stays open while picking, `formData.getAll` |
 | `Combobox` | Controlled filtering, draft revert on Escape and blur |
@@ -166,6 +167,9 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `Tabs` | Sliding active indicator, `hidden="until-found"` panels, automatic or manual activation |
 | `Dialog` | Native `<dialog>` + `showModal()`: focus trap, top layer, `::backdrop` — no portal |
 | `Accordion` | Native `<details>`/`<summary>`, exclusive mode via the `name` attribute, animated height |
+| `Popover` | Native Popover API: top layer, light dismiss, no portal |
+| `Tooltip` | `popover="hint"`, hover-intent delay, shared grace period, hoverable content |
+| `Menu` | `role="menu"`, arrow-key navigation via `aria-activedescendant`, Popover API underneath |
 
 Every control takes `size="sm" | "md" | "lg"` (default `md`). Composite widgets size through their `Root`.
 
