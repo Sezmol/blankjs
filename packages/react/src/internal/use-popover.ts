@@ -5,47 +5,76 @@ import {
   shift,
   size,
   useFloating,
+  type Placement,
 } from "@floating-ui/react";
-import { useEffect } from "react";
+import { useEffect, type CSSProperties } from "react";
 
-export type MatchWidth = "exact" | "min";
+export type MatchWidth = "exact" | "min" | "none";
+
+export type { Placement };
+
+export interface UseFloatingPositionOptions {
+  anchor: HTMLElement | null;
+  placement?: Placement;
+  matchWidth?: MatchWidth;
+}
 
 export interface UsePopoverOptions {
   anchor: HTMLElement | null;
   onDismiss: (reason: "escape" | "outside-press") => void;
-  matchWidth?: MatchWidth;
+  matchWidth?: Exclude<MatchWidth, "none">;
 }
 
-const matchWidthMap: Record<MatchWidth, string> = {
+const matchWidthMap = {
   exact: "width",
   min: "minWidth",
 };
 
-export const usePopover = ({
+export interface FloatingPosition {
+  setFloating: (node: HTMLElement | null) => void;
+  floatingStyles: CSSProperties;
+  floatingElement: HTMLElement | null;
+}
+
+export const useFloatingPosition = ({
   anchor,
-  onDismiss,
-  matchWidth,
-}: UsePopoverOptions) => {
+  placement = "bottom-start",
+  matchWidth = "none",
+}: UseFloatingPositionOptions): FloatingPosition => {
   const { refs, floatingStyles, elements } = useFloating({
-    placement: "bottom-start",
+    placement,
     middleware: [
       offset(4),
       flip(),
       shift({ padding: 8 }),
-      size({
-        apply({ elements: floatingState, rects }) {
-          Object.assign(floatingState.floating.style, {
-            [matchWidthMap[matchWidth ?? "exact"]]:
-              `${rects.reference.width}px`,
-          });
-        },
-      }),
+      matchWidth !== "none" &&
+        size({
+          apply({ elements: floatingState, rects }) {
+            Object.assign(floatingState.floating.style, {
+              [matchWidthMap[matchWidth]]: `${rects.reference.width}px`,
+            });
+          },
+        }),
     ],
     whileElementsMounted: autoUpdate,
     elements: { reference: anchor },
   });
 
-  const { setFloating } = refs;
+  // floating-ui types the param without null, which breaks composeRefs with React refs
+  const setFloating: (node: HTMLElement | null) => void = refs.setFloating;
+
+  return { setFloating, floatingStyles, floatingElement: elements.floating };
+};
+
+export const usePopover = ({
+  anchor,
+  onDismiss,
+  matchWidth = "exact",
+}: UsePopoverOptions) => {
+  const { setFloating, floatingStyles, floatingElement } = useFloatingPosition({
+    anchor,
+    matchWidth,
+  });
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -65,7 +94,7 @@ export const usePopover = ({
     const onPointerDown = (e: PointerEvent) => {
       const target = e.target as Node;
 
-      if (elements.floating?.contains(target)) return;
+      if (floatingElement?.contains(target)) return;
       if (anchor?.contains(target)) return;
 
       onDismiss("outside-press");
@@ -74,7 +103,7 @@ export const usePopover = ({
     document.addEventListener("pointerdown", onPointerDown);
 
     return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [anchor, elements.floating, onDismiss]);
+  }, [anchor, floatingElement, onDismiss]);
 
   return { setFloating, floatingStyles };
 };

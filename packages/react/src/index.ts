@@ -91,3 +91,11 @@ export {
 export { Slider } from "./slider";
 
 export { NumberField } from "./number-field";
+
+export {
+  Popover,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+} from "./popover";

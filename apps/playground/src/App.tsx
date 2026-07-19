@@ -20,6 +20,7 @@ import { SizesSection } from "./sections/sizes-section";
 import { TabsSection } from "./sections/tabs-section";
 import { DialogSection } from "./sections/dialog-section";
 import { AccordionSection } from "./sections/accordion-section";
+import { PopoverSection } from "./sections/popover-section";
 
 function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -57,6 +58,7 @@ function App() {
         <TabsSection />
         <DialogSection />
         <AccordionSection />
+        <PopoverSection />
         <SizesSection />
       </main>
     </div>

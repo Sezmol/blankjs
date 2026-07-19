@@ -1,7 +1,10 @@
 export {
   usePopover,
+  useFloatingPosition,
   type UsePopoverOptions,
+  type UseFloatingPositionOptions,
   type MatchWidth,
+  type Placement,
 } from "./use-popover";
 
 export {
