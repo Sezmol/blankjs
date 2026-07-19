@@ -16,6 +16,7 @@ import { SwitchPage } from "./pages/switch";
 import { TabsPage } from "./pages/tabs";
 import { TextInputPage } from "./pages/text-input";
 import { TextareaPage } from "./pages/textarea";
+import { PasswordFieldPage } from "./pages/password-field";
 
 export type NavItem = {
   title: string;
@@ -65,6 +66,11 @@ export const nav: NavSection[] = [
         title: "NumberField",
         path: "/components/number-field",
         element: <NumberFieldPage />,
+      },
+      {
+        title: "PasswordField",
+        path: "/components/password-field",
+        element: <PasswordFieldPage />,
       },
       {
         title: "Popover",
