@@ -8,6 +8,8 @@ import { FieldModes } from "../demos/field/modes";
 import modesCode from "../demos/field/modes.tsx?raw";
 import { FieldValidate } from "../demos/field/validate";
 import validateCode from "../demos/field/validate.tsx?raw";
+import { FieldCrossField } from "../demos/field/cross-field";
+import crossFieldCode from "../demos/field/cross-field.tsx?raw";
 
 const groupCode = `
 <Field.Root>
@@ -104,6 +106,16 @@ export const FieldPage = () => (
 
     <Demo code={validateCode}>
       <FieldValidate />
+    </Demo>
+
+    <p>
+      The rule also receives the enclosing form's <code>FormData</code> as a
+      second argument, so cross-field rules stay one-liners — the classic
+      password confirmation, live on blur, no schema and no state:
+    </p>
+
+    <Demo code={crossFieldCode}>
+      <FieldCrossField />
     </Demo>
 
     <h2>One error, your words</h2>
@@ -364,9 +376,9 @@ export const FieldPage = () => (
         },
         {
           name: "validate",
-          type: "(value: string) => string | null | undefined",
+          type: "(value: string, formData: FormData) => string | null | undefined",
           description:
-            "Custom rule piped into setCustomValidity. A returned message blocks submit like a native constraint.",
+            "Custom rule piped into setCustomValidity. A returned message blocks submit like a native constraint. formData holds the whole form for cross-field rules.",
         },
         {
           name: "errorMessages",
