@@ -93,10 +93,33 @@ export const FormPage = () => (
       Pass <code>errors</code> keyed by field name — each{" "}
       <code>Field.Root</code> with a matching <code>name</code> turns invalid
       and shows the message in <code>Field.Error</code>. Editing the field
-      dismisses its error; the next submit can bring it back.
+      dismisses its error; the next submit can bring it back. When errors
+      arrive, the first matching control in DOM order is focused.
     </p>
 
     <CodeBlock code={serverErrorsCode} />
+
+    <h2>While it submits</h2>
+
+    <p>
+      <code>onSubmit</code> may return a promise — schema validation already
+      is one. While it is pending, the form ignores repeat submits (no
+      double-click double-order) and renders a <code>data-submitting</code>{" "}
+      attribute — style the pending state in CSS, no state of your own:
+    </p>
+
+    <CodeBlock
+      code={`form[data-submitting] button[type="submit"] {
+  opacity: 0.6;
+  pointer-events: none;
+}`}
+      lang="css"
+    />
+
+    <p>
+      The same flag is available as <code>submitting</code> on the form
+      context for components that need it in JavaScript.
+    </p>
 
     <h2>Typed and validated with a schema</h2>
 
@@ -151,9 +174,9 @@ export const FormPage = () => (
       props={[
         {
           name: "onSubmit",
-          type: "(data, event) => void",
+          type: "(data, event) => void | Promise<void>",
           description:
-            "Without a schema, data is the raw FormData. With a schema, data is the parsed output inferred from it. Default submit is prevented whenever onSubmit is set.",
+            "Without a schema, data is the raw FormData. With a schema, data is the parsed output inferred from it. Default submit is prevented whenever onSubmit is set; a returned promise is awaited and guards against re-submits.",
         },
         {
           name: "schema",
@@ -182,9 +205,10 @@ export const FormPage = () => (
 
     <p>
       Whatever fails first gets focus: native constraint violations focus the
-      first invalid control via the <code>invalid</code> event, and schema
-      failures focus the first control with an issue — in DOM order, not
-      schema order.
+      first invalid control via the <code>invalid</code> event, schema
+      failures focus the first control with an issue, and incoming server{" "}
+      <code>errors</code> focus the first field they name — always in DOM
+      order.
     </p>
   </article>
 );
