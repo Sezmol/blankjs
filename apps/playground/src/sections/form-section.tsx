@@ -25,7 +25,10 @@ export const FormSection = () => {
   const [comboboxInput, setComboboxInput] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>();
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    // fake latency to show data-submitting and the re-submit guard
+    await new Promise((r) => setTimeout(r, 800));
+
     if (data.get("name") === "admin") {
       setErrors({ name: "This name is already taken" });
       setOutput("");
@@ -69,6 +72,27 @@ export const FormSection = () => {
 
           <TextInput name="email" type="email" placeholder="you@example.com" />
 
+          <Field.Error className="pg-error" />
+        </Field.Root>
+
+        <Field.Root className="pg-field" required>
+          <Field.Label>Password</Field.Label>
+          <TextInput name="password" type="password" />
+          <Field.Error className="pg-error" />
+        </Field.Root>
+
+        <Field.Root
+          className="pg-field"
+          required
+          validationMode="blur"
+          validate={(value, formData) =>
+            value !== formData.get("password")
+              ? "Passwords do not match"
+              : null
+          }
+        >
+          <Field.Label>Confirm password</Field.Label>
+          <TextInput name="confirm" type="password" />
           <Field.Error className="pg-error" />
         </Field.Root>
 
