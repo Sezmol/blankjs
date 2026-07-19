@@ -15,6 +15,7 @@ import { CheckboxPage } from "./pages/checkbox";
 import { SwitchPage } from "./pages/switch";
 import { TabsPage } from "./pages/tabs";
 import { TextInputPage } from "./pages/text-input";
+import { TextareaPage } from "./pages/textarea";
 
 export type NavItem = {
   title: string;
@@ -85,6 +86,11 @@ export const nav: NavSection[] = [
         title: "Tabs",
         path: "/components/tabs",
         element: <TabsPage />,
+      },
+      {
+        title: "Textarea",
+        path: "/components/textarea",
+        element: <TextareaPage />,
       },
       {
         title: "TextInput",
