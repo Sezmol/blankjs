@@ -19,6 +19,7 @@ import { TextareaPage } from "./pages/textarea";
 import { PasswordFieldPage } from "./pages/password-field";
 import { ComboboxPage } from "./pages/combobox";
 import { MenuPage } from "./pages/menu";
+import { MultiSelectPage } from "./pages/multi-select";
 
 export type NavItem = {
   title: string;
@@ -73,6 +74,11 @@ export const nav: NavSection[] = [
         title: "Menu",
         path: "/components/menu",
         element: <MenuPage />,
+      },
+      {
+        title: "MultiSelect",
+        path: "/components/multi-select",
+        element: <MultiSelectPage />,
       },
       {
         title: "NumberField",
