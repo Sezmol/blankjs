@@ -58,11 +58,11 @@ export const FieldRoot = ({
 
   useEffect(() => {
     const control = innerRef.current?.querySelector(
-      "input:not([type=hidden]), textarea, select",
+      `[id="${contextValue.controlId}"]`,
     );
 
     if (control) validateControl(control);
-  }, [validateControl]);
+  }, [validateControl, contextValue.controlId]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
