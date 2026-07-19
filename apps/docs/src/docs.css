@@ -248,6 +248,10 @@ body {
   width: 100%;
 }
 
+.docs-demo-preview .bk-accordion {
+  width: 100%;
+}
+
 .docs-demo-preview form .bk-button {
   align-self: flex-start;
 }

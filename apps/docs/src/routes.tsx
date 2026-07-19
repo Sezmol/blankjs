@@ -9,6 +9,7 @@ import { NumberFieldPage } from "./pages/number-field";
 import { SliderPage } from "./pages/slider";
 import { PopoverPage } from "./pages/popover";
 import { TooltipPage } from "./pages/tooltip";
+import { AccordionPage } from "./pages/accordion";
 
 export type NavItem = {
   title: string;
@@ -36,6 +37,11 @@ export const nav: NavSection[] = [
   {
     title: "Components",
     items: [
+      {
+        title: "Accordion",
+        path: "/components/accordion",
+        element: <AccordionPage />,
+      },
       { title: "Dialog", path: "/components/dialog", element: <DialogPage /> },
       { title: "Field", path: "/components/field", element: <FieldPage /> },
       { title: "Form", path: "/components/form", element: <FormPage /> },
