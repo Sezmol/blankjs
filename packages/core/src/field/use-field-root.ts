@@ -76,7 +76,13 @@ export const useFieldRoot = (
   const validateControl = useCallback((control: Element) => {
     if (!validateRef.current || !hasValidity(control)) return;
 
-    control.setCustomValidity(validateRef.current(control.value) ?? "");
+    // formData gives cross-field rules ("passwords must match") a view of
+    // the whole form; an orphan control gets an empty FormData
+    const formData = control.form ? new FormData(control.form) : new FormData();
+
+    control.setCustomValidity(
+      validateRef.current(control.value, formData) ?? "",
+    );
   }, []);
 
   const onInvalidCapture = useCallback<OnInvalidCaptureHandler>((e) => {
