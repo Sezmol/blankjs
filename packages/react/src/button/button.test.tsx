@@ -51,6 +51,16 @@ test("merges props onto the child when asChild is set", () => {
   expect(screen.queryByRole("button")).toBeNull();
 });
 
+test("does not leak the default type onto an asChild element", () => {
+  render(
+    <Button asChild>
+      <a href="test">go</a>
+    </Button>,
+  );
+
+  expect(screen.getByRole("link")).not.toHaveAttribute("type");
+});
+
 test("merges a custom className with the base class", () => {
   renderButton({ className: "custom" });
 
