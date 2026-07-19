@@ -22,6 +22,7 @@ import { DialogSection } from "./sections/dialog-section";
 import { AccordionSection } from "./sections/accordion-section";
 import { PopoverSection } from "./sections/popover-section";
 import { TooltipSection } from "./sections/tooltip-section";
+import { MenuSection } from "./sections/menu-section";
 
 function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -61,6 +62,7 @@ function App() {
         <AccordionSection />
         <PopoverSection />
         <TooltipSection />
+        <MenuSection />
         <SizesSection />
       </main>
     </div>
