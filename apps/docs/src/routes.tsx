@@ -10,6 +10,7 @@ import { SliderPage } from "./pages/slider";
 import { PopoverPage } from "./pages/popover";
 import { TooltipPage } from "./pages/tooltip";
 import { AccordionPage } from "./pages/accordion";
+import { ButtonPage } from "./pages/button";
 
 export type NavItem = {
   title: string;
@@ -41,6 +42,11 @@ export const nav: NavSection[] = [
         title: "Accordion",
         path: "/components/accordion",
         element: <AccordionPage />,
+      },
+      {
+        title: "Button",
+        path: "/components/button",
+        element: <ButtonPage />,
       },
       { title: "Dialog", path: "/components/dialog", element: <DialogPage /> },
       { title: "Field", path: "/components/field", element: <FieldPage /> },
