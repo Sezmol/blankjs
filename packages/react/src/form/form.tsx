@@ -22,7 +22,7 @@ type FormPropsBase = Omit<ComponentProps<"form">, "onSubmit"> & {
 
 export type UntypedFormProps = FormPropsBase & {
   schema?: undefined;
-  onSubmit?: (data: FormData, event: FormSubmitEvent) => void;
+  onSubmit?: (data: FormData, event: FormSubmitEvent) => void | Promise<void>;
 };
 
 export type TypedFormProps<S extends StandardSchemaV1> = FormPropsBase & {
@@ -30,7 +30,7 @@ export type TypedFormProps<S extends StandardSchemaV1> = FormPropsBase & {
   onSubmit?: (
     data: StandardSchemaV1.InferOutput<S>,
     event: FormSubmitEvent,
-  ) => void;
+  ) => void | Promise<void>;
 };
 
 export type FormProps<S extends StandardSchemaV1 = StandardSchemaV1> =
@@ -52,52 +52,83 @@ export function Form<S extends StandardSchemaV1>({
   ...rest
 }: UntypedFormProps | TypedFormProps<S>) {
   const [schemaErrors, setSchemaErrors] = useState<Record<string, string>>();
+  const [submitting, setSubmitting] = useState(false);
 
   const innerRef = useRef<HTMLFormElement>(null);
 
   const formContextValue = useMemo(
     () => ({
       errors: { ...schemaErrors, ...errors },
+      submitting,
     }),
-    [errors, schemaErrors],
+    [errors, schemaErrors, submitting],
   );
+
+  const focusFirstNamed = (names: Record<string, string>) => {
+    const first = Array.from(innerRef.current?.elements ?? []).find(
+      (el): el is HTMLElement =>
+        "name" in el && !!names[(el as HTMLInputElement).name],
+    );
+
+    first?.focus();
+  };
 
   const handleSubmit = async (e: FormSubmitEvent) => {
     if (!onSubmit) return;
 
     e.preventDefault();
 
+    if (submitting) return;
+
     const fd = new FormData(e.currentTarget);
 
-    if (!schema) {
-      onSubmit(fd, e);
+    setSubmitting(true);
 
-      return;
-    }
+    try {
+      if (!schema) {
+        await onSubmit(fd, e);
 
-    const raw = serialize(fd);
+        return;
+      }
 
-    const result = await schema["~standard"].validate(raw);
+      const raw = serialize(fd);
 
-    if (result.issues) {
-      const fieldErrors = mapIssues(result.issues);
+      const result = await schema["~standard"].validate(raw);
 
-      setSchemaErrors(fieldErrors);
+      if (result.issues) {
+        const fieldErrors = mapIssues(result.issues);
 
-      const firstInvalid = Array.from(innerRef.current?.elements ?? []).find(
-        (el): el is HTMLElement =>
-          "name" in el && !!fieldErrors[(el as HTMLInputElement).name],
+        setSchemaErrors(fieldErrors);
+        focusFirstNamed(fieldErrors);
+
+        return;
+      }
+
+      setSchemaErrors(undefined);
+
+      await (onSubmit as Required<TypedFormProps<S>>["onSubmit"])(
+        result.value,
+        e,
       );
-
-      firstInvalid?.focus();
-
-      return;
+    } finally {
+      setSubmitting(false);
     }
-
-    setSchemaErrors(undefined);
-
-    (onSubmit as Required<TypedFormProps<S>>["onSubmit"])(result.value, e);
   };
+
+  // focus the first control whose name has a server error; the signature
+  // guard keeps an inline errors={{...}} literal from re-stealing focus
+  // on every render
+  const errorsSignature = useRef("");
+
+  useEffect(() => {
+    const signature = errors ? JSON.stringify(errors) : "";
+
+    if (signature === errorsSignature.current) return;
+
+    errorsSignature.current = signature;
+
+    if (errors && Object.keys(errors).length > 0) focusFirstNamed(errors);
+  });
 
   useEffect(() => {
     const form = innerRef.current;
@@ -125,7 +156,12 @@ export function Form<S extends StandardSchemaV1>({
 
   return (
     <FormContext value={formContextValue}>
-      <form ref={composeRefs(innerRef, ref)} onSubmit={handleSubmit} {...rest}>
+      <form
+        ref={composeRefs(innerRef, ref)}
+        onSubmit={handleSubmit}
+        data-submitting={submitting ? "" : undefined}
+        {...rest}
+      >
         {children}
       </form>
     </FormContext>

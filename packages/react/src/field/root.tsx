@@ -57,12 +57,15 @@ export const FieldRoot = ({
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // the control is whichever element consumed the field context and got
+    // controlId — precise, unlike a tag-based query that could grab a
+    // foreign input rendered inside the field
     const control = innerRef.current?.querySelector(
-      "input:not([type=hidden]), textarea, select",
+      `[id="${contextValue.controlId}"]`,
     );
 
     if (control) validateControl(control);
-  }, [validateControl]);
+  }, [validateControl, contextValue.controlId]);
 
   useEffect(() => {
     // a dismissed server error must come back when the server responds again,
