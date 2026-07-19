@@ -136,6 +136,11 @@
   border: 1px solid var(--bk-color-border);
   border-radius: var(--bk-radius-md);
   box-shadow: var(--bk-shadow-popover);
+  transition: opacity var(--bk-duration-base) ease;
+
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 .bk-combobox-content[data-empty] {

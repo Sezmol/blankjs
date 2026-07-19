@@ -18,7 +18,7 @@
 
 .bk-tooltip-content:popover-open {
   opacity: 1;
-  transition: opacity 200ms ease;
+  transition: opacity var(--bk-duration-base) ease;
 
   @starting-style {
     opacity: 0;
