@@ -1,0 +1,14 @@
+.bk-popover-content {
+  position: absolute;
+  inset: auto;
+  margin: 0;
+  overflow: visible;
+  box-sizing: border-box;
+  width: max-content;
+  padding: var(--bk-space-3);
+  color: var(--bk-color-text);
+  background-color: var(--bk-color-surface-raised);
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+  box-shadow: var(--bk-shadow-popover);
+}
