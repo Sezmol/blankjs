@@ -106,3 +106,5 @@ export {
   TooltipTrigger,
   TooltipContent,
 } from "./tooltip";
+
+export { Menu, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "./menu";
