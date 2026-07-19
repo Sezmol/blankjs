@@ -1,0 +1,26 @@
+.bk-tooltip-content {
+  position: absolute;
+  inset: auto;
+  margin: 0;
+  overflow: visible;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: 18rem;
+  padding: var(--bk-space-1) var(--bk-space-2);
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-text);
+  background-color: var(--bk-color-surface-raised);
+  border: 1px solid var(--bk-color-border);
+  border-radius: var(--bk-radius-md);
+  box-shadow: var(--bk-shadow-popover);
+  opacity: 0;
+}
+
+.bk-tooltip-content:popover-open {
+  opacity: 1;
+  transition: opacity 200ms ease;
+
+  @starting-style {
+    opacity: 0;
+  }
+}
