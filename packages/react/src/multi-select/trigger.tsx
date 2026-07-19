@@ -49,8 +49,9 @@ export const MultiSelectTrigger = ({
     toggleValue,
   } = useMultiSelectContext();
 
-  const isDisabled = fieldProps.disabled || disabled;
-  const id = fieldProps.id ?? triggerId;
+  // explicit prop wins; the two contexts (field, root) OR together
+  const isDisabled = props.disabled ?? (fieldProps.disabled || disabled);
+  const id = props.id ?? fieldProps.id ?? triggerId;
 
   const activeDescendant = open ? activeItem?.id : undefined;
 
@@ -65,8 +66,8 @@ export const MultiSelectTrigger = ({
 
   const triggerProps: ComponentProps<"button"> = {
     type: "button" as const,
-    ...props,
     ...fieldProps,
+    ...props,
     className: ["bk-multi-select-trigger", className].filter(Boolean).join(" "),
     id,
     role: "combobox",
