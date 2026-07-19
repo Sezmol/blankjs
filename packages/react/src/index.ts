@@ -99,3 +99,10 @@ export {
   PopoverContent,
   PopoverClose,
 } from "./popover";
+
+export {
+  Tooltip,
+  TooltipRoot,
+  TooltipTrigger,
+  TooltipContent,
+} from "./tooltip";
