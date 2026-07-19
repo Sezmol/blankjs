@@ -43,6 +43,8 @@ export const useFloatingPosition = ({
 }: UseFloatingPositionOptions): FloatingPosition => {
   const { refs, floatingStyles, elements } = useFloating({
     placement,
+    // position via top/left so CSS keeps transform free for animations
+    transform: false,
     middleware: [
       offset(4),
       flip(),
