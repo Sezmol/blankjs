@@ -8,6 +8,7 @@ import { FormPage } from "./pages/form";
 import { NumberFieldPage } from "./pages/number-field";
 import { SliderPage } from "./pages/slider";
 import { PopoverPage } from "./pages/popover";
+import { TooltipPage } from "./pages/tooltip";
 
 export type NavItem = {
   title: string;
@@ -53,6 +54,11 @@ export const nav: NavSection[] = [
         title: "Slider",
         path: "/components/slider",
         element: <SliderPage />,
+      },
+      {
+        title: "Tooltip",
+        path: "/components/tooltip",
+        element: <TooltipPage />,
       },
     ],
   },
