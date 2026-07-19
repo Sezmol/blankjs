@@ -20,6 +20,7 @@ import { PasswordFieldPage } from "./pages/password-field";
 import { ComboboxPage } from "./pages/combobox";
 import { MenuPage } from "./pages/menu";
 import { MultiSelectPage } from "./pages/multi-select";
+import { RadioGroupPage } from "./pages/radio-group";
 
 export type NavItem = {
   title: string;
@@ -94,6 +95,11 @@ export const nav: NavSection[] = [
         title: "Popover",
         path: "/components/popover",
         element: <PopoverPage />,
+      },
+      {
+        title: "RadioGroup",
+        path: "/components/radio-group",
+        element: <RadioGroupPage />,
       },
       { title: "Select", path: "/components/select", element: <SelectPage /> },
       {
