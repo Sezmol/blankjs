@@ -1,0 +1,25 @@
+/* Cascade order for the docs site. Declared here because layer priority is
+   set by first declaration, not by import order.
+
+   reset    — the global box-sizing/margin reset below. Must come first, or it
+              would strip padding from every blankjs component.
+   blankjs  — the library's own styles, layered so utilities can override them.
+   docs     — docs.css, which overrides the library in a few places.
+   utilities— Tailwind, last, so a utility always wins.
+
+   Tailwind's Preflight is deliberately NOT imported: this site styles its prose
+   through descendant selectors on .docs-page, and Preflight would flatten them. */
+@layer reset, theme, blankjs, docs, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "@blankjs/react/styles.css" layer(blankjs);
+@import "./docs.css" layer(docs);
+
+@layer reset {
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+}
