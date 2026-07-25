@@ -135,6 +135,18 @@ export function Form<S extends StandardSchemaV1>({
 
     if (!form) return;
 
+    const onReset = () => setSchemaErrors(undefined);
+
+    form.addEventListener("reset", onReset);
+
+    return () => form.removeEventListener("reset", onReset);
+  }, []);
+
+  useEffect(() => {
+    const form = innerRef.current;
+
+    if (!form) return;
+
     let focused = false;
 
     const onInvalid = (e: Event) => {

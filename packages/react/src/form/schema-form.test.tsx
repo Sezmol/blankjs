@@ -145,6 +145,33 @@ test("editing the field dismisses its schema error", async () => {
   expect(screen.queryByText("Too short")).toBeNull();
 });
 
+test("a reset clears schema errors from an earlier submit", async () => {
+  const user = userEvent.setup();
+  const schema = makeSchema(() => ({
+    issues: [{ message: "Too short", path: ["username"] }],
+  }));
+
+  render(
+    <Form schema={schema} onSubmit={vi.fn()}>
+      <Field.Root name="username">
+        <Field.Label>Username</Field.Label>
+        <TextInput name="username" defaultValue="ann" />
+        <Field.Error />
+      </Field.Root>
+      <button type="submit">Go</button>
+      <button type="reset">Reset</button>
+    </Form>,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: "Go" }));
+
+  expect(await screen.findByText("Too short")).toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Reset" }));
+
+  expect(screen.queryByText("Too short")).toBeNull();
+});
+
 test("focuses the first invalid control in DOM order, not issue order", async () => {
   const schema = makeSchema(() => ({
     issues: [
