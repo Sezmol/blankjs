@@ -1,4 +1,11 @@
 export { useFieldControlProps, type FieldControlProps } from "@blankjs/core";
+export {
+  useFieldArray,
+  type FieldArrayRow,
+  type FieldName,
+  type UseFieldArrayOptions,
+  type UseFieldArrayResult,
+} from "@blankjs/core";
 
 export {
   Field,
@@ -65,6 +72,19 @@ export {
 } from "./combobox";
 
 export { Form, FormContext, serialize } from "./form";
+
+export {
+  FieldArray,
+  FieldArrayRoot,
+  FieldArrayAdd,
+  FieldArrayRemove,
+  FieldArrayError,
+  type FieldArrayProps,
+  type FieldArrayAddProps,
+  type FieldArrayRemoveProps,
+  type FieldArrayErrorProps,
+  type FieldArrayRowRef,
+} from "./field-array";
 
 export type { Size } from "./types";
 

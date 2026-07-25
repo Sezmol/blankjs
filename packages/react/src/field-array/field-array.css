@@ -1,0 +1,67 @@
+.bk-field-array {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-3);
+}
+
+.bk-field-array-add,
+.bk-field-array-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bk-space-2);
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-text-muted);
+  background: none;
+  border: none;
+  border-radius: var(--bk-radius-sm);
+  outline: none;
+  cursor: pointer;
+  transition:
+    color var(--bk-duration-fast) ease,
+    background-color var(--bk-duration-fast) ease,
+    box-shadow var(--bk-duration-fast) ease;
+}
+
+.bk-field-array-add {
+  align-self: flex-start;
+  padding: var(--bk-space-2) var(--bk-space-3);
+  font-weight: 500;
+  color: var(--bk-color-accent);
+}
+
+.bk-field-array-remove {
+  padding: var(--bk-space-1);
+}
+
+.bk-field-array-add:hover,
+.bk-field-array-remove:hover {
+  color: var(--bk-color-text);
+  background-color: var(--bk-color-surface-hover);
+}
+
+.bk-field-array-remove:hover {
+  color: var(--bk-color-danger);
+}
+
+.bk-field-array-add:focus-visible,
+.bk-field-array-remove:focus-visible {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-accent) 30%, transparent);
+}
+
+.bk-field-array-add:disabled,
+.bk-field-array-remove:disabled {
+  color: var(--bk-color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+  background: none;
+  box-shadow: none;
+}
+
+.bk-field-array-error {
+  font-size: var(--bk-font-size-sm);
+  color: var(--bk-color-danger);
+}

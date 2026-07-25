@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -11,6 +12,7 @@ import { composeRefs } from "../slot";
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import { serialize } from "./serialize";
 import { mapIssues } from "./map-issues";
+import { isUnderPath } from "./parse-path";
 
 type FormSubmitEvent = Parameters<
   NonNullable<ComponentProps<"form">["onSubmit"]>
@@ -56,12 +58,29 @@ export function Form<S extends StandardSchemaV1>({
 
   const innerRef = useRef<HTMLFormElement>(null);
 
+  // removing a row renumbers the ones below it, so an error keyed
+  // users[1].email would start pointing at a different row
+  const clearErrors = useCallback((prefix: string) => {
+    setSchemaErrors((current) => {
+      if (!current) return current;
+
+      const kept = Object.entries(current).filter(
+        ([name]) => !isUnderPath(name, prefix),
+      );
+
+      return kept.length === Object.keys(current).length
+        ? current
+        : Object.fromEntries(kept);
+    });
+  }, []);
+
   const formContextValue = useMemo(
     () => ({
       errors: { ...schemaErrors, ...errors },
       submitting,
+      clearErrors,
     }),
-    [errors, schemaErrors, submitting],
+    [errors, schemaErrors, submitting, clearErrors],
   );
 
   const focusFirstNamed = (names: Record<string, string>) => {
