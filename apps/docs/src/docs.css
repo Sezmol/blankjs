@@ -248,7 +248,8 @@ body {
   width: 100%;
 }
 
-.docs-demo-preview .bk-accordion {
+.docs-demo-preview .bk-accordion,
+.docs-demo-preview .bk-field {
   width: 100%;
 }
 
