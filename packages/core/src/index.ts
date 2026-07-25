@@ -7,6 +7,14 @@ export type {
   FieldControlProps,
 } from "./field/types";
 
+export { useFieldArray } from "./field-array";
+export type {
+  FieldArrayRow,
+  FieldName,
+  UseFieldArrayOptions,
+  UseFieldArrayResult,
+} from "./field-array";
+
 export {
   useCollection,
   type CollectionItem,
