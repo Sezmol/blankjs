@@ -272,6 +272,30 @@ body {
   gap: var(--bk-space-2);
 }
 
+.docs-demo-preview .demo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--bk-space-2);
+  width: 100%;
+}
+
+/* line the buttons up with the input rather than the bottom of the field:
+   an error message grows the field and would drag them down with it */
+.docs-demo-preview .demo-row > button {
+  /* buttons do not inherit line-height, so 1lh would not match the label */
+  line-height: 1.65;
+  margin-top: calc(1lh + var(--bk-space-2));
+  padding-block: var(--bk-space-2);
+}
+
+.docs-demo-preview .demo-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-3);
+  width: 100%;
+  list-style: none;
+}
+
 .docs-demo-preview output {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: var(--bk-font-size-sm);

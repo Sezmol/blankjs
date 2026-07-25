@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { CodeBlock } from "../components/code-block";
 import { Demo } from "../components/demo";
 import { PropsTable } from "../components/props-table";
@@ -140,8 +141,11 @@ export const FormPage = () => (
 
     <p>
       Schema issues flow through the same pipeline as server errors: mapped to
-      fields by the first path segment, shown by <code>Field.Error</code>,
-      dismissed on edit. Cross-field rules work the same way — the{" "}
+      fields by their path, shown by <code>Field.Error</code>, dismissed on
+      edit, and dropped entirely when the form is reset — the defaults are back,
+      so messages about the old values describe nothing. The{" "}
+      <code>errors</code> prop is yours and survives, since only you know
+      whether it still applies. Cross-field rules work the same way — the{" "}
       <code>refine</code> above attaches its message to the{" "}
       <code>confirm</code> field. Async rules are awaited, so a{" "}
       <code>refine</code> that calls your API is fine.
@@ -198,7 +202,21 @@ export const FormPage = () => (
     <p>
       <code>serialize(formData)</code> returns a plain object: single entries
       as values, repeated names as arrays, <code>File</code> values kept
-      intact.
+      intact. Names written as paths — <code>address.city</code>,{" "}
+      <code>guests[0].email</code> — come back nested, which is what{" "}
+      <Link to="/components/field-array">FieldArray</Link> relies on. A name
+      that only looks like a path, such as <code>price[USD]</code>, is left
+      whole.
+    </p>
+
+    <p>
+      Two rules for the awkward cases. A control named both ways —{" "}
+      <code>guests</code> and <code>guests[0].email</code> in one form — is a
+      naming conflict, and the nested value wins regardless of DOM order rather
+      than whichever happened to be parsed last. And a segment called{" "}
+      <code>__proto__</code>, <code>constructor</code> or{" "}
+      <code>prototype</code> drops the entry instead of reaching the prototype
+      chain, which matters when your field names come from a CMS.
     </p>
 
     <h2>Focus behavior</h2>
