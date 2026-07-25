@@ -21,6 +21,7 @@ import { ComboboxPage } from "./pages/combobox";
 import { MenuPage } from "./pages/menu";
 import { MultiSelectPage } from "./pages/multi-select";
 import { RadioGroupPage } from "./pages/radio-group";
+import { TailwindPage } from "./pages/tailwind";
 
 export type NavItem = {
   title: string;
@@ -42,6 +43,16 @@ export const nav: NavSection[] = [
         title: "Getting Started",
         path: "/getting-started",
         element: <GettingStartedPage />,
+      },
+    ],
+  },
+  {
+    title: "Guides",
+    items: [
+      {
+        title: "Tailwind CSS",
+        path: "/guides/tailwind",
+        element: <TailwindPage />,
       },
     ],
   },

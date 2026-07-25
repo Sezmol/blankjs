@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { CodeBlock } from "../components/code-block";
 
 const usageCode = `
@@ -73,5 +74,10 @@ export const GettingStartedPage = () => (
     <p>Override any token to rebrand:</p>
 
     <CodeBlock code={overrideCode} lang="css" />
+
+    <p>
+      Using Tailwind? The stylesheet needs one extra line so your utility
+      classes can win — see <Link to="/guides/tailwind">Tailwind CSS</Link>.
+    </p>
   </article>
 );
