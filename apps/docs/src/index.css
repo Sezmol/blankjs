@@ -1,0 +1,14 @@
+@layer reset, theme, blankjs, docs, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "@blankjs/react/styles.css" layer(blankjs);
+@import "./docs.css" layer(docs);
+
+@layer reset {
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+}
