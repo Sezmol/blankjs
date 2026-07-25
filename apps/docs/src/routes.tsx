@@ -4,6 +4,7 @@ import { GettingStartedPage } from "./pages/getting-started";
 import { SelectPage } from "./pages/select";
 import { DialogPage } from "./pages/dialog";
 import { FieldPage } from "./pages/field";
+import { FieldArrayPage } from "./pages/field-array";
 import { FormPage } from "./pages/form";
 import { NumberFieldPage } from "./pages/number-field";
 import { SliderPage } from "./pages/slider";
@@ -81,6 +82,11 @@ export const nav: NavSection[] = [
       },
       { title: "Dialog", path: "/components/dialog", element: <DialogPage /> },
       { title: "Field", path: "/components/field", element: <FieldPage /> },
+      {
+        title: "FieldArray",
+        path: "/components/field-array",
+        element: <FieldArrayPage />,
+      },
       { title: "Form", path: "/components/form", element: <FormPage /> },
       {
         title: "Menu",

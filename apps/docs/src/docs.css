@@ -262,6 +262,27 @@ body {
   gap: var(--bk-space-2);
 }
 
+.docs-demo-preview .demo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--bk-space-2);
+  width: 100%;
+}
+
+.docs-demo-preview .demo-row > button {
+  line-height: 1.65;
+  margin-top: calc(1lh + var(--bk-space-2));
+  padding-block: var(--bk-space-2);
+}
+
+.docs-demo-preview .demo-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-3);
+  width: 100%;
+  list-style: none;
+}
+
 .docs-demo-preview output {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: var(--bk-font-size-sm);
