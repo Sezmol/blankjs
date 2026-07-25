@@ -130,6 +130,21 @@ export function Form<S extends StandardSchemaV1>({
     if (errors && Object.keys(errors).length > 0) focusFirstNamed(errors);
   });
 
+  // a reset puts the form back to its defaults, so messages from an earlier
+  // submit no longer describe anything on screen. The errors prop is the
+  // consumer's and is left alone.
+  useEffect(() => {
+    const form = innerRef.current;
+
+    if (!form) return;
+
+    const onReset = () => setSchemaErrors(undefined);
+
+    form.addEventListener("reset", onReset);
+
+    return () => form.removeEventListener("reset", onReset);
+  }, []);
+
   useEffect(() => {
     const form = innerRef.current;
 
