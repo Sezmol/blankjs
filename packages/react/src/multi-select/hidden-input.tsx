@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useMultiSelectContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
+import { HIDDEN_INPUT_STYLE } from "../internal";
 
 export interface MultiSelectHiddenInputProps {
   name: string;
@@ -58,6 +59,7 @@ export const MultiSelectHiddenInput = ({
         value={value.join(",")}
         disabled={disabled}
         className="bk-multi-select-hidden-input"
+        style={HIDDEN_INPUT_STYLE}
         tabIndex={-1}
         aria-hidden="true"
         autoComplete="off"

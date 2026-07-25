@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useComboboxContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
+import { HIDDEN_INPUT_STYLE } from "../internal";
 
 export interface ComboboxHiddenInputProps {
   name: string;
@@ -48,6 +49,7 @@ export const ComboboxHiddenInput = ({
       value={value ?? ""}
       disabled={disabled}
       className="bk-combobox-hidden-input"
+      style={HIDDEN_INPUT_STYLE}
       tabIndex={-1}
       aria-hidden="true"
       autoComplete="off"

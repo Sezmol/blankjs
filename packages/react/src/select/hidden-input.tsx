@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSelectContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
+import { HIDDEN_INPUT_STYLE } from "../internal";
 
 export interface SelectHiddenInputProps {
   name: string;
@@ -51,6 +52,7 @@ export const SelectHiddenInput = ({
       value={value ?? ""}
       disabled={disabled}
       className="bk-select-hidden-input"
+      style={HIDDEN_INPUT_STYLE}
       tabIndex={-1}
       aria-hidden="true"
       autoComplete="off"
