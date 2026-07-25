@@ -1,8 +1,11 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+/* Consumer-side layering. The order line is load-bearing: blankjs must sit
+   after base (Preflight) and before utilities, or one of them wins over the
+   other. Tailwind's Preflight already zeroes margin/padding/box-sizing, so
+   this file no longer ships a `*` reset — an unlayered one would beat the
+   layered library CSS and strip every component's padding. */
+@layer theme, base, blankjs, components, utilities;
+@import "tailwindcss";
+@import "@blankjs/react/styles.css" layer(blankjs);
 
 body {
   min-height: 100vh;
