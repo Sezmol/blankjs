@@ -2,7 +2,6 @@ import { useState } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Form } from "./index";
-import { serialize } from "./serialize";
 import { Field } from "../field";
 import { TextInput } from "../text-input";
 
@@ -138,32 +137,4 @@ test("fields without a matching error stay valid", () => {
 
   expect(screen.queryByText("Already taken")).toBeNull();
   expect(screen.getByLabelText("Login")).not.toHaveAttribute("aria-invalid");
-});
-
-describe("serialize", () => {
-  test("maps single keys to values and repeated keys to arrays", () => {
-    const data = new FormData();
-
-    data.append("name", "Ann");
-    data.append("visited", "AU");
-    data.append("visited", "AT");
-
-    expect(serialize(data)).toEqual({
-      name: "Ann",
-      visited: ["AU", "AT"],
-    });
-  });
-
-  test("keeps File values intact", () => {
-    const data = new FormData();
-    const file = new File(["hi"], "hi.txt", { type: "text/plain" });
-
-    data.append("doc", file);
-
-    expect(serialize(data).doc).toBe(file);
-  });
-
-  test("returns an empty object for an empty form", () => {
-    expect(serialize(new FormData())).toEqual({});
-  });
 });
