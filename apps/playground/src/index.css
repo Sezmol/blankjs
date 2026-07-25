@@ -1,8 +1,6 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+@layer theme, base, blankjs, components, utilities;
+@import "tailwindcss";
+@import "@blankjs/react/styles.css" layer(blankjs);
 
 body {
   min-height: 100vh;

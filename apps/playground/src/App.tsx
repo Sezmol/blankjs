@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button } from "@blankjs/react";
-import "@blankjs/react/styles.css";
 import "./index.css";
 
 import { ButtonSection } from "./sections/button-section";
@@ -23,6 +22,7 @@ import { AccordionSection } from "./sections/accordion-section";
 import { PopoverSection } from "./sections/popover-section";
 import { TooltipSection } from "./sections/tooltip-section";
 import { MenuSection } from "./sections/menu-section";
+import { TailwindSection } from "./sections/tailwind-section";
 
 function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -63,6 +63,7 @@ function App() {
         <PopoverSection />
         <TooltipSection />
         <MenuSection />
+        <TailwindSection />
         <SizesSection />
       </main>
     </div>
