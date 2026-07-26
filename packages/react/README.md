@@ -16,7 +16,7 @@ blankjs is a component library that treats the browser as an ally instead of an 
 | Package | Contents |
 |---------|----------|
 | `@blankjs/react` | Styled, accessible components |
-| `@blankjs/core` | Headless hooks: `useControllableState`, `useFieldControlProps`, `useCollection` |
+| `@blankjs/core` | Headless hooks: `useControllableState`, `useFieldControlProps`, `useCollection`, `useFieldArray` |
 
 Design tokens live in a private `@blankjs/tokens` workspace package and ship inlined in `styles.css` as CSS variables.
 
@@ -82,6 +82,7 @@ How it works:
 - Composite widgets (Select, Combobox, MultiSelect) render hidden inputs bound to `name`
 - MultiSelect submits one entry per selected value, read with `formData.getAll(name)`
 - Every component listens for the form's `reset` event and restores its `defaultValue`, including controlled inputs the browser resets without firing a change event
+- `FieldArray` repeats a group of fields and names them `guests[0].email`, the notation Rails, PHP and Zod already speak; the rows are React state while the values stay in the DOM
 - Disabled controls drop out of FormData, matching native behavior
 
 No form library required. React Hook Form and friends still work if you want them, but they stop being a prerequisite.
@@ -111,7 +112,7 @@ Validation rides on the Constraint Validation API instead of a schema library:
 - `validate` feeds `setCustomValidity`, so a failing custom rule blocks submit exactly like a native constraint
 - Composite widgets participate: `required` on an empty Select blocks submit and moves focus to the trigger
 - `<Form errors={{ username: "Taken" }}>` routes server errors to fields by `name`; editing the field clears the error
-- `serialize(formData)` returns a plain object, with arrays for repeated names
+- `serialize(formData)` returns a plain object: arrays for repeated names, and nested data for names written as paths (`address.city`, `guests[0].email`)
 
 ### A predictable event contract
 
@@ -163,6 +164,7 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `MultiSelect` | Multiple values, stays open while picking, `formData.getAll` |
 | `Combobox` | Controlled filtering, draft revert on Escape and blur |
 | `Field` | Label, description, error wiring, native validation |
+| `FieldArray` | Repeating groups of fields, indexed names, focus on add and remove |
 | `Form` | `FormData` in `onSubmit`, server errors, focuses the first invalid field |
 | `Tabs` | Sliding active indicator, `hidden="until-found"` panels, automatic or manual activation |
 | `Dialog` | Native `<dialog>` + `showModal()`: focus trap, top layer, `::backdrop` — no portal |
@@ -226,7 +228,7 @@ The playground demonstrates every component plus a full form submitting through 
 
 - pnpm workspaces + Turborepo
 - React 19, TypeScript strict
-- Vitest + Testing Library, 290+ tests across core and react
+- Vitest + Testing Library, 470+ tests across core and react
 - tsdown for package builds
 
 ```bash
@@ -237,7 +239,7 @@ pnpm lint
 
 ## Status
 
-Published as 0.1.x. The API may change before 1.0.
+Published as 0.4.x. The API may change before 1.0.
 
 ## License
 

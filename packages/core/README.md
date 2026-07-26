@@ -9,7 +9,12 @@ npm install @blankjs/core
 ```
 
 ```tsx
-import { useControllableState, useFieldRoot, useCollection } from "@blankjs/core";
+import {
+  useControllableState,
+  useFieldRoot,
+  useCollection,
+  useFieldArray,
+} from "@blankjs/core";
 ```
 
 Use it to build your own components on the same validation and state machinery, or install `@blankjs/react` for the styled components.
