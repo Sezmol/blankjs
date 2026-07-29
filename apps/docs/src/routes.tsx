@@ -18,6 +18,7 @@ import { TabsPage } from "./pages/tabs";
 import { TextInputPage } from "./pages/text-input";
 import { TextareaPage } from "./pages/textarea";
 import { PasswordFieldPage } from "./pages/password-field";
+import { PinInputPage } from "./pages/pin-input";
 import { ComboboxPage } from "./pages/combobox";
 import { MenuPage } from "./pages/menu";
 import { MultiSelectPage } from "./pages/multi-select";
@@ -107,6 +108,11 @@ export const nav: NavSection[] = [
         title: "PasswordField",
         path: "/components/password-field",
         element: <PasswordFieldPage />,
+      },
+      {
+        title: "PinInput",
+        path: "/components/pin-input",
+        element: <PinInputPage />,
       },
       {
         title: "Popover",
