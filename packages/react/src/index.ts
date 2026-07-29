@@ -1,5 +1,12 @@
 export { useFieldControlProps, type FieldControlProps } from "@blankjs/core";
 export {
+  usePinInput,
+  type PinInputCellProps,
+  type PinInputType,
+  type UsePinInputOptions,
+  type UsePinInputResult,
+} from "@blankjs/core";
+export {
   useFieldArray,
   type FieldArrayRow,
   type FieldName,
@@ -111,6 +118,8 @@ export {
 export { Slider } from "./slider";
 
 export { NumberField } from "./number-field";
+
+export { PinInput, type PinInputProps } from "./pin-input";
 
 export {
   Popover,
