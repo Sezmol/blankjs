@@ -288,6 +288,28 @@ body {
   padding-block: var(--bk-space-2);
 }
 
+/* the headless demo brings its own look, to show the hook carries behaviour
+   and nothing else */
+.docs-demo-preview .demo-pin-cell {
+  width: 3rem;
+  height: 3rem;
+  font-size: var(--bk-font-size-lg);
+  color: var(--bk-color-text);
+  text-align: center;
+  background: transparent;
+  border: 2px solid var(--bk-color-border);
+  border-radius: 999px;
+  outline: none;
+}
+
+.docs-demo-preview .demo-pin-cell[data-filled] {
+  border-color: var(--bk-color-accent);
+}
+
+.docs-demo-preview .demo-pin-cell:focus-visible {
+  border-color: var(--bk-color-border-focus);
+}
+
 .docs-demo-preview .demo-steps {
   display: flex;
   flex-direction: column;
