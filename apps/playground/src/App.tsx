@@ -15,6 +15,8 @@ import { SelectSection } from "./sections/select-section";
 import { ComboboxSection } from "./sections/combobox-section";
 import { MultiSelectSection } from "./sections/multi-select-section";
 import { FormSection } from "./sections/form-section";
+import { PinPrototypeSection } from "./sections/pin-prototype-section";
+import { PinInputSection } from "./sections/pin-input-section";
 import { SizesSection } from "./sections/sizes-section";
 import { TabsSection } from "./sections/tabs-section";
 import { DialogSection } from "./sections/dialog-section";
@@ -44,6 +46,8 @@ function App() {
       </header>
 
       <main className="pg-grid">
+        <PinInputSection />
+        <PinPrototypeSection />
         <ButtonSection />
         <TextInputSection />
         <PasswordFieldSection />
