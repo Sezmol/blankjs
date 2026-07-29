@@ -15,6 +15,14 @@ export type {
   UseFieldArrayResult,
 } from "./field-array";
 
+export { usePinInput } from "./pin-input";
+export type {
+  PinInputCellProps,
+  PinInputType,
+  UsePinInputOptions,
+  UsePinInputResult,
+} from "./pin-input";
+
 export {
   useCollection,
   type CollectionItem,
