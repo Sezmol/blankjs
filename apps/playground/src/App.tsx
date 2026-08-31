@@ -15,6 +15,7 @@ import { SelectSection } from "./sections/select-section";
 import { ComboboxSection } from "./sections/combobox-section";
 import { MultiSelectSection } from "./sections/multi-select-section";
 import { FormSection } from "./sections/form-section";
+import { FormErrorSection } from "./sections/form-error-section";
 import { PinPrototypeSection } from "./sections/pin-prototype-section";
 import { PinInputSection } from "./sections/pin-input-section";
 import { SizesSection } from "./sections/sizes-section";
@@ -61,6 +62,7 @@ function App() {
         <ComboboxSection />
         <MultiSelectSection />
         <FormSection />
+        <FormErrorSection />
         <TabsSection />
         <DialogSection />
         <AccordionSection />
