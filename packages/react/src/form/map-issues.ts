@@ -9,9 +9,11 @@ const toSegment = (
   return typeof key === "number" ? key : String(key);
 };
 
+export const formIssue = (issues: ReadonlyArray<StandardSchemaV1.Issue>) =>
+  issues.find((issue) => !issue.path?.length)?.message;
+
 export const mapIssues = (issues: ReadonlyArray<StandardSchemaV1.Issue>) =>
   issues.reduce<Record<string, string>>((acc, issue) => {
-    // form-level issue (no path) has no field to attach to
     if (!issue.path?.length) return acc;
 
     const name = formatPath(issue.path.map(toSegment));

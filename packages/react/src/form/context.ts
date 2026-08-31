@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 export interface FormContextType {
   errors?: Record<string, string>;
+  error?: string;
   submitting?: boolean;
   clearErrors?: (prefix: string) => void;
 }

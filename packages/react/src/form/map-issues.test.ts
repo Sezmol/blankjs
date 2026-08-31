@@ -1,5 +1,5 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
-import { mapIssues } from "./map-issues";
+import { formIssue, mapIssues } from "./map-issues";
 
 const issue = (
   message: string,
@@ -51,8 +51,22 @@ test("keeps the first issue per path", () => {
   expect(mapIssues(issues)).toEqual({ "users[0].email": "First" });
 });
 
-test("ignores issues without a path", () => {
+test("leaves issues without a path to formIssue", () => {
   expect(mapIssues([issue("Form-level"), issue("Also form-level", [])])).toEqual(
     {},
   );
+});
+
+test("formIssue picks the first issue with no path", () => {
+  expect(
+    formIssue([issue("Field", ["a"]), issue("Form"), issue("Also form")]),
+  ).toBe("Form");
+});
+
+test("formIssue treats an empty path as no path", () => {
+  expect(formIssue([issue("Form", [])])).toBe("Form");
+});
+
+test("formIssue returns undefined when every issue names a field", () => {
+  expect(formIssue([issue("Field", ["a"])])).toBeUndefined();
 });

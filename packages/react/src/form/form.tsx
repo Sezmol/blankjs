@@ -11,15 +11,17 @@ import { FormContext } from "./context";
 import { composeRefs } from "../slot";
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import { serialize } from "./serialize";
-import { mapIssues } from "./map-issues";
+import { formIssue, mapIssues } from "./map-issues";
 import { isUnderPath } from "./parse-path";
+import { FormError } from "./form-error";
 
 type FormSubmitEvent = Parameters<
   NonNullable<ComponentProps<"form">["onSubmit"]>
 >[0];
 
-type FormPropsBase = Omit<ComponentProps<"form">, "onSubmit"> & {
+type FormPropsBase = Omit<ComponentProps<"form">, "onSubmit" | "error"> & {
   errors?: Record<string, string>;
+  error?: string;
 };
 
 export type UntypedFormProps = FormPropsBase & {
@@ -48,12 +50,14 @@ export function Form<S extends StandardSchemaV1>(
 export function Form<S extends StandardSchemaV1>({
   onSubmit,
   errors,
+  error,
   ref,
   children,
   schema,
   ...rest
 }: UntypedFormProps | TypedFormProps<S>) {
   const [schemaErrors, setSchemaErrors] = useState<Record<string, string>>();
+  const [schemaError, setSchemaError] = useState<string>();
   const [submitting, setSubmitting] = useState(false);
 
   const innerRef = useRef<HTMLFormElement>(null);
@@ -80,10 +84,11 @@ export function Form<S extends StandardSchemaV1>({
   const formContextValue = useMemo(
     () => ({
       errors: mergedErrors,
+      error: error ?? schemaError,
       submitting,
       clearErrors,
     }),
-    [mergedErrors, submitting, clearErrors],
+    [mergedErrors, error, schemaError, submitting, clearErrors],
   );
 
   const focusFirstNamed = (names: Record<string, string>) => {
@@ -121,12 +126,14 @@ export function Form<S extends StandardSchemaV1>({
         const fieldErrors = mapIssues(result.issues);
 
         setSchemaErrors(fieldErrors);
+        setSchemaError(formIssue(result.issues));
         focusFirstNamed(fieldErrors);
 
         return;
       }
 
       setSchemaErrors(undefined);
+      setSchemaError(undefined);
 
       await (onSubmit as Required<TypedFormProps<S>>["onSubmit"])(
         result.value,
@@ -154,7 +161,10 @@ export function Form<S extends StandardSchemaV1>({
 
     if (!form) return;
 
-    const onReset = () => setSchemaErrors(undefined);
+    const onReset = () => {
+      setSchemaErrors(undefined);
+      setSchemaError(undefined);
+    };
 
     form.addEventListener("reset", onReset);
 
@@ -200,3 +210,4 @@ export function Form<S extends StandardSchemaV1>({
 }
 
 Form.displayName = "Form";
+Form.Error = FormError;

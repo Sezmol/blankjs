@@ -78,7 +78,8 @@ export {
   ComboboxClear,
 } from "./combobox";
 
-export { Form, FormContext, serialize } from "./form";
+export { Form, FormError, FormContext, serialize } from "./form";
+export type { FormErrorProps } from "./form";
 
 export {
   FieldArray,
