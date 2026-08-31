@@ -36,7 +36,10 @@ test("a pending async submit blocks re-submits", async () => {
 
   expect(form).not.toHaveAttribute("data-submitting");
 
-  fireEvent.submit(form);
+  await act(async () => {
+    fireEvent.submit(form);
+  });
+
   expect(onSubmit).toHaveBeenCalledTimes(2);
 });
 
