@@ -24,6 +24,29 @@ const [errors, setErrors] = useState<Record<string, string>>();
 </Form>
 `;
 
+const formErrorCode = `<Form error={declined ? "Card declined" : undefined}>
+  <Form.Error /> {/* shows "Card declined" */}
+  ...
+</Form>
+`;
+
+const formErrorSchemaCode = `// no single share is wrong, only the total is
+const schema = z
+  .object({ design: z.coerce.number(), dev: z.coerce.number() })
+  .refine((v) => v.design + v.dev === 100, "The shares must add up to 100");
+
+<Form schema={schema} onSubmit={save}>
+  <Form.Error />
+  ...
+</Form>
+`;
+
+const pathedRefineCode = `.refine((v) => v.password === v.confirm, {
+  message: "Passwords do not match",
+  path: ["confirm"], // lands under Confirm, and focus goes there
+})
+`;
+
 const coercionCode = `
 const schema = z.object({
   age: z.coerce.number(),        // "42" → 42
@@ -100,6 +123,61 @@ export const FormPage = () => (
 
     <CodeBlock code={serverErrorsCode} />
 
+    <p>
+      Keep <code>errors</code> in state, as above, and never write it inline as{" "}
+      <code>errors=&#123;&#123; email: "Taken" &#125;&#125;</code>. A new object
+      is what tells a field the server has spoken again, which is how the same
+      message can reappear after the user edits the field. An object literal is
+      new on every render, so a field would never manage to hide its message.
+    </p>
+
+    <h2>When no field is to blame</h2>
+
+    <p>
+      Most of what a submit can fail on belongs to some field, but not all of
+      it. A card is declined, an account is locked, a rate limit is hit. Nothing
+      on the form is wrong and there is nothing for <code>Field.Error</code> to
+      key on. <code>Form.Error</code> is the slot for those.
+    </p>
+
+    <CodeBlock code={formErrorCode} />
+
+    <p>
+      It renders <code>role="alert"</code>, so a screen reader announces it the
+      moment it appears. Nothing steals focus: the user pressed submit and is
+      still on the button, and there is no single field to send them to.
+    </p>
+
+    <p>
+      Unlike a field message, this one does not go away when the user edits
+      something. No single field can answer for it, so it stays until the next
+      submit replaces it or a reset clears it. The <code>error</code> prop is
+      yours and outlives a reset, the same way <code>errors</code> does.
+    </p>
+
+    <h3>Give a cross-field rule a path</h3>
+
+    <p>
+      A schema issue that carries no path lands in the same slot. Reach for that
+      rarely: most cross-field rules do have a field to blame, and naming it is
+      the better answer.
+    </p>
+
+    <CodeBlock code={pathedRefineCode} />
+
+    <p>
+      A mismatched confirmation is the user's problem with <code>confirm</code>,
+      so the message belongs under <code>confirm</code>, where the caret lands
+      too. Leave the path off only when no single field is at fault:
+    </p>
+
+    <CodeBlock code={formErrorSchemaCode} />
+
+    <p>
+      If several path-less issues come back, the first one shows, matching how a
+      field shows the first issue that names it.
+    </p>
+
     <h2>While it submits</h2>
 
     <p>
@@ -143,7 +221,8 @@ export const FormPage = () => (
       Schema issues flow through the same pipeline as server errors: mapped to
       fields by their path, shown by <code>Field.Error</code>, dismissed on
       edit, and dropped entirely when the form is reset — the defaults are back,
-      so messages about the old values describe nothing. The{" "}
+      so messages about the old values describe nothing. An issue that names no
+      field goes to <code>Form.Error</code> instead. The{" "}
       <code>errors</code> prop is yours and survives, since only you know
       whether it still applies. Cross-field rules work the same way — the{" "}
       <code>refine</code> above attaches its message to the{" "}
@@ -192,10 +271,26 @@ export const FormPage = () => (
           name: "errors",
           type: "Record<string, string>",
           description:
-            "Server errors keyed by field name. Take precedence over schema errors on the same field.",
+            "Server errors keyed by field name. Take precedence over schema errors on the same field. Keep it in state, not an inline literal.",
+        },
+        {
+          name: "error",
+          type: "string",
+          description:
+            "A message about the whole form, shown by Form.Error. Takes precedence over a path-less schema issue.",
         },
       ]}
     />
+
+    <h3>Form.Error</h3>
+
+    <p>
+      Renders the form-level message, or nothing when there is none. Children
+      override the message. It carries <code>role="alert"</code> unless you pass
+      your own <code>role</code>. It keeps whatever <code>id</code> you give it,
+      so your submit button can point at the message with{" "}
+      <code>aria-describedby</code>.
+    </p>
 
     <h3>serialize</h3>
 
