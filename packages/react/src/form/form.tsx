@@ -72,13 +72,18 @@ export function Form<S extends StandardSchemaV1>({
     });
   }, []);
 
+  const mergedErrors = useMemo(
+    () => ({ ...schemaErrors, ...errors }),
+    [schemaErrors, errors],
+  );
+
   const formContextValue = useMemo(
     () => ({
-      errors: { ...schemaErrors, ...errors },
+      errors: mergedErrors,
       submitting,
       clearErrors,
     }),
-    [errors, schemaErrors, submitting, clearErrors],
+    [mergedErrors, submitting, clearErrors],
   );
 
   const focusFirstNamed = (names: Record<string, string>) => {
@@ -132,9 +137,6 @@ export function Form<S extends StandardSchemaV1>({
     }
   };
 
-  // focus the first control whose name has a server error; the signature
-  // guard keeps an inline errors={{...}} literal from re-stealing focus
-  // on every render
   const errorsSignature = useRef("");
 
   useEffect(() => {

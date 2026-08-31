@@ -227,3 +227,52 @@ test("types: without a schema onSubmit still receives FormData", () => {
     />,
   );
 });
+
+test("a dismissed error stays hidden while the next submit is in flight", async () => {
+  const user = userEvent.setup();
+
+  let release: (() => void) | undefined;
+  let calls = 0;
+
+  const schema = makeSchema(async () => {
+    calls += 1;
+
+    if (calls === 1) {
+      return { issues: [{ message: "Too short", path: ["username"] }] };
+    }
+
+    await new Promise<void>((resolve) => {
+      release = resolve;
+    });
+
+    return { value: {} };
+  });
+
+  render(
+    <Form schema={schema} onSubmit={vi.fn()}>
+      <Field.Root name="username">
+        <Field.Label>Username</Field.Label>
+        <TextInput name="username" />
+        <Field.Error />
+      </Field.Root>
+      <button type="submit">Go</button>
+    </Form>,
+  );
+
+  await user.click(screen.getByRole("button", { name: "Go" }));
+
+  expect(await screen.findByText("Too short")).toBeInTheDocument();
+
+  await user.type(screen.getByLabelText("Username"), "long enough");
+
+  expect(screen.queryByText("Too short")).toBeNull();
+
+  await user.click(screen.getByRole("button", { name: "Go" }));
+
+  expect(screen.queryByText("Too short")).toBeNull();
+
+  release?.();
+
+  await waitFor(() => expect(calls).toBe(2));
+  expect(screen.queryByText("Too short")).toBeNull();
+});
