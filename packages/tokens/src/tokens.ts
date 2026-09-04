@@ -100,5 +100,18 @@ export const TOKENS = {
   duration: {
     fast: "120ms",
     base: "180ms",
+    move: "150ms",
+  },
+
+  easing: {
+    out: "cubic-bezier(0.23, 1, 0.32, 1)",
+    inOut: "cubic-bezier(0.77, 0, 0.175, 1)",
+    pop: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+  },
+
+  motion: {
+    scale: "0.96",
+    shift: "8px",
+    press: "0.97",
   },
 } as const;

@@ -1,0 +1,15 @@
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --bk-duration-move: 0s;
+    --bk-motion-scale: 1;
+    --bk-motion-shift: 0px;
+    --bk-motion-press: 1;
+  }
+}
+
+[data-bk-motion="off"] {
+  --bk-duration-move: 0s;
+  --bk-motion-scale: 1;
+  --bk-motion-shift: 0px;
+  --bk-motion-press: 1;
+}
