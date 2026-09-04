@@ -206,6 +206,33 @@ Override any token to rebrand:
 }
 ```
 
+### Motion
+
+Every animation in the library runs on shared tokens:
+
+| Token | Default | Used by |
+| --- | --- | --- |
+| `--bk-duration-fast` | `120ms` | hover, focus, press |
+| `--bk-duration-base` | `180ms` | overlays appearing and leaving |
+| `--bk-duration-move` | `150ms` | switch thumb, tab indicator, accordion, checkmark |
+| `--bk-easing-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | anything entering or leaving |
+| `--bk-easing-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | movement across the screen |
+| `--bk-easing-pop` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | the checkmark |
+| `--bk-motion-scale` | `0.96` | scale an overlay starts from |
+| `--bk-motion-shift` | `8px` | offset the dialog starts from |
+| `--bk-motion-press` | `0.97` | how far a button sinks under the cursor |
+
+Motion is off under `prefers-reduced-motion: reduce`, and one attribute turns it
+off for a subtree regardless of the system setting:
+
+```html
+<div data-bk-motion="off">
+```
+
+Both do the same thing: movement stops, fades keep running. That is what the
+preference asks for, and it is why the switch neutralizes the `--bk-motion-*`
+values instead of zeroing every duration.
+
 ## Usage
 
 ```tsx
