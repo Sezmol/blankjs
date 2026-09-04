@@ -11,7 +11,8 @@
     "build": "tsdown",
     "typecheck": "tsc",
     "lint": "eslint src",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:browser": "vitest run --config vitest.browser.config.ts"
   },
   "exports": {
     ".": "./src/index.ts",
