@@ -54,7 +54,7 @@
 .bk-multi-select-arrow {
   flex-shrink: 0;
   color: var(--bk-color-text-muted);
-  transition: transform var(--bk-duration-fast) ease;
+  transition: transform var(--bk-duration-move) var(--bk-easing-out);
 }
 
 .bk-multi-select-trigger[aria-expanded="true"] .bk-multi-select-arrow {
@@ -126,10 +126,13 @@
   border: 1px solid var(--bk-color-border);
   border-radius: var(--bk-radius-md);
   box-shadow: var(--bk-shadow-popover);
-  transition: opacity var(--bk-duration-base) ease;
+  transition:
+    opacity var(--bk-duration-base) var(--bk-easing-out),
+    transform var(--bk-duration-base) var(--bk-easing-out);
 
   @starting-style {
     opacity: 0;
+    transform: scale(var(--bk-motion-scale));
   }
 }
 

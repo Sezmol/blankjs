@@ -12,10 +12,10 @@
   border-radius: var(--bk-radius-md);
   box-shadow: var(--bk-shadow-popover);
   opacity: 0;
-  transform: scale(0.98);
+  transform: scale(var(--bk-motion-scale));
   transition:
-    opacity var(--bk-duration-base) ease,
-    transform var(--bk-duration-base) ease,
+    opacity var(--bk-duration-base) var(--bk-easing-out),
+    transform var(--bk-duration-base) var(--bk-easing-out),
     overlay var(--bk-duration-base) allow-discrete,
     display var(--bk-duration-base) allow-discrete;
 }
@@ -26,14 +26,7 @@
 
   @starting-style {
     opacity: 0;
-    transform: scale(0.98);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bk-menu-content {
-    transform: none;
-    transition-property: opacity, overlay, display;
+    transform: scale(var(--bk-motion-scale));
   }
 }
 

@@ -9,12 +9,12 @@
   border-radius: var(--bk-radius-lg);
   box-shadow: var(--bk-shadow-popover);
   opacity: 0;
-  transform: translateY(8px) scale(0.97);
+  transform: translateY(var(--bk-motion-shift)) scale(var(--bk-motion-scale));
   transition:
-    opacity var(--bk-duration-base) ease,
-    transform var(--bk-duration-base) ease,
-    overlay var(--bk-duration-base) ease allow-discrete,
-    display var(--bk-duration-base) ease allow-discrete;
+    opacity var(--bk-duration-base) var(--bk-easing-out),
+    transform var(--bk-duration-base) var(--bk-easing-out),
+    overlay var(--bk-duration-base) allow-discrete,
+    display var(--bk-duration-base) allow-discrete;
 }
 
 .bk-dialog-content[open] {
@@ -25,7 +25,7 @@
 @starting-style {
   .bk-dialog-content[open] {
     opacity: 0;
-    transform: translateY(8px) scale(0.97);
+    transform: translateY(var(--bk-motion-shift)) scale(var(--bk-motion-scale));
   }
 }
 
@@ -33,9 +33,9 @@
   background-color: rgb(0 0 0 / 0.5);
   opacity: 0;
   transition:
-    opacity var(--bk-duration-base) ease,
-    overlay var(--bk-duration-base) ease allow-discrete,
-    display var(--bk-duration-base) ease allow-discrete;
+    opacity var(--bk-duration-base) var(--bk-easing-out),
+    overlay var(--bk-duration-base) allow-discrete,
+    display var(--bk-duration-base) allow-discrete;
 }
 
 .bk-dialog-content[open]::backdrop {
@@ -45,13 +45,6 @@
 @starting-style {
   .bk-dialog-content[open]::backdrop {
     opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bk-dialog-content,
-  .bk-dialog-content::backdrop {
-    transition: none;
   }
 }
 

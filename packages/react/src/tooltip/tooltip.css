@@ -14,13 +14,20 @@
   border-radius: var(--bk-radius-md);
   box-shadow: var(--bk-shadow-popover);
   opacity: 0;
+  transform: scale(var(--bk-motion-scale));
+  transition:
+    opacity var(--bk-duration-base) var(--bk-easing-out),
+    transform var(--bk-duration-base) var(--bk-easing-out),
+    overlay var(--bk-duration-base) allow-discrete,
+    display var(--bk-duration-base) allow-discrete;
 }
 
 .bk-tooltip-content:popover-open {
   opacity: 1;
-  transition: opacity var(--bk-duration-base) ease;
+  transform: none;
 
   @starting-style {
     opacity: 0;
+    transform: scale(var(--bk-motion-scale));
   }
 }
