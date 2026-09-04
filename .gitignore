@@ -3,3 +3,5 @@ dist/
 .turbo/
 *.log
 *.tsbuildinfo
+__screenshots__/
+.vitest-attachments/
