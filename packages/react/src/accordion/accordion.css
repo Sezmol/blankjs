@@ -45,7 +45,7 @@
 .bk-accordion-arrow {
   flex-shrink: 0;
   color: var(--bk-color-text-muted);
-  transition: transform var(--bk-duration-fast) ease;
+  transition: transform var(--bk-duration-move) var(--bk-easing-out);
 }
 
 .bk-accordion-item[open] > .bk-accordion-trigger .bk-accordion-arrow {
@@ -56,19 +56,12 @@
   block-size: 0;
   overflow: hidden;
   transition:
-    block-size var(--bk-duration-base) ease,
-    content-visibility var(--bk-duration-base) allow-discrete;
+    block-size var(--bk-duration-move) var(--bk-easing-in-out),
+    content-visibility var(--bk-duration-move) allow-discrete;
 }
 
 .bk-accordion-item[open]::details-content {
   block-size: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bk-accordion-item::details-content,
-  .bk-accordion-arrow {
-    transition: none;
-  }
 }
 
 .bk-accordion-content {

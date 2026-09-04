@@ -14,7 +14,12 @@
   transition:
     background-color var(--bk-duration-base) ease,
     border-color var(--bk-duration-base) ease,
-    box-shadow var(--bk-duration-base) ease;
+    box-shadow var(--bk-duration-base) ease,
+    transform var(--bk-duration-fast) var(--bk-easing-out);
+}
+
+.bk-button:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: scale(var(--bk-motion-press));
 }
 
 .bk-button[data-size="sm"] {

@@ -50,7 +50,7 @@
   pointer-events: none;
   background-color: white;
   border-radius: 50%;
-  transition: translate var(--bk-duration-base) ease;
+  transition: translate var(--bk-duration-move) var(--bk-easing-out);
 }
 
 .bk-switch-input:checked + .bk-switch-thumb {

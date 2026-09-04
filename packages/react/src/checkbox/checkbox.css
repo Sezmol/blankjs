@@ -1,4 +1,7 @@
 .bk-checkbox {
+  --bk-checkbox-mark: 12px;
+  --bk-checkbox-mark-ease: var(--bk-easing-out);
+
   appearance: none;
   box-sizing: border-box;
   flex-shrink: 0;
@@ -9,14 +12,16 @@
   background-color: var(--bk-color-surface-muted);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 12px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath d='M2.5 6.5 5 9l4.5-5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+  background-size: 0 0;
   border: 1px solid var(--bk-color-border);
   border-radius: var(--bk-radius-sm);
   outline: none;
   transition:
     background-color var(--bk-duration-fast) ease,
     border-color var(--bk-duration-fast) ease,
-    box-shadow var(--bk-duration-fast) ease;
+    box-shadow var(--bk-duration-fast) ease,
+    background-size var(--bk-duration-move) var(--bk-checkbox-mark-ease);
 }
 
 .bk-checkbox:hover {
@@ -31,8 +36,11 @@
 
 .bk-checkbox:checked,
 .bk-checkbox:indeterminate {
+  --bk-checkbox-mark-ease: var(--bk-easing-pop);
+
   background-color: var(--bk-color-accent);
   border-color: var(--bk-color-accent);
+  background-size: var(--bk-checkbox-mark) var(--bk-checkbox-mark);
 }
 
 .bk-checkbox:checked:hover,
@@ -41,9 +49,6 @@
   border-color: var(--bk-color-accent-hover);
 }
 
-.bk-checkbox:checked {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath d='M2.5 6.5 5 9l4.5-5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
-}
 
 .bk-checkbox:indeterminate {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath d='M2.5 6h7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3e%3c/svg%3e");
@@ -70,13 +75,13 @@
 }
 
 .bk-checkbox[data-size="sm"] {
+  --bk-checkbox-mark: 10px;
   width: 16px;
   height: 16px;
-  background-size: 10px;
 }
 
 .bk-checkbox[data-size="lg"] {
+  --bk-checkbox-mark: 14px;
   width: 22px;
   height: 22px;
-  background-size: 14px;
 }

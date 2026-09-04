@@ -20,16 +20,10 @@
 
 .bk-tabs-indicator[data-animated] {
   transition:
-    left var(--bk-duration-base) ease,
-    width var(--bk-duration-base) ease,
-    top var(--bk-duration-base) ease,
-    height var(--bk-duration-base) ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bk-tabs-indicator[data-animated] {
-    transition: none;
-  }
+    left var(--bk-duration-move) var(--bk-easing-in-out),
+    width var(--bk-duration-move) var(--bk-easing-in-out),
+    top var(--bk-duration-move) var(--bk-easing-in-out),
+    height var(--bk-duration-move) var(--bk-easing-in-out);
 }
 
 .bk-tabs-tab {
