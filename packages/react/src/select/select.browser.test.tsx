@@ -1,0 +1,45 @@
+import { render, screen } from "@testing-library/react";
+import { userEvent } from "vitest/browser";
+import { Select } from "./index";
+import "../styles.css";
+
+const items = Array.from({ length: 40 }, (_, i) => `Item ${i + 1}`);
+
+const renderSelect = () =>
+  render(
+    <Select.Root>
+      <Select.Trigger>
+        <Select.Value placeholder="Pick one" />
+      </Select.Trigger>
+      <Select.Content>
+        {items.map((label) => (
+          <Select.Item key={label} value={label}>
+            {label}
+          </Select.Item>
+        ))}
+      </Select.Content>
+    </Select.Root>,
+  );
+
+test("keeps the active option inside the scrolled listbox", async () => {
+  renderSelect();
+
+  screen.getByRole("combobox").focus();
+
+  await userEvent.keyboard("{ArrowDown}");
+
+  const listbox = screen.getByRole("listbox");
+
+  for (let i = 0; i < 25; i++) await userEvent.keyboard("{ArrowDown}");
+
+  const active = listbox.querySelector<HTMLElement>('[role="option"][data-active]');
+
+  expect(active).not.toBeNull();
+  expect(listbox.scrollTop).toBeGreaterThan(0);
+
+  const view = listbox.getBoundingClientRect();
+  const box = active!.getBoundingClientRect();
+
+  expect(box.top).toBeGreaterThanOrEqual(view.top - 1);
+  expect(box.bottom).toBeLessThanOrEqual(view.bottom + 1);
+});
