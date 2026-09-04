@@ -7,7 +7,7 @@ import {
   useFloating,
   type Placement,
 } from "@floating-ui/react";
-import { useEffect, type CSSProperties } from "react";
+import { useEffect, useMemo, type CSSProperties } from "react";
 
 export type MatchWidth = "exact" | "min" | "none";
 
@@ -30,6 +30,32 @@ const matchWidthMap = {
   min: "minWidth",
 };
 
+const oppositeSide = {
+  top: "bottom",
+  bottom: "top",
+  left: "right",
+  right: "left",
+} as const;
+
+const transformOrigin = (placement: Placement) => {
+  const [side, align] = placement.split("-") as [
+    keyof typeof oppositeSide,
+    "start" | "end" | undefined,
+  ];
+
+  const anchored = oppositeSide[side];
+
+  if (side === "top" || side === "bottom") {
+    const x = align === "start" ? "left" : align === "end" ? "right" : "center";
+
+    return `${x} ${anchored}`;
+  }
+
+  const y = align === "start" ? "top" : align === "end" ? "bottom" : "center";
+
+  return `${anchored} ${y}`;
+};
+
 export interface FloatingPosition {
   setFloating: (node: HTMLElement | null) => void;
   floatingStyles: CSSProperties;
@@ -41,7 +67,12 @@ export const useFloatingPosition = ({
   placement = "bottom-start",
   matchWidth = "none",
 }: UseFloatingPositionOptions): FloatingPosition => {
-  const { refs, floatingStyles, elements } = useFloating({
+  const {
+    refs,
+    floatingStyles,
+    elements,
+    placement: resolvedPlacement,
+  } = useFloating({
     placement,
     transform: false,
     middleware: [
@@ -63,7 +94,19 @@ export const useFloatingPosition = ({
 
   const setFloating: (node: HTMLElement | null) => void = refs.setFloating;
 
-  return { setFloating, floatingStyles, floatingElement: elements.floating };
+  const styles = useMemo(
+    () => ({
+      ...floatingStyles,
+      transformOrigin: transformOrigin(resolvedPlacement),
+    }),
+    [floatingStyles, resolvedPlacement],
+  );
+
+  return {
+    setFloating,
+    floatingStyles: styles,
+    floatingElement: elements.floating,
+  };
 };
 
 export const usePopover = ({

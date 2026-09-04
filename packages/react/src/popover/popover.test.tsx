@@ -200,3 +200,22 @@ test("parts outside Root throw", () => {
 
   spy.mockRestore();
 });
+
+test("anchors the transform origin at the trigger", () => {
+  renderPopover({ defaultOpen: true });
+
+  expect(content().style.transformOrigin).toBe("left top");
+});
+
+test("moves the transform origin with the placement", () => {
+  render(
+    <Popover.Root defaultOpen>
+      <Popover.Trigger>Open</Popover.Trigger>
+      <Popover.Content data-testid="content" placement="top-end">
+        Hello
+      </Popover.Content>
+    </Popover.Root>,
+  );
+
+  expect(content().style.transformOrigin).toBe("right bottom");
+});
