@@ -107,7 +107,10 @@ export function Form<S extends StandardSchemaV1>({
 
     if (submitting) return;
 
-    const fd = new FormData(e.currentTarget);
+    const fd = new FormData(
+      e.currentTarget,
+      (e.nativeEvent as SubmitEvent).submitter,
+    );
 
     setSubmitting(true);
 

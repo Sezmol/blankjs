@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Field } from "./index";
 import { TextInput } from "../text-input";
@@ -186,7 +186,7 @@ test("manual invalid prop wins over native validity", () => {
   expect(getInput()).toHaveAttribute("aria-invalid", "true");
 });
 
-test("form reset clears the revealed error", () => {
+test("form reset clears the revealed error", async () => {
   render(
     <form>
       <Field.Root>
@@ -204,7 +204,7 @@ test("form reset clears the revealed error", () => {
 
   fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
-  expect(screen.queryByText("Required")).toBeNull();
+  await waitFor(() => expect(screen.queryByText("Required")).toBeNull());
   expect(getInput()).not.toHaveAttribute("aria-invalid");
 });
 

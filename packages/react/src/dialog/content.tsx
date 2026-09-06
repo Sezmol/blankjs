@@ -13,6 +13,7 @@ type DialogContentProps = ComponentProps<"dialog">;
 export const DialogContent = ({
   children,
   onCancel,
+  onClose,
   onClick,
   ref,
   className,
@@ -51,6 +52,11 @@ export const DialogContent = ({
     if (e.target === innerRef.current) setOpen(false);
   };
 
+  const handleClose = (e: SyntheticEvent<HTMLDialogElement>) => {
+    if (!e.currentTarget.open) setOpen(false);
+    onClose?.(e);
+  };
+
   return (
     <dialog
       {...props}
@@ -58,6 +64,7 @@ export const DialogContent = ({
       aria-labelledby={hasTitle ? titleId : undefined}
       aria-describedby={hasDescription ? descriptionId : undefined}
       onCancel={handleCancel}
+      onClose={handleClose}
       onClick={handleClick}
       className={["bk-dialog-content", className].filter(Boolean).join(" ")}
     >

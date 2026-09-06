@@ -57,9 +57,10 @@ export const FieldRoot = ({
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const control = innerRef.current?.querySelector(
-      `[id="${contextValue.controlId}"]`,
-    );
+    const control =
+      innerRef.current?.querySelector(
+        `[data-bk-field-control="${contextValue.controlId}"]`,
+      ) ?? innerRef.current?.querySelector(`[id="${contextValue.controlId}"]`);
 
     if (control) validateControl(control);
   }, [validateControl, contextValue.controlId]);
@@ -74,10 +75,31 @@ export const FieldRoot = ({
 
     if (!form) return;
 
-    form.addEventListener("reset", resetValidation);
+    let resetTimer: ReturnType<typeof setTimeout>;
 
-    return () => form.removeEventListener("reset", resetValidation);
-  }, [resetValidation]);
+    const onReset = (event: Event) => {
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        if (event.defaultPrevented) return;
+
+        resetValidation();
+
+        const control =
+          innerRef.current?.querySelector(
+            `[data-bk-field-control="${contextValue.controlId}"]`,
+          ) ?? innerRef.current?.querySelector(`[id="${contextValue.controlId}"]`);
+
+        if (control) validateControl(control);
+      });
+    };
+
+    form.addEventListener("reset", onReset);
+
+    return () => {
+      clearTimeout(resetTimer);
+      form.removeEventListener("reset", onReset);
+    };
+  }, [resetValidation, validateControl, contextValue.controlId]);
 
   useEffect(() => {
     const node = innerRef.current;

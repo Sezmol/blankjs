@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { test, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Checkbox } from "./index";
 import { Field } from "../field";
@@ -211,7 +211,7 @@ test("is absent from FormData when unchecked", () => {
   expect(data.has("agree")).toBe(false);
 });
 
-test("form reset returns to defaultChecked and survives a rerender", () => {
+test("form reset returns to defaultChecked and survives a rerender", async () => {
   function Harness() {
     const [, force] = useState(0);
 
@@ -236,7 +236,7 @@ test("form reset returns to defaultChecked and survives a rerender", () => {
 
   fireEvent.reset(form);
 
-  expect(cb).not.toBeChecked();
+  await waitFor(() => expect(cb).not.toBeChecked());
 
   fireEvent.click(screen.getByText("rerender"));
 

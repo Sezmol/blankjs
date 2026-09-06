@@ -80,12 +80,14 @@ export const MultiSelectTrigger = ({
       if (isDisabled) return;
 
       props.onKeyDown?.(e);
+      if (e.defaultPrevented) return;
       onListboxKeyDown(e);
     },
     onClick: (e) => {
       if (isDisabled) return;
 
       props.onClick?.(e);
+      if (e.defaultPrevented) return;
       setOpen((o) => !o);
     },
   };

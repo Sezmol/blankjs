@@ -57,7 +57,8 @@ export const MultiSelectHiddenInput = ({
         ref={ref}
         type="text"
         value={value.join(",")}
-        disabled={disabled}
+        disabled={disabled || controlProps.disabled}
+        data-bk-field-control={controlProps.id}
         className="bk-multi-select-hidden-input"
         style={HIDDEN_INPUT_STYLE}
         tabIndex={-1}
@@ -73,7 +74,7 @@ export const MultiSelectHiddenInput = ({
           type="hidden"
           name={name}
           value={v}
-          disabled={disabled}
+          disabled={disabled || controlProps.disabled}
           readOnly
         />
       ))}

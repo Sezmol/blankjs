@@ -52,11 +52,21 @@ export const Checkbox = ({
 
     if (!form) return;
 
-    const onReset = () => setValue(defaultChecked ?? false);
+    let resetTimer: ReturnType<typeof setTimeout>;
+
+    const onReset = (event: Event) => {
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        if (!event.defaultPrevented) setValue(defaultChecked ?? false);
+      });
+    };
 
     form.addEventListener("reset", onReset);
 
-    return () => form.removeEventListener("reset", onReset);
+    return () => {
+      clearTimeout(resetTimer);
+      form.removeEventListener("reset", onReset);
+    };
   }, [setValue, defaultChecked]);
 
   useEffect(() => {
