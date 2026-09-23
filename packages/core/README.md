@@ -14,6 +14,7 @@ import {
   useFieldRoot,
   useCollection,
   useFieldArray,
+  usePinInput,
 } from "@blankjs/core";
 ```
 

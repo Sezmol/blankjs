@@ -16,7 +16,7 @@ blankjs is a component library that treats the browser as an ally instead of an 
 | Package | Contents |
 |---------|----------|
 | `@blankjs/react` | Styled, accessible components |
-| `@blankjs/core` | Headless hooks: `useControllableState`, `useFieldControlProps`, `useCollection`, `useFieldArray` |
+| `@blankjs/core` | Headless hooks: `useControllableState`, `useFieldControlProps`, `useCollection`, `useFieldArray`, `usePinInput` |
 
 Design tokens live in a private `@blankjs/tokens` workspace package and ship inlined in `styles.css` as CSS variables.
 
@@ -82,8 +82,8 @@ How it works:
 - Composite widgets (Select, Combobox, MultiSelect) render hidden inputs bound to `name`
 - MultiSelect submits one entry per selected value, read with `formData.getAll(name)`
 - Every component listens for the form's `reset` event and restores its `defaultValue`, including controlled inputs the browser resets without firing a change event
-- `FieldArray` repeats a group of fields and names them `guests[0].email`, the notation Rails, PHP and Zod already speak; the rows are React state while the values stay in the DOM
 - Disabled controls drop out of FormData, matching native behavior
+- `FieldArray` repeats a group of fields and names them `guests[0].email`, the notation Rails, PHP and Zod already speak; the rows are React state while the values stay in the DOM
 
 No form library required. React Hook Form and friends still work if you want them, but they stop being a prerequisite.
 
@@ -160,6 +160,7 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `RadioGroup` | Native radios, platform keyboard navigation |
 | `Slider` | Native `input type="range"`, CSS-only fill, form reset aware |
 | `NumberField` | Native `type="number"`, step buttons, disables them at min/max |
+| `PinInput` | A real input per cell, paste and SMS autofill spread across the cells, an incomplete code blocks submit |
 | `Select` | Single value, typeahead, hidden input, `Select.Clear` |
 | `MultiSelect` | Multiple values, stays open while picking, `formData.getAll` |
 | `Combobox` | Controlled filtering, draft revert on Escape and blur |
@@ -276,7 +277,7 @@ pnpm test:browser
 
 ## Status
 
-Published as 0.4.x. The API may change before 1.0.
+Published as 0.5.x. The API may change before 1.0.
 
 ## License
 
