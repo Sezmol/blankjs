@@ -30,7 +30,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 8px;
-  border: 1px solid var(--bk-color-border);
+  border: 1px solid var(--bk-color-border-control);
   border-radius: 50%;
   outline: none;
   transition:

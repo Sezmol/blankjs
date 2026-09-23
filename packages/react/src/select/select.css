@@ -11,7 +11,7 @@
   text-align: left;
   color: var(--bk-color-text);
   background-color: var(--bk-color-surface-muted);
-  border: 1px solid var(--bk-color-border);
+  border: 1px solid var(--bk-color-border-control);
   border-radius: var(--bk-radius-md);
   outline: none;
   cursor: pointer;

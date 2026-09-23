@@ -22,7 +22,7 @@
   background: linear-gradient(
     to right,
     var(--bk-color-accent) 0 var(--bk-slider-fill, 0%),
-    var(--bk-color-border) var(--bk-slider-fill, 0%)
+    var(--bk-color-border-control) var(--bk-slider-fill, 0%)
   );
 }
 
@@ -32,7 +32,7 @@
   background: linear-gradient(
     to right,
     var(--bk-color-accent) 0 var(--bk-slider-fill, 0%),
-    var(--bk-color-border) var(--bk-slider-fill, 0%)
+    var(--bk-color-border-control) var(--bk-slider-fill, 0%)
   );
 }
 
