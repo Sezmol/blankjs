@@ -77,20 +77,22 @@ export const FieldPage = () => (
 
     <ul className="docs-list">
       <li>
-        <code>"submit"</code> (default) — reveal on the first blocked submit
+        <code>"submit"</code> (default): reveal on the first blocked submit
       </li>
       <li>
-        <code>"blur"</code> — reveal when the user leaves an invalid control
+        <code>"blur"</code>: reveal when the user leaves an invalid control.
+        Select, MultiSelect, Combobox and PinInput count as left once focus
+        moves out of the field, so stepping between PinInput cells or onto a
+        Clear button shows nothing yet
       </li>
       <li>
-        <code>"change"</code> — reveal from the first keystroke
+        <code>"change"</code>: reveal from the first keystroke
       </li>
     </ul>
 
     <p>
-      Once revealed, the error updates live on every change regardless of
-      mode — fix the value and it disappears immediately. A form{" "}
-      <code>reset</code> puts the field back to quiet.
+      Once the error shows, it follows every change in any mode: fix the value
+      and it goes away. A form <code>reset</code> puts the field back to quiet.
     </p>
 
     <Demo code={modesCode}>

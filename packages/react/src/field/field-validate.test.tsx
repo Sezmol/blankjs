@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { Field } from "./index";
 import { TextInput } from "../text-input";
 import { Combobox } from "../combobox";
+import { Select } from "../select";
 import { PinInput } from "../pin-input";
 import { RadioGroup } from "../radio";
 import { Checkbox } from "../checkbox";
@@ -300,4 +301,84 @@ test("validate sees an unchecked Checkbox as empty", async () => {
   await user.click(screen.getByRole("checkbox"));
 
   expect(form.checkValidity()).toBe(true);
+});
+
+test("blur mode reveals a required Select once focus leaves the field", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <>
+      <Field.Root required validationMode="blur" data-testid="field">
+        <Field.Label>Fruit</Field.Label>
+        <Select.Root name="fruit">
+          <Select.Trigger>
+            <Select.Value placeholder="Pick" />
+          </Select.Trigger>
+          <Select.Content>
+            <Select.Item value="a">Apple</Select.Item>
+          </Select.Content>
+        </Select.Root>
+      </Field.Root>
+      <button>After</button>
+    </>,
+  );
+
+  await user.tab();
+
+  expect(screen.getByTestId("field")).not.toHaveAttribute("data-invalid");
+
+  await user.tab();
+
+  expect(screen.getByTestId("field")).toHaveAttribute("data-invalid");
+});
+
+test("blur mode reveals a Combobox validate error once focus leaves the field", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <>
+      <Field.Root
+        validate={(value) => (value === "a" ? null : "Pick Apple")}
+        validationMode="blur"
+      >
+        <Combobox.Root name="fruit">
+          <Combobox.Input aria-label="Fruit" />
+          <Combobox.Content>
+            <Combobox.Item value="a">Apple</Combobox.Item>
+            <Combobox.Item value="b">Banana</Combobox.Item>
+          </Combobox.Content>
+        </Combobox.Root>
+        <Field.Error />
+      </Field.Root>
+      <button>After</button>
+    </>,
+  );
+
+  await user.type(screen.getByRole("combobox"), "Ban");
+  await user.click(screen.getByRole("button", { name: "After" }));
+
+  expect(screen.getByText("Pick Apple")).toBeInTheDocument();
+});
+
+test("blur mode waits until focus leaves the whole PinInput", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <>
+      <Field.Root required validationMode="blur" data-testid="field">
+        <PinInput name="pin" length={3} />
+      </Field.Root>
+      <button>After</button>
+    </>,
+  );
+
+  await user.click(screen.getAllByRole("textbox")[0]!);
+  await user.keyboard("1");
+
+  expect(screen.getAllByRole("textbox")[1]).toHaveFocus();
+  expect(screen.getByTestId("field")).not.toHaveAttribute("data-invalid");
+
+  await user.click(screen.getByRole("button", { name: "After" }));
+
+  expect(screen.getByTestId("field")).toHaveAttribute("data-invalid");
 });

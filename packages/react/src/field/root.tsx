@@ -141,10 +141,15 @@ export const FieldRoot = ({
         data-invalid={contextValue.invalid ? "" : undefined}
         data-disabled={disabled ? "" : undefined}
         onBlurCapture={(e) => {
-          const { controlId } = contextValue;
+          const field = e.currentTarget;
+          const valueControl = findValueControl(field, contextValue.controlId);
 
-          if (isValueTarget(innerRef.current, controlId, e.target)) {
+          if (!valueControl || e.target === valueControl) {
             onBlurCapture?.(e);
+          } else if (!field.contains(e.relatedTarget)) {
+            // The value sits in a hidden proxy that never gets focus.
+            // Focus leaving the field stands in for leaving the proxy.
+            onBlurCapture?.({ ...e, target: valueControl } as never);
           }
         }}
         onInvalidCapture={(e) => {
