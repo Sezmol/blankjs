@@ -3,7 +3,7 @@ import {
   useId,
   useRef,
   type ComponentProps,
-  type PointerEvent,
+  type MouseEvent,
 } from "react";
 import { useComboboxContext } from "./context";
 
@@ -73,12 +73,10 @@ export const ComboboxItem = ({
     }
   }, [isActive]);
 
-  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    props.onPointerDown?.(e);
+  const onClick = (e: MouseEvent<HTMLDivElement>) => {
+    props.onClick?.(e);
 
     if (e.defaultPrevented) return;
-
-    e.preventDefault();
 
     const node = ref.current;
 
@@ -101,7 +99,7 @@ export const ComboboxItem = ({
       id={optionId}
       aria-selected={isSelected}
       data-active={isActive ? "" : undefined}
-      onPointerDown={onPointerDown}
+      onClick={onClick}
     >
       {children}
       <ComboboxCheck />

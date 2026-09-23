@@ -96,6 +96,7 @@ test("backdrop click closes, inner click does not", async () => {
 
   expect(dialog().open).toBe(true);
 
+  fireEvent.pointerDown(dialog());
   fireEvent.click(dialog());
 
   expect(dialog().open).toBe(false);

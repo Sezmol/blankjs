@@ -43,10 +43,11 @@ export const ComboboxPage = () => (
     </p>
 
     <p>
-      Two implementation details you get for free: item selection happens
-      on <code>pointerdown</code> with the default prevented, so focus
-      never leaves the input; and the highlighted item scrolls into view as
-      the arrows move.
+      Two implementation details you get for free: the list cancels{" "}
+      <code>mousedown</code>, so focus never leaves the input while you
+      pick, and an item commits on <code>click</code>, so scrolling the list
+      with a finger does not pick whatever is under it. The highlighted item
+      also scrolls into view as the arrows move.
     </p>
 
     <h2>In a form</h2>

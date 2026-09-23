@@ -15,6 +15,32 @@ const clickAt = async (x: number, y: number) => {
   await session.send("Input.dispatchMouseEvent", { type: "mouseReleased", ...base });
 };
 
+const dragTo = async (from: DOMRect, x: number, y: number) => {
+  const session = cdp();
+  const button = "left" as const;
+  const start = { x: from.x + 4, y: from.y + from.height / 2 };
+
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mousePressed",
+    ...start,
+    button,
+    clickCount: 1,
+  });
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mouseMoved",
+    x,
+    y,
+    button,
+  });
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mouseReleased",
+    x,
+    y,
+    button,
+    clickCount: 1,
+  });
+};
+
 const renderDialog = () =>
   render(
     <div>
@@ -88,6 +114,18 @@ test("a click on the backdrop closes", async () => {
   await clickAt(4, 4);
 
   expect(dialog().open).toBe(false);
+});
+
+test("a text selection that ends over the backdrop keeps it open", async () => {
+  renderDialog();
+
+  await userEvent.click(screen.getByRole("button", { name: "Open" }));
+
+  const title = screen.getByText("Delete account").getBoundingClientRect();
+
+  await dragTo(title, 4, 4);
+
+  expect(dialog().open).toBe(true);
 });
 
 type PopupCase = [string, ReactNode, string[]];

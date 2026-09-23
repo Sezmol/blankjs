@@ -10,6 +10,26 @@ import {
 import { composeRefs } from "../slot";
 import type { Size } from "../types";
 
+const setNativeValue = (input: HTMLInputElement, value: string) => {
+  const descriptor = Object.getOwnPropertyDescriptor(
+    HTMLInputElement.prototype,
+    "value",
+  );
+
+  descriptor?.set?.call(input, value);
+};
+
+const stepAny = (input: HTMLInputElement, delta: number) => {
+  const decimals = input.value.split(".")[1]?.length ?? 0;
+
+  let next = Number(input.value) + delta;
+
+  if (input.min !== "") next = Math.max(next, Number(input.min));
+  if (input.max !== "") next = Math.min(next, Number(input.max));
+
+  setNativeValue(input, next.toFixed(decimals));
+};
+
 type NumberFieldProps = Omit<
   ComponentProps<"input">,
   "size" | "children" | "dangerouslySetInnerHTML" | "type"
@@ -50,9 +70,11 @@ export const NumberField = ({
   const step = (direction: "up" | "down") => {
     const input = inputRef.current;
 
-    if (!input) return;
+    if (!input || input.readOnly) return;
 
-    if (direction === "up") {
+    if (input.step.toLowerCase() === "any") {
+      stepAny(input, direction === "up" ? 1 : -1);
+    } else if (direction === "up") {
       input.stepUp();
     } else {
       input.stepDown();
@@ -93,7 +115,7 @@ export const NumberField = ({
         className="bk-number-field-button"
         type="button"
         tabIndex={-1}
-        disabled={isDisabled || atMin}
+        disabled={isDisabled || rest.readOnly || atMin}
         aria-label="Decrease"
         onClick={() => step("down")}
         onMouseDown={(e) => e.preventDefault()}
@@ -115,7 +137,7 @@ export const NumberField = ({
         className="bk-number-field-button"
         type="button"
         tabIndex={-1}
-        disabled={isDisabled || atMax}
+        disabled={isDisabled || rest.readOnly || atMax}
         aria-label="Increase"
         onClick={() => step("up")}
         onMouseDown={(e) => e.preventDefault()}

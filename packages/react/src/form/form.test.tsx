@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { Form } from "./index";
 import { Field } from "../field";
 import { TextInput } from "../text-input";
+import { MultiSelect } from "../multi-select";
 
 test("calls onSubmit with FormData and prevents the default submit", () => {
   const onSubmit = vi.fn();
@@ -162,4 +163,16 @@ test("fields without a matching error stay valid", () => {
 
   expect(screen.queryByText("Already taken")).toBeNull();
   expect(screen.getByLabelText("Login")).not.toHaveAttribute("aria-invalid");
+});
+
+test("a server error on a MultiSelect focuses its trigger", () => {
+  render(
+    <Form errors={{ days: "Pick a day" }}>
+      <MultiSelect.Root name="days">
+        <MultiSelect.Trigger>Days</MultiSelect.Trigger>
+      </MultiSelect.Root>
+    </Form>,
+  );
+
+  expect(screen.getByRole("combobox")).toHaveFocus();
 });

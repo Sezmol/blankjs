@@ -5,6 +5,7 @@ import { TextInput } from "../text-input";
 import { Combobox } from "../combobox";
 import { PinInput } from "../pin-input";
 import { RadioGroup } from "../radio";
+import { Checkbox } from "../checkbox";
 
 const getInput = () => screen.getByLabelText("Username") as HTMLInputElement;
 
@@ -279,4 +280,24 @@ test("validate reads the checked radio, not the one that lost focus", async () =
   await user.tab();
 
   expect(screen.getByText("Pick a size")).toBeInTheDocument();
+});
+
+test("validate sees an unchecked Checkbox as empty", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <form data-testid="form">
+      <Field.Root validate={(value) => (value ? null : "Must agree")}>
+        <Checkbox aria-label="Agree" name="agree" />
+      </Field.Root>
+    </form>,
+  );
+
+  const form = screen.getByTestId("form") as HTMLFormElement;
+
+  expect(form.checkValidity()).toBe(false);
+
+  await user.click(screen.getByRole("checkbox"));
+
+  expect(form.checkValidity()).toBe(true);
 });

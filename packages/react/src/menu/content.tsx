@@ -1,6 +1,7 @@
 import {
   useEffect,
   useRef,
+  useState,
   type ComponentProps,
   type KeyboardEvent,
   type PointerEvent,
@@ -36,6 +37,7 @@ export const MenuContent = ({
   } = useMenuContext();
 
   const innerRef = useRef<HTMLDivElement>(null);
+  const [toggles, setToggles] = useState(0);
 
   const { floatingStyles, setFloating } = useFloatingPosition({
     anchor,
@@ -58,7 +60,7 @@ export const MenuContent = ({
 
       content.hidePopover();
     }
-  }, [open, anchor]);
+  }, [open, anchor, toggles]);
 
   const handleToggle = (e: ToggleEvent<HTMLDivElement>) => {
     onToggle?.(e);
@@ -66,6 +68,7 @@ export const MenuContent = ({
     if (e.defaultPrevented) return;
 
     setOpen(e.newState === "open");
+    setToggles((count) => count + 1);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {

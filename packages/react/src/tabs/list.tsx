@@ -1,4 +1,9 @@
-import { useRef, type ComponentProps, type KeyboardEvent } from "react";
+import {
+  useLayoutEffect,
+  useRef,
+  type ComponentProps,
+  type KeyboardEvent,
+} from "react";
 import { useTabsContext } from "./context";
 import { useTabsIndicator } from "./use-tabs-indicator";
 import { composeRefs } from "../slot";
@@ -10,6 +15,24 @@ export const TabsList = ({ children, className, ...props }: TabsListProps) => {
 
   const listRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useTabsIndicator(listRef);
+
+  useLayoutEffect(() => {
+    const tabs = Array.from(
+      listRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ??
+        [],
+    );
+
+    const hasSelected = tabs.some(
+      (tab) => tab.getAttribute("aria-selected") === "true",
+    );
+
+    const fallback = hasSelected ? null : tabs.find((tab) => !tab.disabled);
+
+    for (const tab of tabs) {
+      if (tab === fallback) tab.tabIndex = 0;
+      else if (tab.getAttribute("aria-selected") !== "true") tab.tabIndex = -1;
+    }
+  });
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     props.onKeyDown?.(e);

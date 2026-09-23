@@ -1,4 +1,5 @@
 import type { ComponentProps, MouseEvent } from "react";
+import { useFieldControlProps } from "@blankjs/core";
 import { useComboboxContext } from "./context";
 
 const ComboboxClearIcon = () => (
@@ -23,9 +24,10 @@ export const ComboboxClear = ({
   onClick,
   ...props
 }: ComboboxClearProps) => {
-  const { value, disabled, clear, inputGroupElement } = useComboboxContext();
+  const { value, disabled, clear, focusInput } = useComboboxContext();
+  const { disabled: fieldDisabled } = useFieldControlProps();
 
-  if (!value || disabled) return null;
+  if (!value || disabled || fieldDisabled) return null;
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);
@@ -33,7 +35,7 @@ export const ComboboxClear = ({
     if (e.defaultPrevented) return;
 
     clear();
-    inputGroupElement?.querySelector("input")?.focus();
+    focusInput();
   };
 
   return (

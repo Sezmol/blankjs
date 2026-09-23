@@ -17,6 +17,7 @@ const SelectContentInner = ({
   style,
   className,
   container,
+  onMouseDown,
   ...props
 }: SelectContentProps) => {
   const {
@@ -56,6 +57,10 @@ const SelectContentInner = ({
   return createPortal(
     <div
       {...props}
+      onMouseDown={(e) => {
+        onMouseDown?.(e);
+        e.preventDefault();
+      }}
       ref={setFloating}
       style={{ ...style, ...floatingStyles }}
       className={["bk-select-content", className].filter(Boolean).join(" ")}

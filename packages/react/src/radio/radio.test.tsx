@@ -306,3 +306,18 @@ test("form reset returns to defaultValue and survives a rerender", async () => {
 
   expect(getRadio("apple")).toBeChecked();
 });
+
+test("required on the root makes the group required", () => {
+  render(
+    <form data-testid="form">
+      <RadioGroup.Root name="size" required aria-label="Size">
+        <RadioGroup.Item value="s" aria-label="S" />
+      </RadioGroup.Root>
+    </form>,
+  );
+
+  expect(screen.getByRole("radio", { name: "S" })).toBeRequired();
+  expect(
+    (screen.getByTestId("form") as HTMLFormElement).checkValidity(),
+  ).toBe(false);
+});

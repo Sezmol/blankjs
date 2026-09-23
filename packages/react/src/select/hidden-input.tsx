@@ -14,7 +14,7 @@ export const SelectHiddenInput = ({
   defaultValue,
   required,
 }: SelectHiddenInputProps) => {
-  const { value, setValue, disabled, triggerElement } = useSelectContext();
+  const { value, setValue, disabled, focusTrigger } = useSelectContext();
   const ref = useRef<HTMLInputElement>(null);
 
   const controlProps = useFieldControlProps();
@@ -55,7 +55,7 @@ export const SelectHiddenInput = ({
       autoComplete="off"
       onChange={() => {}}
       required={isRequired}
-      onFocus={() => triggerElement?.focus()}
+      onFocus={focusTrigger}
     />
   );
 };

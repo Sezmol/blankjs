@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useRef, useState } from "react";
 import {
   useCollection,
   useControllableState,
@@ -28,9 +28,18 @@ export const useSelectRoot = (
     CollectionItem<string> | undefined
   >(undefined);
 
-  const [triggerElement, setTriggerElement] = useState<HTMLElement | null>(
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  const [triggerElement, setTriggerState] = useState<HTMLElement | null>(
     null,
   );
+
+  const setTriggerElement = useCallback((node: HTMLElement | null) => {
+    triggerRef.current = node;
+    setTriggerState(node);
+  }, []);
+
+  const focusTrigger = useCallback(() => triggerRef.current?.focus(), []);
 
   const triggerId = useId();
   const listboxId = useId();
@@ -48,6 +57,7 @@ export const useSelectRoot = (
 
       triggerElement,
       setTriggerElement,
+      focusTrigger,
 
       listboxId,
       triggerId,
@@ -61,6 +71,7 @@ export const useSelectRoot = (
     }),
     [
       activeItem,
+      focusTrigger,
       getItems,
       listboxId,
       open,
@@ -68,6 +79,7 @@ export const useSelectRoot = (
       options.size,
       registerItem,
       setOpen,
+      setTriggerElement,
       setValue,
       triggerElement,
       triggerId,

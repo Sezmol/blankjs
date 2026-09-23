@@ -2,7 +2,7 @@ import {
   Children,
   useCallback,
   type ComponentProps,
-  type PointerEvent as ReactPointerEvent,
+  type MouseEvent,
 } from "react";
 import { createPortal } from "react-dom";
 
@@ -57,11 +57,8 @@ const ComboboxContentInner = ({
     strategy: dialog ? "fixed" : "absolute",
   });
 
-  const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    props.onPointerDown?.(e);
-
-    if (e.defaultPrevented) return;
-
+  const onMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    props.onMouseDown?.(e);
     e.preventDefault();
   };
 
@@ -78,7 +75,7 @@ const ComboboxContentInner = ({
   return createPortal(
     <div
       {...props}
-      onPointerDown={onPointerDown}
+      onMouseDown={onMouseDown}
       ref={setFloating}
       style={{ ...style, ...floatingStyles }}
       className={["bk-combobox-content", className].filter(Boolean).join(" ")}

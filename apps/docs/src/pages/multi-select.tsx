@@ -46,6 +46,17 @@ export const MultiSelectPage = () => (
       <MultiSelectForm />
     </Demo>
 
+    <p>
+      With a <code>schema</code> on <code>Form</code>, keep in mind what{" "}
+      <code>serialize</code> hands it: nothing when no value is picked, a
+      string for one value and an array for several. Normalize before the
+      array check, for example with Zod:{" "}
+      <code>
+        z.preprocess((v) =&gt; [v ?? []].flat(), z.array(z.string()))
+      </code>
+      .
+    </p>
+
     <h2>API</h2>
 
     <h3>MultiSelect.Root</h3>

@@ -53,6 +53,23 @@ const radioGroupOf = (control: Element) => {
   );
 };
 
+const submittedValue = (
+  control: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+  radios: HTMLInputElement[] | null,
+) => {
+  if (radios) return radios.find((radio) => radio.checked)?.value ?? "";
+
+  if (
+    control instanceof HTMLInputElement &&
+    control.type === "checkbox" &&
+    !control.checked
+  ) {
+    return "";
+  }
+
+  return control.value;
+};
+
 export const useFieldRoot = (
   options?: UseFieldRootOptions,
 ): FieldContextValue & FieldRootHandlerProps => {
@@ -97,12 +114,8 @@ export const useFieldRoot = (
 
     const formData = control.form ? new FormData(control.form) : new FormData();
     const radios = radioGroupOf(control);
-
-    const value = radios
-      ? (radios.find((radio) => radio.checked)?.value ?? "")
-      : control.value;
-
-    const message = validateRef.current(value, formData) ?? "";
+    const message =
+      validateRef.current(submittedValue(control, radios), formData) ?? "";
 
     for (const target of radios ?? [control]) target.setCustomValidity(message);
   }, []);

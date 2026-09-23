@@ -12,7 +12,7 @@ export const ComboboxHiddenInput = ({
   name,
   required,
 }: ComboboxHiddenInputProps) => {
-  const { value, resetToDefault, disabled, inputGroupElement } =
+  const { value, resetToDefault, disabled, focusInput } =
     useComboboxContext();
   const ref = useRef<HTMLInputElement>(null);
 
@@ -54,7 +54,7 @@ export const ComboboxHiddenInput = ({
       autoComplete="off"
       onChange={() => {}}
       required={isRequired}
-      onFocus={() => inputGroupElement?.querySelector("input")?.focus()}
+      onFocus={focusInput}
     />
   );
 };

@@ -1,5 +1,6 @@
 import type { ComponentProps, MouseEvent } from "react";
 import { useTabsContext } from "./context";
+import { panelId, tabId } from "./ids";
 
 type TabProps = ComponentProps<"button"> & {
   value: string;
@@ -24,9 +25,6 @@ export const Tab = ({
     setValue(value);
   };
 
-  const tabId = `${baseId}-tab-${value}`;
-  const panelId = `${baseId}-panel-${value}`;
-
   return (
     <button
       {...props}
@@ -35,9 +33,9 @@ export const Tab = ({
       className={["bk-tabs-tab", className].filter(Boolean).join(" ")}
       role="tab"
       data-value={value}
-      id={tabId}
+      id={tabId(baseId, value)}
       aria-selected={selected}
-      aria-controls={panelId}
+      aria-controls={panelId(baseId, value)}
       tabIndex={selected ? 0 : -1}
     >
       {children}

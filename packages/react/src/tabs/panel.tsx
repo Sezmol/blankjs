@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ComponentProps } from "react";
 import { useTabsContext } from "./context";
+import { panelId, tabId } from "./ids";
 import { composeRefs } from "../slot";
 
 type TabsPanelProps = ComponentProps<"div"> & {
@@ -38,9 +39,9 @@ export const TabsPanel = ({
     <div
       {...props}
       ref={composeRefs(ref, props.ref)}
-      id={`${baseId}-panel-${value}`}
+      id={panelId(baseId, value)}
       role="tabpanel"
-      aria-labelledby={`${baseId}-tab-${value}`}
+      aria-labelledby={tabId(baseId, value)}
       tabIndex={0}
       hidden={!selected}
       className={["bk-tabs-panel", className].filter(Boolean).join(" ")}

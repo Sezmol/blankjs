@@ -20,8 +20,9 @@ export const useRadioGroupRoot = (
       value,
       setValue,
       disabled: options.disabled ?? false,
+      required: options.required ?? false,
       name,
     }),
-    [name, options.disabled, setValue, value],
+    [name, options.disabled, options.required, setValue, value],
   );
 };

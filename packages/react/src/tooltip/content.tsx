@@ -1,6 +1,7 @@
 import {
   useEffect,
   useRef,
+  useState,
   type ComponentProps,
   type PointerEvent,
   type ToggleEvent,
@@ -40,6 +41,7 @@ export const TooltipContent = ({
   });
 
   const innerRef = useRef<HTMLDivElement>(null);
+  const [toggles, setToggles] = useState(0);
 
   useEffect(() => {
     const content = innerRef.current;
@@ -53,7 +55,7 @@ export const TooltipContent = ({
     } else if (!open && shown) {
       content.hidePopover();
     }
-  }, [open]);
+  }, [open, toggles]);
 
   const handleToggle = (e: ToggleEvent<HTMLDivElement>) => {
     onToggle?.(e);
@@ -65,6 +67,8 @@ export const TooltipContent = ({
     } else if (e.newState === "closed") {
       closeNow();
     }
+
+    setToggles((count) => count + 1);
   };
 
   const handlePointerEnter = (e: PointerEvent<HTMLDivElement>) => {

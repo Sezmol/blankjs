@@ -1,4 +1,5 @@
 import type { ComponentProps, MouseEvent } from "react";
+import { useFieldControlProps } from "@blankjs/core";
 import { useSelectContext } from "./context";
 
 const SelectClearIcon = () => (
@@ -23,9 +24,10 @@ export const SelectClear = ({
   onClick,
   ...props
 }: SelectClearProps) => {
-  const { value, setValue, disabled, triggerElement } = useSelectContext();
+  const { value, setValue, disabled, focusTrigger } = useSelectContext();
+  const { disabled: fieldDisabled } = useFieldControlProps();
 
-  if (!value || disabled) return null;
+  if (!value || disabled || fieldDisabled) return null;
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);
@@ -34,7 +36,7 @@ export const SelectClear = ({
 
     setValue(null);
 
-    triggerElement?.focus();
+    focusTrigger();
   };
 
   return (

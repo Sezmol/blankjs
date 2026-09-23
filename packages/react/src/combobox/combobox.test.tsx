@@ -156,7 +156,7 @@ test("Space types a space instead of committing", async () => {
   expect(onValueChange).not.toHaveBeenCalled();
 });
 
-test("pointerdown on an option commits it and keeps focus in the input", async () => {
+test("clicking an option commits it and keeps focus in the input", async () => {
   const user = userEvent.setup();
 
   render(<Harness />);
@@ -167,7 +167,7 @@ test("pointerdown on an option commits it and keeps focus in the input", async (
 
   const option = screen.getByRole("option", { name: "Cherry" });
 
-  fireEvent.pointerDown(option);
+  await user.click(option);
 
   expect(input).toHaveFocus();
   expect(input).toHaveValue("Cherry");

@@ -1,6 +1,7 @@
 import {
   useEffect,
   useRef,
+  useState,
   type ComponentProps,
   type ToggleEvent,
 } from "react";
@@ -24,6 +25,7 @@ export const PopoverContent = ({
   const { anchor, contentId, open, setOpen } = usePopoverContext();
 
   const innerRef = useRef<HTMLDivElement>(null);
+  const [toggles, setToggles] = useState(0);
 
   const { floatingStyles, setFloating } = useFloatingPosition({
     anchor,
@@ -42,7 +44,7 @@ export const PopoverContent = ({
     } else if (!open && shown) {
       content.hidePopover();
     }
-  }, [open]);
+  }, [open, toggles]);
 
   const handleToggle = (e: ToggleEvent<HTMLDivElement>) => {
     onToggle?.(e);
@@ -50,6 +52,7 @@ export const PopoverContent = ({
     if (e.defaultPrevented) return;
 
     setOpen(e.newState === "open");
+    setToggles((count) => count + 1);
   };
 
   return (

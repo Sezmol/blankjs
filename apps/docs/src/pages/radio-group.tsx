@@ -77,6 +77,13 @@ export const RadioGroupPage = () => (
           description: "Disables every item in the group.",
         },
         {
+          name: "required",
+          type: "boolean",
+          defaultValue: "false",
+          description:
+            "Blocks submit until a radio is checked. Field.Root required does the same.",
+        },
+        {
           name: "size",
           type: '"sm" | "md" | "lg"',
           defaultValue: '"md"',

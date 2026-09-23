@@ -14,7 +14,7 @@ export const MultiSelectHiddenInput = ({
   defaultValue,
   required,
 }: MultiSelectHiddenInputProps) => {
-  const { value, setValue, disabled, triggerElement } =
+  const { value, setValue, disabled, focusTrigger } =
     useMultiSelectContext();
   const ref = useRef<HTMLInputElement>(null);
 
@@ -55,6 +55,7 @@ export const MultiSelectHiddenInput = ({
         value={value.join(",")}
         disabled={disabled || controlProps.disabled}
         data-bk-field-control={controlProps.id}
+        data-bk-name={name}
         className="bk-multi-select-hidden-input"
         style={HIDDEN_INPUT_STYLE}
         tabIndex={-1}
@@ -62,7 +63,7 @@ export const MultiSelectHiddenInput = ({
         autoComplete="off"
         onChange={() => {}}
         required={isRequired}
-        onFocus={() => triggerElement?.focus()}
+        onFocus={focusTrigger}
       />
       {value.map((v) => (
         <input

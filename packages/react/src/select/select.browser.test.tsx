@@ -43,3 +43,14 @@ test("keeps the active option inside the scrolled listbox", async () => {
   expect(box.top).toBeGreaterThanOrEqual(view.top - 1);
   expect(box.bottom).toBeLessThanOrEqual(view.bottom + 1);
 });
+
+test("picking with the mouse keeps focus on the trigger", async () => {
+  renderSelect();
+
+  const trigger = screen.getByRole("combobox");
+
+  await userEvent.click(trigger);
+  await userEvent.click(screen.getByRole("option", { name: "Item 1" }));
+
+  expect(trigger).toHaveFocus();
+});

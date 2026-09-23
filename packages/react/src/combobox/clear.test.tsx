@@ -45,7 +45,7 @@ const getHiddenInput = () =>
 
 const commitBanana = () => {
   fireEvent.click(getInput());
-  fireEvent.pointerDown(screen.getByRole("option", { name: "Banana" }));
+  fireEvent.click(screen.getByRole("option", { name: "Banana" }));
 };
 
 test("does not render without a committed value", () => {

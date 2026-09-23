@@ -98,3 +98,32 @@ test("field context still applies when no explicit props are given", () => {
   expect(control).toBeDisabled();
   expect(control).toHaveAttribute("aria-required", "true");
 });
+
+test("Clear buttons hide in a disabled Field", () => {
+  render(
+    <>
+      <Field.Root disabled>
+        <Select.Root name="s" defaultValue="a">
+          <Select.Trigger>S</Select.Trigger>
+          <Select.Clear aria-label="Clear select" />
+        </Select.Root>
+      </Field.Root>
+      <Field.Root disabled>
+        <MultiSelect.Root name="m" defaultValue={["a"]}>
+          <MultiSelect.Trigger>M</MultiSelect.Trigger>
+          <MultiSelect.Clear aria-label="Clear multi" />
+        </MultiSelect.Root>
+      </Field.Root>
+      <Field.Root disabled>
+        <Combobox.Root name="c" defaultValue="a" defaultInputValue="A">
+          <Combobox.Input aria-label="C" />
+          <Combobox.Clear aria-label="Clear combo" />
+        </Combobox.Root>
+      </Field.Root>
+    </>,
+  );
+
+  expect(screen.queryByLabelText("Clear select")).toBeNull();
+  expect(screen.queryByLabelText("Clear multi")).toBeNull();
+  expect(screen.queryByLabelText("Clear combo")).toBeNull();
+});

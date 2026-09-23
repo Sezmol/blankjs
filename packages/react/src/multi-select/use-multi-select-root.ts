@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useRef, useState } from "react";
 import {
   useCollection,
   useControllableState,
@@ -31,9 +31,18 @@ export const useMultiSelectRoot = (
     CollectionItem<string> | undefined
   >(undefined);
 
-  const [triggerElement, setTriggerElement] = useState<HTMLElement | null>(
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  const [triggerElement, setTriggerState] = useState<HTMLElement | null>(
     null,
   );
+
+  const setTriggerElement = useCallback((node: HTMLElement | null) => {
+    triggerRef.current = node;
+    setTriggerState(node);
+  }, []);
+
+  const focusTrigger = useCallback(() => triggerRef.current?.focus(), []);
 
   const triggerId = useId();
   const listboxId = useId();
@@ -59,6 +68,7 @@ export const useMultiSelectRoot = (
 
       triggerElement,
       setTriggerElement,
+      focusTrigger,
 
       listboxId,
       triggerId,
@@ -74,6 +84,7 @@ export const useMultiSelectRoot = (
     }),
     [
       activeItem,
+      focusTrigger,
       getItems,
       listboxId,
       open,
@@ -81,6 +92,7 @@ export const useMultiSelectRoot = (
       options.size,
       registerItem,
       setOpen,
+      setTriggerElement,
       setValue,
       toggleValue,
       triggerElement,

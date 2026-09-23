@@ -17,6 +17,7 @@ const MultiSelectContentInner = ({
   style,
   className,
   container,
+  onMouseDown,
   ...props
 }: MultiSelectContentProps) => {
   const {
@@ -55,6 +56,10 @@ const MultiSelectContentInner = ({
   return createPortal(
     <div
       {...props}
+      onMouseDown={(e) => {
+        onMouseDown?.(e);
+        e.preventDefault();
+      }}
       ref={setFloating}
       style={{ ...style, ...floatingStyles }}
       className={["bk-multi-select-content", className]

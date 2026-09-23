@@ -1,4 +1,5 @@
 import type { ComponentProps, MouseEvent } from "react";
+import { useFieldControlProps } from "@blankjs/core";
 import { useMultiSelectContext } from "./context";
 
 const MultiSelectClearIcon = () => (
@@ -23,10 +24,11 @@ export const MultiSelectClear = ({
   onClick,
   ...props
 }: MultiSelectClearProps) => {
-  const { value, setValue, disabled, triggerElement } =
+  const { value, setValue, disabled, focusTrigger } =
     useMultiSelectContext();
+  const { disabled: fieldDisabled } = useFieldControlProps();
 
-  if (!value.length || disabled) return null;
+  if (!value.length || disabled || fieldDisabled) return null;
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);
@@ -35,7 +37,7 @@ export const MultiSelectClear = ({
 
     setValue([]);
 
-    triggerElement?.focus();
+    focusTrigger();
   };
 
   return (

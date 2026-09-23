@@ -14,6 +14,7 @@ export interface MultiSelectContextValue {
 
   triggerElement: HTMLElement | null;
   setTriggerElement: (node: HTMLElement | null) => void;
+  focusTrigger: () => void;
 
   triggerId: string;
   listboxId: string;

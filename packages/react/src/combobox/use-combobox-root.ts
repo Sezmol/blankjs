@@ -35,8 +35,20 @@ export const useComboboxRoot = (
     CollectionItem<string> | undefined
   >();
 
-  const [inputGroupElement, setInputGroupElement] =
+  const inputGroupRef = useRef<HTMLElement | null>(null);
+
+  const [inputGroupElement, setInputGroupState] =
     useState<HTMLElement | null>(null);
+
+  const setInputGroupElement = useCallback((node: HTMLElement | null) => {
+    inputGroupRef.current = node;
+    setInputGroupState(node);
+  }, []);
+
+  const focusInput = useCallback(
+    () => inputGroupRef.current?.querySelector("input")?.focus(),
+    [],
+  );
 
   const inputId = useId();
   const listboxId = useId();
@@ -99,6 +111,7 @@ export const useComboboxRoot = (
 
       inputGroupElement,
       setInputGroupElement,
+      focusInput,
 
       inputId,
       listboxId,
@@ -118,6 +131,7 @@ export const useComboboxRoot = (
       clear,
       options.size,
       commitItem,
+      focusInput,
       getItems,
       inputGroupElement,
       inputId,
@@ -128,6 +142,7 @@ export const useComboboxRoot = (
       registerItem,
       resetToDefault,
       revertInputValue,
+      setInputGroupElement,
       setInputValue,
       setOpen,
       setValue,

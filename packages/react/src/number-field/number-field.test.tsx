@@ -182,3 +182,49 @@ test("types: forbids type and children", () => {
   // @ts-expect-error a void element cannot take children
   void (<NumberField>child</NumberField>);
 });
+
+test("step any moves the value by one", () => {
+  render(<NumberField step="any" defaultValue="1.5" />);
+
+  fireEvent.click(getIncrement());
+
+  expect(getInput().value).toBe("2.5");
+
+  fireEvent.click(getDecrement());
+  fireEvent.click(getDecrement());
+
+  expect(getInput().value).toBe("0.5");
+});
+
+test("step any fires the consumer onChange", () => {
+  const values: string[] = [];
+
+  const Controlled = () => {
+    const [value, setValue] = useState("2.3");
+
+    return (
+      <NumberField
+        step="any"
+        min={2}
+        value={value}
+        onChange={(e) => {
+          values.push(e.target.value);
+          setValue(e.target.value);
+        }}
+      />
+    );
+  };
+
+  render(<Controlled />);
+
+  fireEvent.click(getDecrement());
+
+  expect(values).toEqual(["2.0"]);
+});
+
+test("readOnly disables both buttons", () => {
+  render(<NumberField readOnly defaultValue="5" />);
+
+  expect(getIncrement()).toBeDisabled();
+  expect(getDecrement()).toBeDisabled();
+});

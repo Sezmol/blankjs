@@ -20,6 +20,7 @@ export const RadioGroupItem = ({
     setValue,
     value: contextValue,
     disabled,
+    required,
   } = useRadioGroupContext();
 
   const isDisabled = props.disabled ?? disabled;
@@ -38,6 +39,7 @@ export const RadioGroupItem = ({
       checked={contextValue === props.value}
       onChange={handleChange}
       disabled={isDisabled}
+      required={props.required ?? required}
       type="radio"
       name={name}
       className={

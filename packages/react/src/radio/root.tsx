@@ -18,12 +18,17 @@ export const RadioGroupRoot = ({
   defaultValue,
   onValueChange,
   disabled,
+  required,
   name,
   className,
   size = "md",
   ...props
 }: RadioGroupRootProps) => {
-  const { disabled: fieldDisabled, ...fieldProps } = useFieldControlProps();
+  const {
+    disabled: fieldDisabled,
+    required: fieldRequired,
+    ...fieldProps
+  } = useFieldControlProps();
 
   const fieldContext = useContext(FieldContext);
   const labelledBy = fieldContext?.hasLabel ? fieldContext.labelId : undefined;
@@ -36,6 +41,7 @@ export const RadioGroupRoot = ({
     defaultValue,
     onValueChange,
     disabled: disabled ?? fieldDisabled,
+    required: required ?? fieldRequired,
     name,
   });
 

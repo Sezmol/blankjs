@@ -3,6 +3,7 @@ import {
   useRef,
   type ComponentProps,
   type MouseEvent,
+  type PointerEvent,
   type SyntheticEvent,
 } from "react";
 import { useDialogContext } from "./context";
@@ -15,6 +16,7 @@ export const DialogContent = ({
   onCancel,
   onClose,
   onClick,
+  onPointerDown,
   ref,
   className,
   ...props
@@ -23,6 +25,7 @@ export const DialogContent = ({
     useDialogContext();
 
   const innerRef = useRef<HTMLDialogElement>(null);
+  const pressedBackdrop = useRef(false);
 
   useEffect(() => {
     const dialog = innerRef.current;
@@ -44,12 +47,20 @@ export const DialogContent = ({
     setOpen(false);
   };
 
+  const handlePointerDown = (e: PointerEvent<HTMLDialogElement>) => {
+    onPointerDown?.(e);
+
+    pressedBackdrop.current = e.target === innerRef.current;
+  };
+
   const handleClick = (e: MouseEvent<HTMLDialogElement>) => {
     onClick?.(e);
 
     if (e.defaultPrevented) return;
 
-    if (e.target === innerRef.current) setOpen(false);
+    if (e.target === innerRef.current && pressedBackdrop.current) {
+      setOpen(false);
+    }
   };
 
   const handleClose = (e: SyntheticEvent<HTMLDialogElement>) => {
@@ -66,6 +77,7 @@ export const DialogContent = ({
       onCancel={handleCancel}
       onClose={handleClose}
       onClick={handleClick}
+      onPointerDown={handlePointerDown}
       className={["bk-dialog-content", className].filter(Boolean).join(" ")}
     >
       <div className="bk-dialog-inner">{children}</div>

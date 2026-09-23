@@ -22,6 +22,7 @@ export interface ComboboxContextValue {
 
   inputGroupElement: HTMLElement | null;
   setInputGroupElement: (node: HTMLElement | null) => void;
+  focusInput: () => void;
 
   inputId: string;
   listboxId: string;

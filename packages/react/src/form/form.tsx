@@ -94,8 +94,12 @@ export function Form<S extends StandardSchemaV1>({
 
   const focusFirstNamed = (names: Record<string, string>) => {
     const first = Array.from(innerRef.current?.elements ?? []).find(
-      (el): el is HTMLElement =>
-        "name" in el && !!names[(el as HTMLInputElement).name],
+      (el): el is HTMLElement => {
+        const control = el as HTMLInputElement;
+        const name = control.name || control.dataset.bkName;
+
+        return !!name && !!names[name] && control.type !== "hidden";
+      },
     );
 
     first?.focus();

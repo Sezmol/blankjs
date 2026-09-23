@@ -3,6 +3,7 @@ import { Field } from "./index";
 import { Select } from "../select";
 import { Combobox } from "../combobox";
 import { MultiSelect } from "../multi-select";
+import { RadioGroup } from "../radio";
 import { useState } from "react";
 
 const getHiddenInput = (name: string) =>
@@ -107,7 +108,7 @@ describe("required Combobox inside Field", () => {
     expect(screen.getByText("Pick a city")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("combobox"));
-    fireEvent.pointerDown(screen.getByRole("option", { name: "Amsterdam" }));
+    fireEvent.click(screen.getByRole("option", { name: "Amsterdam" }));
 
     expect(screen.queryByText("Pick a city")).toBeNull();
   });
@@ -170,5 +171,29 @@ describe("required MultiSelect inside Field", () => {
     fireEvent.click(screen.getByRole("option", { name: "Apple" }));
 
     expect(screen.queryByText("Pick at least one")).toBeNull();
+  });
+});
+
+describe("required RadioGroup inside Field", () => {
+  test("blocks submit until a radio is checked", () => {
+    render(
+      <form data-testid="form">
+        <Field.Root required>
+          <Field.Label>Size</Field.Label>
+          <RadioGroup.Root name="size">
+            <RadioGroup.Item value="s" aria-label="S" />
+            <RadioGroup.Item value="m" aria-label="M" />
+          </RadioGroup.Root>
+        </Field.Root>
+      </form>,
+    );
+
+    const form = screen.getByTestId("form") as HTMLFormElement;
+
+    expect(form.checkValidity()).toBe(false);
+
+    fireEvent.click(screen.getByRole("radio", { name: "M" }));
+
+    expect(form.checkValidity()).toBe(true);
   });
 });

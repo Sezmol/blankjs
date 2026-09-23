@@ -238,3 +238,35 @@ test("tab inside a form does not submit it", async () => {
 
   expect(onSubmit).not.toHaveBeenCalled();
 });
+
+test("the first tab stays reachable while nothing is selected", () => {
+  render(
+    <Tabs.Root>
+      <Tabs.List>
+        <Tabs.Tab value="a">A</Tabs.Tab>
+        <Tabs.Tab value="b">B</Tabs.Tab>
+      </Tabs.List>
+    </Tabs.Root>,
+  );
+
+  expect(screen.getByRole("tab", { name: "A" })).toHaveAttribute("tabindex", "0");
+  expect(screen.getByRole("tab", { name: "B" })).toHaveAttribute("tabindex", "-1");
+
+  fireEvent.click(screen.getByRole("tab", { name: "B" }));
+
+  expect(screen.getByRole("tab", { name: "A" })).toHaveAttribute("tabindex", "-1");
+  expect(screen.getByRole("tab", { name: "B" })).toHaveAttribute("tabindex", "0");
+});
+
+test("a value with a space still links the tab and its panel", () => {
+  render(
+    <Tabs.Root defaultValue="account settings">
+      <Tabs.List>
+        <Tabs.Tab value="account settings">Account</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="account settings">Body</Tabs.Panel>
+    </Tabs.Root>,
+  );
+
+  expect(screen.getByRole("tabpanel", { name: "Account" })).toBeInTheDocument();
+});

@@ -4,6 +4,7 @@ export interface RadioGroupContextValue {
   value: string | undefined;
   setValue: SetStateFn<string>;
   disabled?: boolean;
+  required?: boolean;
   name: string;
 }
 
@@ -13,6 +14,7 @@ export type UseRadioGroupRootOptions = {
   onValueChange?: (value: string) => void;
 
   disabled?: boolean;
+  required?: boolean;
 
   name?: string;
 };

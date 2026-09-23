@@ -42,3 +42,16 @@ test("flips above the trigger near the bottom edge and moves the origin with it"
   expect(content().style.transformOrigin).toBe("left bottom");
   expect(box.top).toBeGreaterThanOrEqual(0);
 });
+
+test("a controlled popover stays closed while the parent keeps it closed", async () => {
+  render(
+    <Popover.Root open={false} onOpenChange={() => {}}>
+      <Popover.Trigger>Open</Popover.Trigger>
+      <Popover.Content data-testid="content">Body</Popover.Content>
+    </Popover.Root>,
+  );
+
+  await userEvent.click(screen.getByRole("button", { name: "Open" }));
+
+  await expect.poll(() => content().matches(":popover-open")).toBe(false);
+});
