@@ -22,14 +22,19 @@ test("clicking an option commits it and keeps focus in the input", async () => {
   expect(input).toHaveFocus();
 });
 
-test("opening far down the page does not scroll the page", async () => {
+test("opening far down the page scrolls the listbox, not the page", async () => {
+  const items = Array.from({ length: 40 }, (_, i) => `Item ${i + 1}`);
+
   render(
     <div style={{ paddingTop: "200vh" }}>
-      <Combobox.Root>
-        <Combobox.Input aria-label="Fruit" />
+      <Combobox.Root defaultValue="Item 30">
+        <Combobox.Input aria-label="Item" />
         <Combobox.Content>
-          <Combobox.Item value="a">Apple</Combobox.Item>
-          <Combobox.Item value="b">Banana</Combobox.Item>
+          {items.map((label) => (
+            <Combobox.Item key={label} value={label}>
+              {label}
+            </Combobox.Item>
+          ))}
         </Combobox.Content>
       </Combobox.Root>
     </div>,
@@ -45,7 +50,13 @@ test("opening far down the page does not scroll the page", async () => {
 
   const listbox = await screen.findByRole("listbox");
 
-  await expect.poll(() => listbox.querySelector("[data-active]")).not.toBeNull();
+  await expect.poll(() => listbox.scrollTop).toBeGreaterThan(0);
+  await Promise.all(listbox.getAnimations({ subtree: true }).map((a) => a.finished));
+
+  const view = listbox.getBoundingClientRect();
+  const box = screen.getByRole("option", { name: "Item 30" }).getBoundingClientRect();
 
   expect(window.scrollY).toBe(before);
+  expect(box.top).toBeGreaterThanOrEqual(view.top - 1);
+  expect(box.bottom).toBeLessThanOrEqual(view.bottom + 1);
 });

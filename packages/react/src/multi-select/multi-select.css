@@ -121,7 +121,7 @@
 .bk-multi-select-content {
   z-index: 50;
   box-sizing: border-box;
-  max-height: 16rem;
+  max-height: min(16rem, var(--bk-available-height, 16rem));
   overflow: hidden auto;
   scrollbar-width: thin;
   scrollbar-color: var(--bk-color-border) transparent;

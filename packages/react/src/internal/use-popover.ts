@@ -85,14 +85,21 @@ export const useFloatingPosition = ({
       offset(4),
       flip(),
       shift({ padding: 8 }),
-      matchWidth !== "none" &&
-        size({
-          apply({ elements: floatingState, rects }) {
-            Object.assign(floatingState.floating.style, {
-              [matchWidthMap[matchWidth]]: `${rects.reference.width}px`,
-            });
-          },
-        }),
+      size({
+        padding: 8,
+        apply({ elements: floatingState, rects, availableHeight }) {
+          floatingState.floating.style.setProperty(
+            "--bk-available-height",
+            `${availableHeight}px`,
+          );
+
+          if (matchWidth === "none") return;
+
+          Object.assign(floatingState.floating.style, {
+            [matchWidthMap[matchWidth]]: `${rects.reference.width}px`,
+          });
+        },
+      }),
     ],
     whileElementsMounted: autoUpdate,
     elements: { reference: anchor },
