@@ -35,13 +35,17 @@ export const PopoverContent = ({
   useEffect(() => {
     const content = innerRef.current;
 
-    if (!content) return;
-
-    const shown = content.matches(":popover-open");
-
-    if (open && !shown) {
+    if (open && content && !content.matches(":popover-open")) {
       content.showPopover();
-    } else if (!open && shown) {
+    }
+  }, [open]);
+
+  // Re-showing after a light dismiss would lift the popover above a dialog
+  // opened by the same click, so only the closed state is enforced.
+  useEffect(() => {
+    const content = innerRef.current;
+
+    if (!open && content?.matches(":popover-open")) {
       content.hidePopover();
     }
   }, [open, toggles]);

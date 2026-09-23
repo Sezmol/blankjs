@@ -47,19 +47,23 @@ export const MenuContent = ({
   useEffect(() => {
     const content = innerRef.current;
 
-    if (!content) return;
+    if (!open || !content) return;
 
-    const shown = content.matches(":popover-open");
+    if (!content.matches(":popover-open")) content.showPopover();
 
-    if (open) {
-      if (!shown) content.showPopover();
+    content.focus();
+  }, [open]);
 
-      content.focus();
-    } else if (shown) {
-      if (content.contains(document.activeElement)) anchor?.focus();
+  // Re-showing after a light dismiss would lift the menu above a dialog
+  // opened by the same click, so only the closed state is enforced.
+  useEffect(() => {
+    const content = innerRef.current;
 
-      content.hidePopover();
-    }
+    if (open || !content?.matches(":popover-open")) return;
+
+    if (content.contains(document.activeElement)) anchor?.focus();
+
+    content.hidePopover();
   }, [open, anchor, toggles]);
 
   const handleToggle = (e: ToggleEvent<HTMLDivElement>) => {
