@@ -22,7 +22,13 @@
   transition:
     color var(--bk-duration-fast) ease,
     background-color var(--bk-duration-fast) ease,
-    box-shadow var(--bk-duration-fast) ease;
+    box-shadow var(--bk-duration-fast) ease,
+    transform var(--bk-duration-fast) var(--bk-easing-out);
+}
+
+.bk-field-array-add:active:not(:disabled),
+.bk-field-array-remove:active:not(:disabled) {
+  transform: scale(var(--bk-motion-press));
 }
 
 .bk-field-array-add {
