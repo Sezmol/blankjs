@@ -40,8 +40,6 @@ export const PopoverContent = ({
     }
   }, [open]);
 
-  // Re-showing after a light dismiss would lift the popover above a dialog
-  // opened by the same click, so only the closed state is enforced.
   useEffect(() => {
     const content = innerRef.current;
 

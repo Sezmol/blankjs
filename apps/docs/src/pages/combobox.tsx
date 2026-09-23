@@ -107,6 +107,20 @@ export const ComboboxPage = () => (
       ]}
     />
 
+    <h3>Combobox.Content</h3>
+
+    <PropsTable
+      props={[
+        {
+          name: "container",
+          type: "HTMLElement",
+          defaultValue: "document.body",
+          description:
+            "Portal container for the list. Inside a <dialog> it defaults to that dialog, so the list stays clickable above a modal.",
+        },
+      ]}
+    />
+
     <h3>Combobox.Item</h3>
 
     <PropsTable

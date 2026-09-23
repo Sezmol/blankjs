@@ -110,6 +110,20 @@ export const MultiSelectPage = () => (
       ]}
     />
 
+    <h3>MultiSelect.Content</h3>
+
+    <PropsTable
+      props={[
+        {
+          name: "container",
+          type: "HTMLElement",
+          defaultValue: "document.body",
+          description:
+            "Portal container for the list. Inside a <dialog> it defaults to that dialog, so the list stays clickable above a modal.",
+        },
+      ]}
+    />
+
     <h3>MultiSelect.Item</h3>
 
     <PropsTable

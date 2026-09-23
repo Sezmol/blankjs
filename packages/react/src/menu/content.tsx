@@ -54,8 +54,6 @@ export const MenuContent = ({
     content.focus();
   }, [open]);
 
-  // Re-showing after a light dismiss would lift the menu above a dialog
-  // opened by the same click, so only the closed state is enforced.
   useEffect(() => {
     const content = innerRef.current;
 
