@@ -4,8 +4,24 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Form-first React components built on native form elements." />
+    <meta
+      name="description"
+      content="Form-first React components built on native form elements."
+    />
     <title>blankjs</title>
+    <script>
+      {
+        let theme = matchMedia("(prefers-color-scheme: light)").matches
+          ? "light"
+          : "dark";
+
+        try {
+          theme = localStorage.getItem("bk-docs-theme") ?? theme;
+        } catch {}
+
+        document.documentElement.setAttribute("data-bk-theme", theme);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

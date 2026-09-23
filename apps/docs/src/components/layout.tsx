@@ -22,16 +22,22 @@ const NavSections = () => (
 );
 
 export const Layout = () => {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem("bk-docs-theme") as Theme | null) ?? "dark",
+  const [theme, setTheme] = useState(
+    () => document.documentElement.getAttribute("data-bk-theme") as Theme,
   );
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname } = useLocation();
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute("data-bk-theme", theme);
-    localStorage.setItem("bk-docs-theme", theme);
   }, [theme]);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+
+    setTheme(next);
+    localStorage.setItem("bk-docs-theme", next);
+  };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -59,7 +65,7 @@ export const Layout = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+              onClick={toggleTheme}
             >
               {theme === "dark" ? "Light" : "Dark"}
             </Button>
