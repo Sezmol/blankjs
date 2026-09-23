@@ -11,18 +11,22 @@ import { useEffect, useMemo, type CSSProperties } from "react";
 
 export type MatchWidth = "exact" | "min" | "none";
 
+export type Strategy = "absolute" | "fixed";
+
 export type { Placement };
 
 export interface UseFloatingPositionOptions {
   anchor: HTMLElement | null;
   placement?: Placement;
   matchWidth?: MatchWidth;
+  strategy?: Strategy;
 }
 
 export interface UsePopoverOptions {
   anchor: HTMLElement | null;
   onDismiss: (reason: "escape" | "outside-press") => void;
   matchWidth?: Exclude<MatchWidth, "none">;
+  strategy?: Strategy;
 }
 
 const matchWidthMap = {
@@ -66,6 +70,7 @@ export const useFloatingPosition = ({
   anchor,
   placement = "bottom-start",
   matchWidth = "none",
+  strategy = "absolute",
 }: UseFloatingPositionOptions): FloatingPosition => {
   const {
     refs,
@@ -74,6 +79,7 @@ export const useFloatingPosition = ({
     placement: resolvedPlacement,
   } = useFloating({
     placement,
+    strategy,
     transform: false,
     middleware: [
       offset(4),
@@ -113,10 +119,12 @@ export const usePopover = ({
   anchor,
   onDismiss,
   matchWidth = "exact",
+  strategy,
 }: UsePopoverOptions) => {
   const { setFloating, floatingStyles, floatingElement } = useFloatingPosition({
     anchor,
     matchWidth,
+    strategy,
   });
 
   useEffect(() => {

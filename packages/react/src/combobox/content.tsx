@@ -46,10 +46,15 @@ const ComboboxContentInner = ({
     [revertInputValue, setOpen],
   );
 
+  const dialog = container
+    ? null
+    : (inputGroupElement?.closest("dialog") ?? null);
+
   const { setFloating, floatingStyles } = usePopover({
     anchor: inputGroupElement,
     onDismiss,
     matchWidth: "min",
+    strategy: dialog ? "fixed" : "absolute",
   });
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -68,7 +73,7 @@ const ComboboxContentInner = ({
 
   if (!mounted) return null;
 
-  const target = container ?? document.body;
+  const target = container ?? dialog ?? document.body;
 
   return createPortal(
     <div

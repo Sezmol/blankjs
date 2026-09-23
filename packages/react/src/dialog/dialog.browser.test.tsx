@@ -1,6 +1,10 @@
+import type { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
 import { cdp, userEvent } from "vitest/browser";
 import { Dialog } from "./index";
+import { Select } from "../select";
+import { MultiSelect } from "../multi-select";
+import { Combobox } from "../combobox";
 import "../styles.css";
 
 const clickAt = async (x: number, y: number) => {
@@ -85,3 +89,59 @@ test("a click on the backdrop closes", async () => {
 
   expect(dialog().open).toBe(false);
 });
+
+type PopupCase = [string, ReactNode, string[]];
+
+const popupCases: PopupCase[] = [
+  [
+    "Select",
+    <Select.Root name="x">
+      <Select.Trigger>Pick</Select.Trigger>
+      <Select.Content>
+        <Select.Item value="a">Apple</Select.Item>
+      </Select.Content>
+    </Select.Root>,
+    ["a"],
+  ],
+  [
+    "MultiSelect",
+    <MultiSelect.Root name="x">
+      <MultiSelect.Trigger>Pick</MultiSelect.Trigger>
+      <MultiSelect.Content>
+        <MultiSelect.Item value="a">Apple</MultiSelect.Item>
+      </MultiSelect.Content>
+    </MultiSelect.Root>,
+    ["a"],
+  ],
+  [
+    "Combobox",
+    <Combobox.Root name="x">
+      <Combobox.Input aria-label="Pick" />
+      <Combobox.Content>
+        <Combobox.Item value="a">Apple</Combobox.Item>
+      </Combobox.Content>
+    </Combobox.Root>,
+    ["a"],
+  ],
+];
+
+test.each(popupCases)(
+  "a %s popup inside a dialog takes clicks",
+  async (_, control, expected) => {
+    render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Content>
+          <Dialog.Title>Filters</Dialog.Title>
+          <form data-testid="form">{control}</form>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    await userEvent.click(screen.getByRole("combobox"));
+    await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+
+    const form = screen.getByTestId("form") as HTMLFormElement;
+
+    expect(new FormData(form).getAll("x")).toEqual(expected);
+  },
+);

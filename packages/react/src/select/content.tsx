@@ -34,10 +34,13 @@ const SelectContentInner = ({
     [setOpen],
   );
 
+  const dialog = container ? null : (triggerElement?.closest("dialog") ?? null);
+
   const { setFloating, floatingStyles } = usePopover({
     anchor: triggerElement,
     onDismiss,
     matchWidth: "exact",
+    strategy: dialog ? "fixed" : "absolute",
   });
 
   const mounted = useInitialActiveItem({
@@ -48,7 +51,7 @@ const SelectContentInner = ({
 
   if (!mounted) return null;
 
-  const target = container ?? document.body;
+  const target = container ?? dialog ?? document.body;
 
   return createPortal(
     <div
