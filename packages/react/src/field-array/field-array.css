@@ -43,7 +43,7 @@
 }
 
 .bk-field-array-remove:hover {
-  color: var(--bk-color-danger);
+  color: var(--bk-color-danger-text);
 }
 
 .bk-field-array-add:focus-visible,
@@ -63,5 +63,5 @@
 
 .bk-field-array-error {
   font-size: var(--bk-font-size-sm);
-  color: var(--bk-color-danger);
+  color: var(--bk-color-danger-text);
 }

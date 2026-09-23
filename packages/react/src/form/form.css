@@ -1,4 +1,4 @@
 .bk-form-error {
   font-size: var(--bk-font-size-sm);
-  color: var(--bk-color-danger);
+  color: var(--bk-color-danger-text);
 }
