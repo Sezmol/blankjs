@@ -13,7 +13,7 @@ const fillCode = `
 background: linear-gradient(
   to right,
   var(--bk-color-accent) 0 var(--bk-slider-fill),
-  var(--bk-color-border-control) var(--bk-slider-fill)
+  var(--bk-color-border) var(--bk-slider-fill)
 );
 `;
 

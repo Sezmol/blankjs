@@ -1,11 +1,11 @@
 ---
-"@blankjs/react": patch
+"@blankjs/react": minor
 ---
 
 Form controls get their own border color, `--bk-color-border-control`, with at
 least 3:1 contrast against the field and the page (WCAG 1.4.11). Inputs, select
-triggers, PinInput cells, checkboxes, radios, the unchecked Switch and the
-Slider track use it. Cards, popups, tabs and accordions keep the lighter
+triggers, PinInput cells, checkboxes and radios use it. Cards, popups, tabs,
+accordions and the Switch and Slider tracks keep the subtler
 `--bk-color-border`. `--bk-color-border-hover` moved one step further so hover
 still reads stronger than the resting border.
 
