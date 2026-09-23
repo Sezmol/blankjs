@@ -147,21 +147,21 @@ body {
   gap: var(--bk-space-4);
 }
 
-.docs-page h1 {
+.docs-page > h1 {
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
-.docs-page h2 {
+.docs-page > h2 {
   margin-top: var(--bk-space-5);
   font-size: 1.35rem;
   font-weight: 650;
   letter-spacing: -0.01em;
 }
 
-.docs-page h3 {
+.docs-page > h3 {
   margin-top: var(--bk-space-3);
   font-size: 1.05rem;
   font-weight: 600;
