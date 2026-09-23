@@ -6,6 +6,7 @@ import {
   type MouseEvent,
 } from "react";
 import { useComboboxContext } from "./context";
+import { scrollIntoListbox } from "../internal";
 
 export interface ComboboxItemProps extends ComponentProps<"div"> {
   value: string;
@@ -68,8 +69,8 @@ export const ComboboxItem = ({
   }, [registerItem, textValue, value, optionId, setActiveItem]);
 
   useEffect(() => {
-    if (isActive) {
-      ref.current?.scrollIntoView({ block: "nearest" });
+    if (isActive && ref.current) {
+      scrollIntoListbox(ref.current);
     }
   }, [isActive]);
 

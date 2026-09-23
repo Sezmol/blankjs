@@ -19,6 +19,8 @@ export {
 
 export { HIDDEN_INPUT_STYLE } from "./hidden-input-style";
 
+export { scrollIntoListbox } from "./scroll-into-listbox";
+
 export { onFormReset } from "./on-form-reset";
 
 export { focusOnSubmitAttempt, watchSubmitAttempts } from "./submit-attempt";

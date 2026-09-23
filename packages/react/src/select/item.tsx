@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, type ComponentProps } from "react";
 import { useSelectContext } from "./context";
+import { scrollIntoListbox } from "../internal";
 
 export interface SelectItemProps extends ComponentProps<"div"> {
   value: string;
@@ -63,8 +64,8 @@ export const SelectItem = ({
   }, [registerItem, textValue, value, optionId, setActiveItem]);
 
   useEffect(() => {
-    if (isActive) {
-      ref.current?.scrollIntoView({ block: "nearest" });
+    if (isActive && ref.current) {
+      scrollIntoListbox(ref.current);
     }
   }, [isActive]);
 

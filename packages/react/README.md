@@ -266,7 +266,7 @@ pnpm lint
 
 A second suite runs the same components in real Chromium, for the behavior jsdom
 cannot execute: the `<dialog>` focus trap, popover flipping at the viewport edge,
-`scrollIntoView`, tab indicator geometry, `beforeinput`, and the motion layer.
+listbox scrolling, tab indicator geometry, `beforeinput`, and the motion layer.
 Specs are named `*.browser.test.tsx` and are excluded from `pnpm test`.
 
 ```bash

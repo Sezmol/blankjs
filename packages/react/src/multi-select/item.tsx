@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, type ComponentProps } from "react";
 import { useMultiSelectContext } from "./context";
+import { scrollIntoListbox } from "../internal";
 
 export interface MultiSelectItemProps extends ComponentProps<"div"> {
   value: string;
@@ -62,8 +63,8 @@ export const MultiSelectItem = ({
   }, [registerItem, textValue, value, optionId, setActiveItem]);
 
   useEffect(() => {
-    if (isActive) {
-      ref.current?.scrollIntoView({ block: "nearest" });
+    if (isActive && ref.current) {
+      scrollIntoListbox(ref.current);
     }
   }, [isActive]);
 

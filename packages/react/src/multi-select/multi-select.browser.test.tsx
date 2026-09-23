@@ -20,3 +20,31 @@ test("picking with the mouse keeps focus on the trigger", async () => {
 
   expect(trigger).toHaveFocus();
 });
+
+test("opening far down the page does not scroll the page", async () => {
+  render(
+    <div style={{ paddingTop: "200vh" }}>
+      <MultiSelect.Root>
+        <MultiSelect.Trigger>Days</MultiSelect.Trigger>
+        <MultiSelect.Content>
+          <MultiSelect.Item value="mon">Mon</MultiSelect.Item>
+          <MultiSelect.Item value="tue">Tue</MultiSelect.Item>
+        </MultiSelect.Content>
+      </MultiSelect.Root>
+    </div>,
+  );
+
+  const trigger = screen.getByRole("combobox");
+
+  trigger.scrollIntoView({ block: "center" });
+
+  const before = window.scrollY;
+
+  await userEvent.click(trigger);
+
+  const listbox = await screen.findByRole("listbox");
+
+  await expect.poll(() => listbox.querySelector("[data-active]")).not.toBeNull();
+
+  expect(window.scrollY).toBe(before);
+});

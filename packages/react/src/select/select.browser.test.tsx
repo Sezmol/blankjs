@@ -44,6 +44,39 @@ test("keeps the active option inside the scrolled listbox", async () => {
   expect(box.bottom).toBeLessThanOrEqual(view.bottom + 1);
 });
 
+test("opening far down the page scrolls the listbox, not the page", async () => {
+  render(
+    <div style={{ paddingTop: "200vh" }}>
+      <Select.Root defaultValue="Item 30">
+        <Select.Trigger>
+          <Select.Value />
+        </Select.Trigger>
+        <Select.Content>
+          {items.map((label) => (
+            <Select.Item key={label} value={label}>
+              {label}
+            </Select.Item>
+          ))}
+        </Select.Content>
+      </Select.Root>
+    </div>,
+  );
+
+  const trigger = screen.getByRole("combobox");
+
+  trigger.scrollIntoView({ block: "center" });
+
+  const before = window.scrollY;
+
+  await userEvent.click(trigger);
+
+  const listbox = screen.getByRole("listbox");
+
+  await expect.poll(() => listbox.scrollTop).toBeGreaterThan(0);
+
+  expect(window.scrollY).toBe(before);
+});
+
 test("picking with the mouse keeps focus on the trigger", async () => {
   renderSelect();
 
