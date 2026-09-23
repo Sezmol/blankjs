@@ -11,9 +11,9 @@ export const MultiSelectPage = () => (
     <h1>MultiSelect</h1>
 
     <p className="docs-lead">
-      Like <Link to="/components/select">Select</Link>, but the value is
-      honestly a <code>string[]</code> — a separate component instead of a{" "}
-      <code>multiple</code> prop, so neither API has to lie about its type.
+      Like <Link to="/components/select">Select</Link>, with a{" "}
+      <code>string[]</code> value. It is a separate component in place of a{" "}
+      <code>multiple</code> prop, so each API keeps an exact value type.
     </p>
 
     <Demo code={basicCode}>
@@ -23,22 +23,21 @@ export const MultiSelectPage = () => (
     <h2>Picking several things</h2>
 
     <p>
-      Clicking an item toggles it and <strong>keeps the list open</strong> —
-      closing after every pick is the single most annoying multi-select
-      mistake. <code>Escape</code> or clicking outside closes;{" "}
-      <code>MultiSelect.Value</code> takes a render prop so you decide how
-      the selection reads on the trigger.
+      Clicking an item toggles it and <strong>keeps the list open</strong>,
+      so the user can pick several items in a row. <code>Escape</code> or a
+      click outside closes the list. <code>MultiSelect.Value</code> takes a
+      render prop, so you decide how the selection reads on the trigger.
     </p>
 
     <h2>In a form</h2>
 
     <p>
       Each selected value renders its own hidden input under the shared{" "}
-      <code>name</code> — on the server it is{" "}
+      <code>name</code>. On the server you read them with{" "}
       <code>formData.getAll("days")</code>, and <code>serialize</code>{" "}
       collects repeated names into an array. <code>required</code> works
-      through a proxy text input that is empty when nothing is selected, so
-      the native constraint and the{" "}
+      through a proxy text input that stays empty while nothing is selected,
+      so the native constraint and the{" "}
       <Link to="/components/field">Field</Link> error pipeline apply:
     </p>
 
@@ -47,9 +46,9 @@ export const MultiSelectPage = () => (
     </Demo>
 
     <p>
-      With a <code>schema</code> on <code>Form</code>, keep in mind what{" "}
-      <code>serialize</code> hands it: nothing when no value is picked, a
-      string for one value and an array for several. Normalize before the
+      With a <code>schema</code> on <code>Form</code>, note what{" "}
+      <code>serialize</code> passes to it: nothing when no value is picked, a
+      string for one value, and an array for several. Normalize before the
       array check, for example with Zod:{" "}
       <code>
         z.preprocess((v) =&gt; [v ?? []].flat(), z.array(z.string()))

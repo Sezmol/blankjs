@@ -48,8 +48,8 @@ export const GettingStartedPage = () => (
     <CodeBlock code="npm install @blankjs/react" lang="bash" />
 
     <p>
-      blankjs requires <strong>React 19</strong> — the components lean on
-      19-only APIs: <code>ref</code> as a regular prop and{" "}
+      blankjs requires <strong>React 19</strong>. The components use two APIs
+      that only 19 has: <code>ref</code> as a regular prop and{" "}
       <code>&lt;Context&gt;</code> as a provider.
     </p>
 
@@ -65,8 +65,7 @@ export const GettingStartedPage = () => (
     <h2>Theming</h2>
 
     <p>
-      Themes switch with one attribute on any ancestor — no JavaScript
-      involved:
+      One attribute on any ancestor switches the theme, with no JavaScript:
     </p>
 
     <CodeBlock code={themeCode} />
@@ -76,8 +75,8 @@ export const GettingStartedPage = () => (
     <CodeBlock code={overrideCode} lang="css" />
 
     <p>
-      Using Tailwind? The stylesheet needs one extra line so your utility
-      classes can win — see <Link to="/guides/tailwind">Tailwind CSS</Link>.
+      With Tailwind, the stylesheet needs one extra line so your utility
+      classes win. See <Link to="/guides/tailwind">Tailwind CSS</Link>.
     </p>
   </article>
 );

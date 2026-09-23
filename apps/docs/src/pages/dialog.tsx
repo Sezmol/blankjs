@@ -24,8 +24,8 @@ export const DialogPage = () => (
 
     <p className="docs-lead">
       A modal built on the native <code>&lt;dialog&gt;</code> element. The
-      focus trap, focus return, <code>Escape</code> handling, and the backdrop
-      come from the browser, not from JavaScript.
+      browser provides the focus trap, focus return, <code>Escape</code>{" "}
+      handling, and the backdrop.
     </p>
 
     <Demo code={basicCode}>
@@ -36,16 +36,16 @@ export const DialogPage = () => (
 
     <p>
       <code>Dialog.Content</code> renders a real <code>&lt;dialog&gt;</code>{" "}
-      and opens it with <code>showModal()</code>. That one call buys what
-      other libraries reimplement by hand:
+      and opens it with <code>showModal()</code>. That call gives you what
+      other libraries rebuild by hand:
     </p>
 
     <ul className="docs-list">
       <li>
-        <strong>Top layer.</strong> The dialog paints above everything,
+        <strong>Top layer.</strong> The dialog paints above the page
         regardless of <code>z-index</code> or ancestor{" "}
-        <code>overflow: hidden</code> — so there is no portal, the dialog
-        stays exactly where you wrote it in the tree.
+        <code>overflow: hidden</code>. It needs no portal and stays where you
+        wrote it in the tree.
       </li>
       <li>
         <strong>Focus trap and focus return.</strong> Tab cycles inside the
@@ -62,8 +62,8 @@ export const DialogPage = () => (
         dialog.
       </li>
       <li>
-        <strong>Scroll lock.</strong> Page scroll is disabled with a
-        CSS-only rule (<code>html:has(dialog:modal)</code>) —{" "}
+        <strong>Scroll lock.</strong> A CSS rule (
+        <code>html:has(dialog:modal)</code>) locks page scroll, and{" "}
         <code>scrollbar-gutter: stable</code> keeps the layout from jumping.
       </li>
     </ul>
@@ -75,16 +75,16 @@ export const DialogPage = () => (
     <p>
       <code>Dialog.Title</code> and <code>Dialog.Description</code> wire{" "}
       <code>aria-labelledby</code> / <code>aria-describedby</code> onto the
-      dialog automatically — omit either and its attribute is omitted too.
-      Layout inside the dialog is yours: rows of action buttons, dividers,
+      dialog. Leave one out and the dialog drops that attribute too. The
+      layout inside the dialog is yours: rows of action buttons, dividers,
       any structure you need.
     </p>
 
     <h2>With a form</h2>
 
     <p>
-      Everything works inside: fields validate, <code>FormData</code>{" "}
-      serializes, and the dialog is controlled so submit can close it.
+      Forms work inside: fields validate, <code>FormData</code> serializes,
+      and the demo controls the dialog so submit can close it.
     </p>
 
     <Demo code={formCode}>
@@ -94,8 +94,8 @@ export const DialogPage = () => (
     <h2>Vetoing a close</h2>
 
     <p>
-      The standard event contract applies. To keep the dialog open — say,
-      with unsaved changes — call <code>preventDefault()</code> in{" "}
+      The standard event contract applies. To keep the dialog open, for
+      example with unsaved changes, call <code>preventDefault()</code> in{" "}
       <code>onCancel</code> for <code>Escape</code>, or in{" "}
       <code>onClick</code> of <code>Dialog.Close</code>:
     </p>

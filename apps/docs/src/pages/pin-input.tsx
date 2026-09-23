@@ -34,26 +34,26 @@ export const PinInputPage = () => (
 
     <p className="docs-lead">
       A verification code split into cells. Each cell is a real input, so the
-      caret, the mobile keyboard and the browser's own text handling are the
-      platform's. The code itself reaches the form as one value.
+      browser handles the caret, the mobile keyboard and text editing. The
+      form receives the code as one value.
     </p>
 
     <Demo code={basicCode}>
       <PinInputBasic />
     </Demo>
 
-    <h2>What the markup is</h2>
+    <h2>Markup</h2>
 
     <CodeBlock code={anatomyCode} />
 
     <p>
-      The cells are what you type into. Alongside them sits one more input,
-      hidden with CSS rather than <code>type="hidden"</code>, carrying the
-      joined value under your <code>name</code>. The distinction matters:{" "}
-      <code>type="hidden"</code> is barred from constraint validation, so a
-      hidden proxy could never be <code>required</code>. This one can, which is
-      how an incomplete code blocks a submit without a line of JavaScript. The
-      same trick runs Select, Combobox and MultiSelect.
+      You type into the cells. Next to them sits one more input, hidden with
+      CSS, that carries the joined value under your <code>name</code>. It
+      avoids <code>type="hidden"</code> on purpose: the browser skips hidden
+      inputs in constraint validation, so a <code>type="hidden"</code> proxy
+      could not be <code>required</code>. The CSS-hidden proxy can, and that
+      is how an incomplete code blocks a submit without extra JavaScript.
+      Select, Combobox and MultiSelect use the same proxy.
     </p>
 
     <h2>Validation</h2>
@@ -63,9 +63,9 @@ export const PinInputPage = () => (
       <code>length</code> and <code>type</code>, so a half-typed code is invalid
       the same way a malformed email is. Mark the{" "}
       <Link to="/components/field">Field</Link> as <code>required</code> and{" "}
-      <code>Field.Error</code> reports it. When the browser rejects the value it
-      would normally focus the proxy, which nobody can see; focus is handed to
-      the first empty cell instead.
+      <code>Field.Error</code> reports it. When the browser rejects the value,
+      it tries to focus the proxy, which the user cannot see. PinInput moves
+      focus to the first empty cell instead.
     </p>
 
     <Demo code={verifyCode}>
@@ -76,8 +76,8 @@ export const PinInputPage = () => (
 
     <p>
       <code>groups</code> splits the cells and draws a separator between the
-      pieces. Numbers that do not add up to <code>length</code> are fine, the
-      leftover cells join the last group rather than disappearing.
+      pieces. The numbers do not have to add up to <code>length</code>:
+      leftover cells join the last group.
     </p>
 
     <CodeBlock code={groupsCode} />
@@ -86,42 +86,41 @@ export const PinInputPage = () => (
 
     <p>
       <code>onComplete</code> fires when the last cell fills, whether the code
-      was typed, pasted or autofilled. It is the hook for verifying without a
+      was typed, pasted or autofilled. Use it to verify the code without a
       submit button.
     </p>
 
     <CodeBlock code={completeCode} />
 
-    <h2>What the browser does for us</h2>
+    <h2>Paste, autofill and typing</h2>
 
     <p>
-      Pasting <code>123-456</code> drops the separator and spreads the digits.
-      Autofill from an SMS arrives as one long value in the first cell and
-      spreads the same way, which is why the cells accept more than one
-      character even though they only ever show one. The first cell carries{" "}
-      <code>autocomplete="one-time-code"</code>; the rest carry{" "}
+      Pasting <code>123-456</code> drops the separator and spreads the digits
+      across the cells. Autofill from an SMS arrives as one long value in the
+      first cell and spreads the same way. That is why a cell accepts more
+      than one character while showing only one. The first cell carries{" "}
+      <code>autocomplete="one-time-code"</code> and the rest carry{" "}
       <code>off</code>, so a password manager cannot scatter a saved value
       across them.
     </p>
 
     <p>
-      The browser never edits a cell itself. Every insertion is taken on{" "}
-      <code>beforeinput</code> and written by the component, so a cell always
-      shows exactly what was rendered. That is what makes typing into a filled
-      cell replace the character rather than be swallowed, and a character the{" "}
-      <code>type</code> rejects never reaches the DOM at all. It also keeps the
-      value safe from a re-render landing mid-keystroke, which would otherwise
-      reset the cell and lose the character before React saw it.
+      The browser never edits a cell itself. PinInput catches every insertion
+      on <code>beforeinput</code> and writes it, so a cell shows what React
+      rendered. Typing into a filled cell replaces the character, and a
+      character the <code>type</code> rejects never reaches the DOM. A
+      re-render in the middle of a keystroke cannot reset the cell and lose
+      the character before React sees it.
     </p>
 
     <h2>No holes</h2>
 
     <p>
       Cells fill from the left. Clicking a cell past the end sends focus to the
-      first empty one, so the value is always a prefix and never{" "}
-      <code>1_3___</code>. This is what keeps <code>value</code> a plain string:
-      a hole would have to vanish when the characters are joined, and a
-      controlled parent feeding that string back would move the gap.
+      first empty one, so the filled cells form a prefix and never look like{" "}
+      <code>1_3___</code>. That keeps <code>value</code> a plain string. A
+      hole would vanish when the characters are joined, and a controlled
+      parent feeding that string back would move the gap.
     </p>
 
     <h2>Driving it yourself</h2>

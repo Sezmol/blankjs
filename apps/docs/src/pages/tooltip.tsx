@@ -34,38 +34,38 @@ export const TooltipPage = () => (
     <p className="docs-lead">
       A hover and focus label built on the native{" "}
       <code>popover="hint"</code>. The browser provides the top layer and
-      keeps hints out of the way of open popovers; the library contributes
-      what tooltips are really about — timing.
+      keeps hints out of the way of open popovers. The library handles the
+      timing.
     </p>
 
     <Demo code={basicCode}>
       <TooltipBasic />
     </Demo>
 
-    <h2>Timing is the component</h2>
+    <h2>Timing</h2>
 
     <p>
-      A naive tooltip — show on enter, hide on leave — fails the moment a
-      cursor travels across a toolbar: every button it crosses flashes a
-      label nobody asked for. Everything this component adds is an answer to
-      one question: <em>was that intentional?</em>
+      A tooltip that shows on enter and hides on leave misbehaves when the
+      cursor crosses a toolbar: every button along the way flashes a label.
+      Tooltip adds three rules that tell a deliberate hover from a passing
+      one:
     </p>
 
     <ul className="docs-list">
       <li>
-        <strong>Open delay.</strong> Hover opens after 500ms. A cursor
-        passing through never rests that long; a cursor that stops does.
+        <strong>Open delay.</strong> Hover opens the tooltip after 500ms. A
+        passing cursor does not rest that long, and a cursor that stops does.
       </li>
       <li>
-        <strong>Close delay.</strong> Leaving the trigger closes 100ms later
-        — enough time to move the pointer onto the tooltip itself, so its
-        text can be selected and copied (WCAG 1.4.13). Hovering the content
-        cancels the close.
+        <strong>Close delay.</strong> Leaving the trigger closes the tooltip
+        100ms later. That gives the user time to move the pointer onto the
+        tooltip and select or copy its text (WCAG 1.4.13). Hovering the
+        content cancels the close.
       </li>
       <li>
-        <strong>Grace period.</strong> Once a tooltip has just closed,
-        neighboring ones open with no delay — pay the 500ms once, then read
-        labels as fast as you can point. Try sweeping across the row:
+        <strong>Grace period.</strong> Right after a tooltip closes,
+        neighboring ones open with no delay. The user waits 500ms once, then
+        reads labels as fast as they can point. Try sweeping across the row:
       </li>
     </ul>
 
@@ -74,18 +74,18 @@ export const TooltipPage = () => (
     </Demo>
 
     <p>
-      The grace window is shared by every tooltip on the page without a
-      provider to wrap your app in — it is a single timestamp, not state, so
-      no context is needed.
+      Every tooltip on the page shares the grace window without a provider
+      around your app. The window is one shared timestamp outside React
+      state, so it needs no context.
     </p>
 
     <p>
-      Keyboard focus skips the delay entirely: tabbing to a control is
-      always intentional, so the tooltip shows at once. Mouse clicks also
-      focus the trigger, but do not show the tooltip —{" "}
-      <code>:focus-visible</code> tells the two apart. <code>Escape</code>{" "}
-      dismisses without moving focus. On touch there are no tooltips at all
-      — there is no hover to explain, and a tap already means "activate".
+      Keyboard focus skips the delay: tabbing to a control is a deliberate
+      move, so the tooltip shows at once. A mouse click also focuses the
+      trigger but does not show the tooltip; <code>:focus-visible</code>{" "}
+      tells the two apart. <code>Escape</code> dismisses the tooltip without
+      moving focus. Touch devices get no tooltips: there is no hover, and a
+      tap already means "activate".
     </p>
 
     <h2>Anatomy</h2>
@@ -96,39 +96,38 @@ export const TooltipPage = () => (
       <code>Tooltip.Trigger</code> renders a button and links itself to the
       content with <code>aria-describedby</code>, so screen readers announce
       the label with the control. Unlike{" "}
-      <Link to="/components/popover">Popover</Link>, there is no{" "}
-      <code>popovertarget</code> wiring — a click on the trigger must mean
-      the button's own action, never "toggle the tooltip". Visibility
-      belongs to hover and focus alone.
+      <Link to="/components/popover">Popover</Link>, the trigger has no{" "}
+      <code>popovertarget</code>: a click on it runs the button's own action
+      and never toggles the tooltip. Only hover and focus show it.
     </p>
 
-    <h2>Why popover="hint"</h2>
+    <h2>popover="hint"</h2>
 
     <p>
       <code>Tooltip.Content</code> renders a{" "}
-      <code>div popover="hint" role="tooltip"</code>. The hint state exists
-      exactly for this: it lives in the top layer (no z-index, no clipping,
-      no portal) but stays <em>outside</em> the light-dismiss stack of{" "}
-      <code>auto</code> popovers. Hovering a tooltip while a{" "}
+      <code>div popover="hint" role="tooltip"</code>. The hint state lives in
+      the top layer (no z-index, no clipping, no portal) and stays{" "}
+      <em>outside</em> the light-dismiss stack of <code>auto</code> popovers.
+      Hovering a tooltip while a{" "}
       <Link to="/components/popover">Popover</Link> or{" "}
-      <Link to="/components/select">Select</Link> is open does not close
-      them — with <code>auto</code> it would.
+      <Link to="/components/select">Select</Link> is open leaves them open;
+      with <code>auto</code> they would close.
     </p>
 
     <p>
-      In browsers that do not know <code>hint</code> yet (Safari), the
-      attribute degrades to the <code>manual</code> state by spec: still top
-      layer, still <code>showPopover()</code> — only the hint semantics are
-      gone, and those the library never relied on, since visibility is
-      driven by its own timers.
+      Browsers without <code>hint</code> support (Safari) fall back to the{" "}
+      <code>manual</code> state, as the spec prescribes. The tooltip stays in
+      the top layer and still opens through <code>showPopover()</code>. Only
+      the hint semantics disappear, and the library does not rely on them:
+      its own timers control visibility.
     </p>
 
     <h2>Disabled triggers</h2>
 
     <p>
       Disabled elements fire no pointer events, so a tooltip on a disabled
-      button never opens. That is a platform rule, not a library one; the
-      escape hatch is a focusable wrapper:
+      button never opens. The browser sets this rule. Wrap the button in a
+      focusable element to work around it:
     </p>
 
     <CodeBlock code={disabledCode} />
@@ -194,7 +193,7 @@ export const TooltipPage = () => (
           type: "Placement",
           defaultValue: '"top"',
           description:
-            "Side and alignment relative to the trigger; flips automatically at viewport edges.",
+            "Side and alignment relative to the trigger; flips at viewport edges.",
         },
       ]}
     />
@@ -202,10 +201,10 @@ export const TooltipPage = () => (
     <h2>Browser support</h2>
 
     <p>
-      <code>popover="hint"</code> ships in Chrome 133+ and Firefox 149+ and
-      degrades to <code>manual</code> elsewhere — the tooltip works the same
-      either way. The fade-in uses <code>@starting-style</code>; browsers
-      without it simply show the tooltip instantly.
+      <code>popover="hint"</code> ships in Chrome 133+ and Firefox 149+, and
+      other browsers fall back to <code>manual</code>. The tooltip works the
+      same in both cases. The fade-in uses <code>@starting-style</code>;
+      browsers without it show the tooltip without a fade.
     </p>
   </article>
 );

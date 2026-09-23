@@ -14,48 +14,23 @@ export const NumberFieldPage = () => (
     <h1>NumberField</h1>
 
     <p className="docs-lead">
-      A number input with proper stepper buttons. Underneath it stays a real{" "}
-      <code>&lt;input type="number"&gt;</code> — the arithmetic, the limits,
-      the keyboard, and the validation all belong to the browser.
+      A number input with large stepper buttons in place of the native
+      spinner. Underneath it stays a real{" "}
+      <code>&lt;input type="number"&gt;</code>, so the browser handles the
+      arithmetic, the limits, the keyboard, and the validation.
     </p>
 
     <Demo code={basicCode}>
       <NumberFieldBasic />
     </Demo>
 
-    <h2>Why not a plain number input</h2>
-
-    <p>
-      The native spinner is the least usable part of{" "}
-      <code>type="number"</code>: a 12-pixel hit target, styled differently in
-      every browser, and invisible in Firefox until hover. NumberField hides
-      it and renders real buttons — everything else is untouched platform:
-    </p>
-
-    <ul className="docs-list">
-      <li>
-        Arrow keys step the value; <code>min</code>/<code>max</code>/
-        <code>step</code> clamp it — no arithmetic in the library
-      </li>
-      <li>
-        The value serializes into <code>FormData</code> and restores on form
-        reset
-      </li>
-      <li>
-        Invalid input reports through <code>ValidityState</code> —{" "}
-        <code>badInput</code>, <code>stepMismatch</code>,{" "}
-        <code>rangeOverflow</code> — so <code>Field</code> validation works
-        with no extra wiring
-      </li>
-    </ul>
-
     <h2>Bounds</h2>
 
     <p>
       The stepper buttons call the native <code>stepUp()</code> /{" "}
       <code>stepDown()</code>, which respect <code>min</code>,{" "}
-      <code>max</code>, and <code>step</code>. At a bound the matching button
-      disables:
+      <code>max</code>, and <code>step</code>. At a bound NumberField disables
+      the matching button:
     </p>
 
     <Demo code={stepCode}>
@@ -65,33 +40,34 @@ export const NumberFieldPage = () => (
     <h2>Validation</h2>
 
     <p>
-      Wrap it in a <Link to="/components/field">Field</Link> and the native
-      constraints speak your words through <code>errorMessages</code>. Type a
-      value over the limit, or letters into the field, and submit:
+      Wrap it in a <Link to="/components/field">Field</Link> and use{" "}
+      <code>errorMessages</code> to replace the browser's wording for the
+      native constraints. Type a value over the limit, or letters into the
+      field, and submit:
     </p>
 
     <Demo code={validationCode}>
       <NumberFieldValidation />
     </Demo>
 
-    <h2>No locale formatting — on purpose</h2>
+    <h2>No locale formatting</h2>
 
     <p>
-      NumberField will not render <code>1 000 000</code> with thousand
-      separators: a native number input cannot display non-numeric
-      characters, by specification. Libraries that format switch to{" "}
-      <code>type="text"</code> and reimplement parsing, stepping, and
-      validation by hand. blankjs keeps the real input and the platform
-      behavior that comes with it; a formatted-input component is a different
-      tool, not a missing feature of this one.
+      NumberField does not render <code>1 000 000</code> with thousand
+      separators. The HTML spec lets a number input show only the number
+      itself, so the separators have nowhere to go. Libraries that format
+      switch to <code>type="text"</code> and rewrite parsing, stepping, and
+      validation by hand. blankjs keeps the real input and the browser
+      behavior that comes with it. For formatted input, use a separate
+      component built on a text input.
     </p>
 
     <h2>API</h2>
 
     <p>
-      Every native <code>input</code> prop except <code>type</code> passes
-      through — <code>min</code>, <code>max</code>, <code>step</code>,{" "}
-      <code>required</code>, <code>placeholder</code>, and friends.
+      NumberField passes through every native <code>input</code> prop except{" "}
+      <code>type</code>: <code>min</code>, <code>max</code>, <code>step</code>,{" "}
+      <code>required</code>, <code>placeholder</code>, and the rest.
     </p>
 
     <PropsTable

@@ -11,23 +11,22 @@ export const SwitchPage = () => (
     <h1>Switch</h1>
 
     <p className="docs-lead">
-      A native checkbox wearing <code>role="switch"</code>. Screen readers
-      announce "on/off" instead of "checked/unchecked"; everything else —
-      label clicks, keyboard, forms — is inherited from the input underneath.
+      A native checkbox with <code>role="switch"</code>. Screen readers
+      announce "on/off" instead of "checked/unchecked". Label clicks, the
+      keyboard, and form behavior come from the input underneath.
     </p>
 
     <Demo code={basicCode}>
       <SwitchBasic />
     </Demo>
 
-    <h2>Switch or Checkbox?</h2>
+    <h2>Switch or Checkbox</h2>
 
     <p>
-      Semantics, not looks: a switch flips something on or off, ideally with
-      immediate effect — notifications, dark mode. A checkbox marks a choice
-      to be submitted with a form. If the control sits next to a submit
-      button, it probably wants to be a{" "}
-      <Link to="/components/checkbox">Checkbox</Link>.
+      Pick by meaning. A switch turns a setting on or off and takes effect
+      right away, like notifications or dark mode. A checkbox marks a choice
+      that the form submits later. If the control sits next to a submit
+      button, use a <Link to="/components/checkbox">Checkbox</Link>.
     </p>
 
     <h2>Structure</h2>

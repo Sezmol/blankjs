@@ -10,25 +10,24 @@ export const TextareaPage = () => (
     <h1>Textarea</h1>
 
     <p className="docs-lead">
-      A native <code>&lt;textarea&gt;</code> that grows with its content —
-      no rows-measuring JavaScript, just CSS{" "}
-      <code>field-sizing: content</code>.
+      A native <code>&lt;textarea&gt;</code> that grows with its content
+      through CSS <code>field-sizing: content</code>, with no JavaScript
+      measuring rows.
     </p>
 
     <Demo code={basicCode}>
       <TextareaBasic />
     </Demo>
 
-    <h2>Auto-grow, the CSS way</h2>
+    <h2>Auto-grow in CSS</h2>
 
     <p>
-      Auto-growing textareas used to mean mirror elements and scroll-height
-      math on every keystroke. <code>field-sizing: content</code> moves that
-      into the browser: the element sizes itself to its value, and{" "}
-      <code>rows</code> (default 3) acts as the minimum height. Manual
-      vertical resize stays available on top. In browsers without support
-      the textarea is simply a fixed-height textarea with a resize handle —
-      nothing breaks.
+      Auto-growing textareas used to need mirror elements and scroll-height
+      math on every keystroke. With <code>field-sizing: content</code> the
+      browser sizes the element to its value, and <code>rows</code> (default
+      3) sets the minimum height. The user can still resize it vertically by
+      hand. Browsers without support show a fixed-height textarea with a
+      resize handle, and nothing breaks.
     </p>
 
     <h2>Validation</h2>
@@ -57,8 +56,7 @@ export const TextareaPage = () => (
           name: "rows",
           type: "number",
           defaultValue: "3",
-          description:
-            "Minimum height in lines — the floor the auto-grow starts from.",
+          description: "Minimum height in lines. Auto-grow starts from here.",
         },
       ]}
     />

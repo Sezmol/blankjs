@@ -11,9 +11,9 @@ export const RadioGroupPage = () => (
     <h1>RadioGroup</h1>
 
     <p className="docs-lead">
-      Native radio inputs sharing a <code>name</code> — the browser provides
-      the exclusivity and the arrow-key navigation; the library provides one
-      value instead of N checked booleans.
+      Native radio inputs sharing a <code>name</code>. The browser keeps one
+      radio checked and handles arrow-key navigation. The library gives you
+      one value in place of N checked booleans.
     </p>
 
     <Demo code={basicCode}>
@@ -21,20 +21,19 @@ export const RadioGroupPage = () => (
     </Demo>
 
     <p>
-      Arrow keys move and select within the group, <code>Tab</code> enters
-      and leaves it as a single stop — that is native radio behavior, not
-      library code. An item with children renders a wrapping{" "}
-      <code>label</code>, so the text is clickable for free.
+      Arrow keys move and select within the group, and <code>Tab</code>{" "}
+      enters and leaves it as a single stop. The browser does this for
+      native radios. An item with children renders a wrapping{" "}
+      <code>label</code>, so clicking the text selects the radio.
     </p>
 
     <h2>Labeling the group</h2>
 
     <p>
-      A <code>div role="radiogroup"</code> is not a labelable element —{" "}
-      <code>label htmlFor</code> silently does nothing. Inside a{" "}
-      <Link to="/components/field">Field</Link> the group is wired through{" "}
-      <code>aria-labelledby</code> instead, automatically. This is the
-      component that taught the kit that distinction.
+      A <code>div role="radiogroup"</code> is not a labelable element, so{" "}
+      <code>label htmlFor</code> does nothing. Inside a{" "}
+      <Link to="/components/field">Field</Link>, Field wires the group
+      through <code>aria-labelledby</code> instead.
     </p>
 
     <h2>Controlled</h2>
@@ -68,7 +67,7 @@ export const RadioGroupPage = () => (
           name: "name",
           type: "string",
           description:
-            "Shared native name — the FormData key and the browser's grouping mechanism.",
+            "Shared native name: the FormData key and the browser's grouping mechanism.",
         },
         {
           name: "disabled",

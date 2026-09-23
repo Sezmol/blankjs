@@ -41,9 +41,9 @@ export const AccordionPage = () => (
 
     <p className="docs-lead">
       Collapsible sections built on native <code>&lt;details&gt;</code> and{" "}
-      <code>&lt;summary&gt;</code>. Toggling, keyboard support, exclusivity,
-      and even the height animation are the browser's; the library adds
-      styling, a chevron, and a controlled-mode contract.
+      <code>&lt;summary&gt;</code>. The browser handles toggling, keyboard
+      support, exclusivity, and the height animation. The library adds
+      styling, a chevron, and a controlled mode.
     </p>
 
     <Demo code={basicCode}>
@@ -55,20 +55,17 @@ export const AccordionPage = () => (
     <ul className="docs-list">
       <li>
         <strong>Toggling.</strong> A <code>summary</code> click or{" "}
-        <code>Enter</code>/<code>Space</code> opens the item with zero
-        JavaScript — it works before React hydrates, and even with scripts
-        disabled.
+        <code>Enter</code>/<code>Space</code> opens the item without
+        JavaScript. It works before React hydrates and with scripts disabled.
       </li>
       <li>
-        <strong>Semantics.</strong> Screen readers announce the expanded
-        state from the element itself; there is no ARIA to wire because
-        nothing is being imitated.
+        <strong>Semantics.</strong> Screen readers read the expanded state
+        from the element itself, so there is no ARIA to wire.
       </li>
       <li>
         <strong>Find-in-page.</strong> In Chromium, <code>Ctrl+F</code>{" "}
-        searches inside closed items and opens the one that matches — a
-        feature no <code>display: none</code> reimplementation gets for
-        free.
+        searches inside closed items and opens the one that matches. An
+        implementation built on <code>display: none</code> cannot do this.
       </li>
     </ul>
 
@@ -78,20 +75,18 @@ export const AccordionPage = () => (
 
     <p>
       <code>Accordion.Item</code> renders a <code>details</code> element and{" "}
-      <code>Accordion.Trigger</code> its <code>summary</code> — a real one,
-      not a button pretending. <code>Accordion.Content</code> is a plain{" "}
-      <code>div</code> that exists for padding; the open/closed state lives
-      on the item.
+      <code>Accordion.Trigger</code> renders its <code>summary</code>.{" "}
+      <code>Accordion.Content</code> is a plain <code>div</code> for padding;
+      the open/closed state lives on the item.
     </p>
 
     <h2>Exclusive mode</h2>
 
     <p>
-      <code>exclusive</code> on the root keeps at most one item open. This
-      is not an effect watching state — the root hands every item the same
-      native <code>name</code> attribute, and the browser closes the
-      previous item the moment a new one opens, the same way radio buttons
-      exclude each other:
+      <code>exclusive</code> on the root keeps at most one item open. The
+      root gives every item the same native <code>name</code> attribute, and
+      the browser closes the previous item when a new one opens, the same
+      way radio buttons exclude each other:
     </p>
 
     <Demo code={exclusiveCode}>
@@ -101,12 +96,12 @@ export const AccordionPage = () => (
     <h2>Controlled</h2>
 
     <p>
-      By default items manage themselves; <code>defaultOpen</code> just sets
-      the starting state. Passing <code>open</code> inverts the ownership:
-      the browser still flips the element on click, reports it through{" "}
-      <code>onOpenChange</code> — and if your state does not follow, the DOM
-      is reverted to match the prop. The prop is the boss; a click is a
-      request.
+      By default items manage themselves, and <code>defaultOpen</code> sets
+      the starting state. Pass <code>open</code> to take ownership. The
+      browser still flips the element on click, and Accordion reports it
+      through <code>onOpenChange</code>. If your state does not follow,
+      Accordion reverts the DOM to match the prop, so a click only asks for a
+      change.
     </p>
 
     <Demo code={controlledCode}>
@@ -114,17 +109,17 @@ export const AccordionPage = () => (
     </Demo>
 
     <p>
-      To veto a change before it reaches state at all, call{" "}
-      <code>preventDefault()</code> in <code>onToggle</code> —{" "}
-      <code>onOpenChange</code> will not fire.
+      To veto a change before it reaches state, call{" "}
+      <code>preventDefault()</code> in <code>onToggle</code>.{" "}
+      <code>onOpenChange</code> then does not fire.
     </p>
 
     <h2>Animating to height: auto</h2>
 
     <p>
-      The oldest excuse for faking accordions with divs was "you cannot
-      animate <code>height: auto</code>". You can now — this is the entire
-      animation, pure CSS:
+      Div-based accordions used to exist because CSS could not animate{" "}
+      <code>height: auto</code>. Current CSS can, and this is the whole
+      animation:
     </p>
 
     <CodeBlock code={animationCode} lang="css" />
@@ -132,10 +127,10 @@ export const AccordionPage = () => (
     <p>
       <code>interpolate-size: allow-keywords</code> lets the transition end
       at the keyword <code>auto</code>, and <code>::details-content</code>{" "}
-      targets the browser's own collapsible region — no measuring, no
-      resize observers. In browsers without support the accordion opens
-      instantly, and <code>prefers-reduced-motion</code> disables the
-      animation entirely.
+      targets the browser's own collapsible region, so nothing measures
+      heights or watches resizes. Browsers without support open the item
+      without animation, and <code>prefers-reduced-motion</code> turns the
+      animation off.
     </p>
 
     <h2>API</h2>
@@ -187,12 +182,11 @@ export const AccordionPage = () => (
     <h2>Browser support</h2>
 
     <p>
-      <code>details</code> itself is universal. The <code>name</code>{" "}
-      attribute behind <code>exclusive</code> ships in Chrome 120+, Firefox
-      130+, and Safari 17.2+; the height animation needs{" "}
-      <code>interpolate-size</code> (Chrome 129+) and degrades to an instant
-      open elsewhere. Neither gap breaks the component — that is the point
-      of building on the element instead of around it.
+      Every current browser supports <code>details</code>. The{" "}
+      <code>name</code> attribute behind <code>exclusive</code> ships in
+      Chrome 120+, Firefox 130+, and Safari 17.2+. The height animation needs{" "}
+      <code>interpolate-size</code> (Chrome 129+), and other browsers open
+      the item without animation. Neither gap breaks the component.
     </p>
   </article>
 );

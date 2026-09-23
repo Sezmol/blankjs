@@ -13,8 +13,9 @@ export const ButtonPage = () => (
     <h1>Button</h1>
 
     <p className="docs-lead">
-      A styled native <code>&lt;button&gt;</code>. Three variants, two
-      colors, three sizes — and one deliberate change to a browser default.
+      A styled native <code>&lt;button&gt;</code> with three variants, two
+      colors, and three sizes. It changes one browser default: the{" "}
+      <code>type</code>.
     </p>
 
     <Demo code={variantsCode}>
@@ -24,22 +25,22 @@ export const ButtonPage = () => (
     <h2>Variants and colors</h2>
 
     <p>
-      <code>variant</code> sets the weight — <code>solid</code> for the
+      <code>variant</code> sets the weight: <code>solid</code> for the
       primary action, <code>outline</code> for secondary, <code>ghost</code>{" "}
       for toolbars and tight spots. <code>color="danger"</code> works with
-      every variant: under the hood it just re-points the accent CSS
-      variable, so the two axes never multiply into special cases. Restyle
-      one variant and both colors follow.
+      every variant. It points the accent CSS variable at the danger color,
+      so variants and colors combine without special cases. Restyle one
+      variant and both colors follow.
     </p>
 
     <h2>type defaults to "button"</h2>
 
     <p>
-      A native button inside a form defaults to <code>type="submit"</code> —
-      the classic footgun where a "Cancel" button submits the form. This
-      component flips the default to <code>"button"</code>; pass{" "}
-      <code>type="submit"</code> explicitly where submitting is the point,
-      as the <Link to="/components/form">Form</Link> examples do.
+      A native button inside a form defaults to <code>type="submit"</code>,
+      so a "Cancel" button submits the form. Button sets the default to{" "}
+      <code>"button"</code>. Pass <code>type="submit"</code> where the button
+      should submit, as the <Link to="/components/form">Form</Link> examples
+      do.
     </p>
 
     <h2>Sizes and state</h2>
@@ -52,9 +53,8 @@ export const ButtonPage = () => (
 
     <p>
       <code>asChild</code> merges the button's styling and props onto your
-      own element — the usual case is a link that should look like a
-      button. No <code>href</code>-on-button hacks, a real{" "}
-      <code>&lt;a&gt;</code> with real link semantics:
+      own element. The usual case is a link styled as a button. You keep a
+      real <code>&lt;a&gt;</code> with link semantics:
     </p>
 
     <Demo code={asChildCode}>
@@ -94,9 +94,9 @@ export const ButtonPage = () => (
     />
 
     <p>
-      Every native <code>button</code> prop passes through, including{" "}
-      <code>type</code> — the default is <code>"button"</code>, not the
-      native <code>"submit"</code>.
+      Button passes through every native <code>button</code> prop, including{" "}
+      <code>type</code>. Its default is <code>"button"</code>; the native
+      default is <code>"submit"</code>.
     </p>
   </article>
 );

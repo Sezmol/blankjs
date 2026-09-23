@@ -25,7 +25,7 @@ export const SelectPage = () => (
     <h1>Select</h1>
 
     <p className="docs-lead">
-      Single-value picker with typeahead and full keyboard navigation. Submits
+      Single-value picker with typeahead and keyboard navigation. It submits
       through a hidden input, so the value lands in <code>FormData</code> like
       any native control.
     </p>
@@ -42,9 +42,9 @@ export const SelectPage = () => (
 
     <p>
       <code>Select.Value</code> renders the raw <code>value</code> string by
-      default — the same string that lands in <code>FormData</code>. When
-      values are codes rather than readable text, pass a render function to map
-      the value to its label:
+      default, the same string that lands in <code>FormData</code>. If your
+      values are codes, pass a render function that maps the value to its
+      label:
     </p>
 
     <CodeBlock
@@ -58,9 +58,9 @@ export const SelectPage = () => (
     <p>
       Give <code>Select.Root</code> a <code>name</code> and it renders a hidden
       input bound to the selection. <code>required</code> on the field blocks
-      submit while the select is empty — through the Constraint Validation API,
-      exactly like a native control — and <code>Field.Error</code> shows the
-      message.
+      submit while the select is empty. The Constraint Validation API does the
+      blocking, as for a native control, and <code>Field.Error</code> shows
+      the message.
     </p>
 
     <Demo code={formCode}>
@@ -123,7 +123,7 @@ export const SelectPage = () => (
           type: "boolean",
           defaultValue: "false",
           description:
-            "Marks the hidden input required — empty select blocks form submit.",
+            "Marks the hidden input required, so an empty select blocks form submit.",
         },
         {
           name: "size",
@@ -251,8 +251,8 @@ export const SelectPage = () => (
           <tr>
             <td>Printable characters</td>
             <td>
-              Typeahead — jumps to the first matching item. While a search is
-              buffered, <code>Space</code> is part of the query instead of a
+              Typeahead: jumps to the first matching item. While a search is
+              buffered, <code>Space</code> goes into the query and does not
               commit.
             </td>
           </tr>

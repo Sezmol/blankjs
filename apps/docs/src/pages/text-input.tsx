@@ -12,9 +12,7 @@ export const TextInputPage = () => (
 
     <p className="docs-lead">
       A native <code>&lt;input&gt;</code> with the kit's styling and nothing
-      else on top — the component every form starts with, and the clearest
-      statement of how blankjs works: the platform does the input, the
-      library does the paint.
+      else on top. The browser handles the input, blankjs adds the styles.
     </p>
 
     <Demo code={basicCode}>
@@ -22,12 +20,12 @@ export const TextInputPage = () => (
     </Demo>
 
     <p>
-      Everything interesting happens around it: inside a{" "}
-      <Link to="/components/field">Field</Link> it picks up <code>id</code>,
-      ARIA wiring, <code>disabled</code>, and <code>required</code> from
-      context, and native constraints (<code>type="email"</code>,{" "}
-      <code>minLength</code>, <code>pattern</code>) drive the error display —
-      as in the email example above, with zero validation code.
+      Inside a <Link to="/components/field">Field</Link> it takes{" "}
+      <code>id</code>, ARIA wiring, <code>disabled</code>, and{" "}
+      <code>required</code> from context. Native constraints (
+      <code>type="email"</code>, <code>minLength</code>, <code>pattern</code>)
+      drive the error display, as in the email example above, with no
+      validation code.
     </p>
 
     <h2>Sizes</h2>
@@ -50,11 +48,11 @@ export const TextInputPage = () => (
     />
 
     <p>
-      Every native <code>input</code> prop passes through: all the{" "}
+      TextInput passes through every native <code>input</code> prop: all the{" "}
       <code>type</code> values, <code>inputMode</code>,{" "}
       <code>autoComplete</code>, <code>pattern</code>, and the rest. For
-      passwords with a visibility toggle there is a dedicated{" "}
-      <code>PasswordField</code>; for numbers with steppers,{" "}
+      passwords with a visibility toggle use <code>PasswordField</code>, for
+      numbers with steppers use{" "}
       <Link to="/components/number-field">NumberField</Link>.
     </p>
   </article>

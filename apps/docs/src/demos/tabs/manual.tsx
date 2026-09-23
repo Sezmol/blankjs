@@ -9,7 +9,7 @@ export const TabsManual = () => (
     </Tabs.List>
 
     <Tabs.Panel value="overview">
-      Arrow keys only move focus here — press Enter or Space to switch.
+      Arrow keys only move focus here. Press Enter or Space to switch.
     </Tabs.Panel>
     <Tabs.Panel value="analytics">
       Imagine an expensive chart that should not render while the user is

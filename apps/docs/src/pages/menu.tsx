@@ -11,9 +11,9 @@ export const MenuPage = () => (
     <h1>Menu</h1>
 
     <p className="docs-lead">
-      A dropdown list of commands: <code>role="menu"</code>, arrow-key
-      navigation, and "pick an action, then close" semantics — layered on
-      the same native Popover API as{" "}
+      A dropdown list of commands with <code>role="menu"</code>, arrow-key
+      navigation, and "pick an action, then close" semantics. It runs on the
+      same native Popover API as{" "}
       <Link to="/components/popover">Popover</Link>.
     </p>
 
@@ -21,45 +21,42 @@ export const MenuPage = () => (
       <MenuBasic />
     </Demo>
 
-    <h2>Menu or Popover?</h2>
+    <h2>Menu or Popover</h2>
 
     <p>
-      Popover is a container and stays out of your content's way. Menu
-      knows its content is a list of commands, and that knowledge is the
-      whole component: focus moves into the menu on open and back to the
-      trigger on close, arrow keys walk the items, a click or{" "}
-      <code>Enter</code> runs the item and closes everything. Interactive
-      content where the user <em>stays</em> — forms, filters — belongs in a
-      Popover; a list of actions where the user <em>chooses and leaves</em>{" "}
-      belongs here. Menu items must not contain inputs.
+      Popover is a container and leaves your content alone. Menu expects a
+      list of commands: focus moves into the menu on open and back to the
+      trigger on close, arrow keys walk the items, and a click or{" "}
+      <code>Enter</code> runs the item and closes the menu. Put interactive
+      content where the user <em>stays</em>, such as forms and filters, in a
+      Popover. Use Menu for a list of actions where the user{" "}
+      <em>chooses and leaves</em>. Menu items must not contain inputs.
     </p>
 
     <h2>Keyboard and focus</h2>
 
     <ul className="docs-list">
       <li>
-        <code>ArrowDown</code> on the trigger opens with the first item
-        highlighted, <code>ArrowUp</code> — with the last.
+        <code>ArrowDown</code> on the trigger opens the menu with the first
+        item highlighted, <code>ArrowUp</code> with the last.
       </li>
       <li>
-        Physical focus sits on the menu container; the highlight is virtual,
-        reported through <code>aria-activedescendant</code> — the same
-        pattern as <Link to="/components/select">Select</Link>, so the whole
-        kit speaks one dialect.
+        Focus sits on the menu container, and{" "}
+        <code>aria-activedescendant</code> points at the highlighted item.{" "}
+        <Link to="/components/select">Select</Link> uses the same pattern.
       </li>
       <li>
-        <code>Enter</code>/<code>Space</code> click the highlighted item —
-        literally: keyboard activation is routed through{" "}
-        <code>node.click()</code>, so your <code>onClick</code> fires the
-        same way for mouse and keys.
+        <code>Enter</code>/<code>Space</code> call <code>node.click()</code>{" "}
+        on the highlighted item, so your <code>onClick</code> fires the same
+        way for mouse and keys.
       </li>
       <li>
-        <code>Escape</code> and light dismiss come from the Popover API;
-        closing returns focus to the trigger only when focus was inside the
-        menu — a click elsewhere keeps its focus.
+        <code>Escape</code> and light dismiss come from the Popover API.
+        Closing returns focus to the trigger only when focus was inside the
+        menu, so a click elsewhere keeps focus where the user put it.
       </li>
       <li>
-        Disabled items are skipped by navigation and ignore clicks;{" "}
+        Navigation skips disabled items, and they ignore clicks.{" "}
         <code>preventDefault()</code> in an item's <code>onClick</code>{" "}
         keeps the menu open.
       </li>

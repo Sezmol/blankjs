@@ -22,7 +22,7 @@ export const DialogForm = () => {
         <Dialog.Title>Edit profile</Dialog.Title>
 
         <Dialog.Description>
-          The form inside is a plain form — values land in FormData.
+          The form inside is a plain form, and values land in FormData.
         </Dialog.Description>
 
         <Form

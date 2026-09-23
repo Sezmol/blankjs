@@ -7,7 +7,7 @@ export const PopoverBasic = () => (
     </Popover.Trigger>
 
     <Popover.Content>
-      Click outside or press Escape to dismiss — the browser handles both.
+      Click outside or press Escape to dismiss. The browser handles both.
     </Popover.Content>
   </Popover.Root>
 );

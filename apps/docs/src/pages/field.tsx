@@ -43,9 +43,9 @@ export const FieldPage = () => (
     <h1>Field</h1>
 
     <p className="docs-lead">
-      Connects a control to its label, description, and error text — and turns
-      the browser's Constraint Validation API into declarative markup. No
-      schema required, no state to wire.
+      Connects a control to its label, description, and error text, and turns
+      the browser's Constraint Validation API into declarative markup. It
+      needs no schema and no state.
     </p>
 
     <Demo code={basicCode}>
@@ -55,15 +55,15 @@ export const FieldPage = () => (
     <p>
       The control gets <code>id</code>, <code>aria-describedby</code>,{" "}
       <code>aria-invalid</code>, <code>disabled</code>, and{" "}
-      <code>required</code> from context — every blankjs control picks them up
-      automatically. Native constraints (<code>required</code>,{" "}
+      <code>required</code> from context, and every blankjs control reads
+      them. Native constraints (<code>required</code>,{" "}
       <code>type="email"</code>, <code>minLength</code>, <code>pattern</code>)
       report through <code>ValidityState</code>, and{" "}
       <code>errorMessages</code> swaps the browser's wording for your own, per
       constraint.
     </p>
 
-    <h2>When errors appear</h2>
+    <h2>Revealing errors</h2>
 
     <p>
       By default a field stays quiet until the form tries to submit: the
@@ -103,10 +103,9 @@ export const FieldPage = () => (
 
     <p>
       <code>validate</code> feeds <code>setCustomValidity</code>: return a
-      message to fail, <code>null</code> to pass. The rule becomes a real
-      native constraint — a failing value blocks submit exactly like{" "}
-      <code>required</code> does, and reports through the{" "}
-      <code>customError</code> validity flag.
+      message to fail, <code>null</code> to pass. The rule becomes a native
+      constraint: a failing value blocks submit like <code>required</code>{" "}
+      does and reports through the <code>customError</code> validity flag.
     </p>
 
     <Demo code={validateCode}>
@@ -115,8 +114,8 @@ export const FieldPage = () => (
 
     <p>
       The rule also receives the enclosing form's <code>FormData</code> as a
-      second argument, so cross-field rules stay one-liners — the classic
-      password confirmation, live on blur, no schema and no state:
+      second argument, so a cross-field rule fits on one line. The demo checks
+      a password confirmation on blur, with no schema and no state:
     </p>
 
     <Demo code={crossFieldCode}>
@@ -126,10 +125,10 @@ export const FieldPage = () => (
     <h2>One error, your words</h2>
 
     <p>
-      A field shows <strong>at most one error at a time</strong> — the same
-      way the browser reports a single <code>validationMessage</code>. There
-      is exactly one <code>&lt;Field.Error /&gt;</code> per field; what it
-      says is configured where the rules live, on <code>Field.Root</code>:
+      A field shows <strong>at most one error at a time</strong>, the same way
+      the browser reports a single <code>validationMessage</code>. Each field
+      has one <code>&lt;Field.Error /&gt;</code>, and you set its wording where
+      the rules live, on <code>Field.Root</code>:
     </p>
 
     <CodeBlock
@@ -145,29 +144,29 @@ export const FieldPage = () => (
     <p>
       Keys are <code>ValidityState</code> flags (<code>valueMissing</code>,{" "}
       <code>typeMismatch</code>, <code>tooShort</code>,{" "}
-      <code>patternMismatch</code>, <code>customError</code>, and friends);
-      values are any <code>ReactNode</code>. When several flags are raised at
-      once, <strong>the first matching key in the object wins</strong> — key
-      order is the priority. The full message resolution:
+      <code>patternMismatch</code>, <code>customError</code>, and the rest),
+      and values are any <code>ReactNode</code>. When several flags are raised
+      at once, <strong>the first matching key in the object wins</strong>, so
+      key order sets the priority. Field picks the message in this order:
     </p>
 
     <ul className="docs-list">
       <li>
-        <code>Field.Error</code> children — a static text that always wins
+        <code>Field.Error</code> children: static text that always wins
       </li>
       <li>
         the first <code>errorMessages</code> entry whose flag is raised
       </li>
       <li>the server error, if the Form routed one to this field</li>
       <li>
-        the browser's own message — localized to the user's language for free
+        the browser's own message, in the user's language
       </li>
     </ul>
 
     <p>
       Messages for <code>validate</code>, schema rules, and server responses
-      already travel with their rules — <code>errorMessages</code> exists for
-      the native attributes, whose default wording belongs to the browser.
+      come with their rules. <code>errorMessages</code> is for the native
+      attributes, whose default wording comes from the browser.
     </p>
 
     <h2>ValidityState reference</h2>
@@ -202,8 +201,8 @@ export const FieldPage = () => (
               <code>type="email"</code> / <code>type="url"</code>
             </td>
             <td>
-              The value does not parse as the type. Only these two types — a
-              number field raises <code>badInput</code> instead.
+              The value does not parse as the type. Only these two types
+              raise it; a number field raises <code>badInput</code>.
             </td>
           </tr>
           <tr>
@@ -214,8 +213,9 @@ export const FieldPage = () => (
               <code>pattern</code>
             </td>
             <td>
-              The value does not match the regexp — matched against the{" "}
-              <em>whole</em> value, as if wrapped in <code>^…$</code>.
+              The value does not match the regexp. The browser matches the{" "}
+              <em>whole</em> value, as if the pattern were wrapped in{" "}
+              <code>^…$</code>.
             </td>
           </tr>
           <tr>
@@ -226,8 +226,8 @@ export const FieldPage = () => (
               <code>minLength</code>
             </td>
             <td>
-              Shorter than the limit — but only after the user has edited the
-              field. A programmatically set short value does not raise it.
+              Shorter than the limit, and only after the user has edited the
+              field. A short value set from code does not raise it.
             </td>
           </tr>
           <tr>
@@ -238,8 +238,8 @@ export const FieldPage = () => (
               <code>maxLength</code>
             </td>
             <td>
-              Rarely fires: the browser blocks typing past the limit. Only
-              possible when the initial value already exceeds it.
+              Fires only when the initial value already exceeds the limit:
+              the browser blocks typing past it.
             </td>
           </tr>
           <tr>
@@ -281,8 +281,8 @@ export const FieldPage = () => (
               <code>validate</code>
             </td>
             <td>
-              Your rule returned a message. The message already travels with
-              the rule — map this key only to replace it with richer content.
+              Your rule returned a message. The message comes with the rule;
+              map this key only to replace it with richer content.
             </td>
           </tr>
         </tbody>
@@ -290,10 +290,10 @@ export const FieldPage = () => (
     </div>
 
     <p>
-      Flags are not mutually exclusive — <code>"ab"</code> in a{" "}
+      Several flags can be raised together: <code>"ab"</code> in a{" "}
       <code>required minLength=4 pattern="\d+"</code> input raises{" "}
-      <code>tooShort</code> and <code>patternMismatch</code> at once, which is
-      exactly why the key order of <code>errorMessages</code> matters.
+      <code>tooShort</code> and <code>patternMismatch</code> at once. That is
+      why the key order of <code>errorMessages</code> matters.
     </p>
 
     <h2>Server errors</h2>
@@ -309,10 +309,10 @@ export const FieldPage = () => (
     <h2>Group controls</h2>
 
     <p>
-      A <code>div role="radiogroup"</code> is not a labelable element —{" "}
-      <code>label htmlFor</code> silently does nothing. Field detects group
-      controls like RadioGroup and switches the label wiring to{" "}
-      <code>aria-labelledby</code> automatically:
+      A <code>div role="radiogroup"</code> is not a labelable element, so{" "}
+      <code>label htmlFor</code> does nothing. Field detects group controls
+      like RadioGroup and switches the label wiring to{" "}
+      <code>aria-labelledby</code>:
     </p>
 
     <CodeBlock code={groupCode} />
@@ -329,16 +329,16 @@ export const FieldPage = () => (
     <CodeBlock code={controlCode} />
 
     <p>
-      Building your own component? <code>useFieldControlProps()</code> from{" "}
+      For your own component, <code>useFieldControlProps()</code> from{" "}
       <code>@blankjs/core</code> returns the same props as a hook.
     </p>
 
     <h2>Layout</h2>
 
     <p>
-      <code>Field.Root</code> is a flex column with a small gap — the standard
-      label-control-error stack. For a horizontal field (checkbox with a label
-      to its right), override the direction:
+      <code>Field.Root</code> is a flex column with a small gap: label,
+      control, and error stacked. For a horizontal field, such as a checkbox
+      with its label on the right, override the direction:
     </p>
 
     <CodeBlock code={inlineCode} lang="css" />
@@ -371,7 +371,7 @@ export const FieldPage = () => (
           name: "invalid",
           type: "boolean",
           description:
-            "Forces the invalid state, overriding native validity. Useful for fully manual error handling.",
+            "Forces the invalid state over native validity, for manual error handling.",
         },
         {
           name: "validationMode",
@@ -397,18 +397,18 @@ export const FieldPage = () => (
     <h3>Field.Error</h3>
 
     <p>
-      No props of its own — renders when the field is invalid and there is
-      something to say. Children replace the resolved message; with no
-      resolvable text at all (a manual <code>invalid</code> without children)
-      it renders nothing.
+      No props of its own. It renders when the field is invalid and has a
+      message. Children replace the resolved message. With no message at all,
+      such as a manual <code>invalid</code> without children, it renders
+      nothing.
     </p>
 
     <h3>Field.Label / Field.Description / Field.Control</h3>
 
     <p>
-      No props of their own — they register themselves and wire ARIA through
-      context. <code>Field.Control</code> takes exactly one child element and
-      spreads the control props onto it.
+      No props of their own. They register themselves and wire ARIA through
+      context. <code>Field.Control</code> takes one child element and spreads
+      the control props onto it.
     </p>
   </article>
 );

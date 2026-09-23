@@ -6,13 +6,14 @@ export const IntroductionPage = () => (
     <h1>blankjs</h1>
 
     <p className="docs-lead">
-      Form-first React components built on native form elements. The browser is
-      an ally, not an obstacle.
+      Form-first React components built on native form elements. The browser
+      handles focus, validation, and form data; blankjs adds structure and
+      styles.
     </p>
 
     <CodeBlock code="npm install @blankjs/react" lang="bash" />
 
-    <h2>Why another component library?</h2>
+    <h2>The approach</h2>
 
     <p>
       Most libraries rebuild form controls from <code>div</code>s and ARIA: a{" "}
@@ -26,19 +27,19 @@ export const IntroductionPage = () => (
         <strong>Native first.</strong> Checkbox is an{" "}
         <code>input type="checkbox"</code>. Dialog is a <code>dialog</code>{" "}
         with a real focus trap from <code>showModal()</code>. Accordion is{" "}
-        <code>details</code>/<code>summary</code> — exclusivity comes from the
-        native <code>name</code> attribute with zero JavaScript.
+        <code>details</code>/<code>summary</code>, and the native{" "}
+        <code>name</code> attribute makes it exclusive without JavaScript.
       </li>
       <li>
-        <strong>Form first.</strong> Every component participates in a plain{" "}
+        <strong>Form first.</strong> Every form control works inside a plain{" "}
         <code>form</code>: values land in <code>FormData</code>, reset
-        restores defaults, validation rides on the Constraint Validation API.
-        No form library required.
+        restores defaults, and validation runs on the Constraint Validation
+        API. You do not need a form library.
       </li>
       <li>
         <strong>A predictable event contract.</strong> Your handler runs
-        first, then the library acts — unless you call{" "}
-        <code>preventDefault()</code>. One rule, every component.
+        first, then the library acts. Call <code>preventDefault()</code> to
+        stop it. The rule holds in every component.
       </li>
       <li>
         <strong>Composition over configuration.</strong> Compound components
@@ -49,8 +50,8 @@ export const IntroductionPage = () => (
     <h2>Next steps</h2>
 
     <p>
-      Head to <Link to="/getting-started">Getting Started</Link> for setup, or
-      jump straight to a component like{" "}
+      Go to <Link to="/getting-started">Getting Started</Link> for setup, or
+      open a component page such as{" "}
       <Link to="/components/select">Select</Link>.
     </p>
   </article>

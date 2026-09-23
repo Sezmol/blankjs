@@ -26,7 +26,7 @@ const nestedCode = `
   <Popover.Content>
     <Popover.Root>
       <Popover.Trigger>Advanced…</Popover.Trigger>
-      <Popover.Content>Nested just works.</Popover.Content>
+      <Popover.Content>Nested popover</Popover.Content>
     </Popover.Root>
   </Popover.Content>
 </Popover.Root>
@@ -37,9 +37,9 @@ export const PopoverPage = () => (
     <h1>Popover</h1>
 
     <p className="docs-lead">
-      A non-modal floating panel built on the native Popover API. Opening,
-      light dismiss, <code>Escape</code>, and the top layer come from the
-      browser; the library only positions the panel next to its trigger.
+      A non-modal floating panel built on the native Popover API. The browser
+      handles opening, light dismiss, <code>Escape</code>, and the top layer.
+      The library positions the panel next to its trigger.
     </p>
 
     <Demo code={basicCode}>
@@ -51,25 +51,25 @@ export const PopoverPage = () => (
     <p>
       <code>Popover.Content</code> renders a <code>div popover="auto"</code>{" "}
       and <code>Popover.Trigger</code> points at it with{" "}
-      <code>popovertarget</code>. That pair of attributes buys, with zero
-      JavaScript on our side:
+      <code>popovertarget</code>. These two attributes give you the following
+      without any JavaScript on our side:
     </p>
 
     <ul className="docs-list">
       <li>
         <strong>Opening and closing.</strong> The trigger toggles the popover
-        natively — it works before React hydrates.
+        natively, so it works before React hydrates.
       </li>
       <li>
-        <strong>Top layer.</strong> The panel paints above everything and no
-        ancestor <code>overflow: hidden</code> can clip it — so there is no
-        portal, and the content stays where you wrote it in the tree.
+        <strong>Top layer.</strong> The panel paints above the page, and no
+        ancestor <code>overflow: hidden</code> can clip it. It needs no portal
+        and stays where you wrote it in the tree.
       </li>
       <li>
         <strong>Light dismiss and Escape.</strong> Clicking outside or
-        pressing <code>Escape</code> closes the popover — the browser tells
-        the library through the <code>toggle</code> event, so controlled
-        state never drifts.
+        pressing <code>Escape</code> closes the popover. The browser reports it
+        through the <code>toggle</code> event, and Popover passes it on to{" "}
+        <code>onOpenChange</code>.
       </li>
       <li>
         <strong>ARIA.</strong> The browser sets <code>aria-expanded</code> on
@@ -78,9 +78,9 @@ export const PopoverPage = () => (
     </ul>
 
     <p>
-      Positioning is the one thing the platform does not cover yet — CSS
-      anchor positioning is not cross-browser — so the library measures the
-      trigger and places the panel with floating-ui, the same engine behind{" "}
+      The platform does not cover positioning yet, because CSS anchor
+      positioning is not cross-browser. The library measures the trigger and
+      places the panel with floating-ui, the same engine behind{" "}
       <Link to="/components/select">Select</Link>.
     </p>
 
@@ -92,16 +92,16 @@ export const PopoverPage = () => (
       <code>Popover.Trigger</code> and <code>Popover.Close</code> render
       buttons; both take <code>asChild</code> to merge their behavior onto
       your own element, typically a <code>Button</code>.{" "}
-      <code>Popover.Close</code> closes through{" "}
-      <code>popovertargetaction="hide"</code> — native, no handler.
+      <code>Popover.Close</code> closes through the native{" "}
+      <code>popovertargetaction="hide"</code>, with no handler.
     </p>
 
     <h2>Placement</h2>
 
     <p>
       <code>placement</code> on <code>Popover.Content</code> picks the side
-      and alignment. The panel flips to the opposite side automatically when
-      it would overflow the viewport.
+      and alignment. The panel flips to the opposite side when it would
+      overflow the viewport.
     </p>
 
     <Demo code={placementCode}>
@@ -112,9 +112,10 @@ export const PopoverPage = () => (
 
     <p>
       Pass <code>open</code> and <code>onOpenChange</code> to own the state.
-      The browser can still close the popover on its own — light dismiss,{" "}
-      <code>Escape</code> — and every native close is reported back, so your
-      state and the screen never disagree.
+      The browser can still close the popover by itself on light dismiss or{" "}
+      <code>Escape</code>, and Popover reports every such close through{" "}
+      <code>onOpenChange(false)</code>. Update your state from it: if you
+      ignore it, the popover stays closed while your state says open.
     </p>
 
     <Demo code={controlledCode}>
@@ -124,18 +125,18 @@ export const PopoverPage = () => (
     <h2>Nesting</h2>
 
     <p>
-      Because the content is never portaled, a nested popover is a real DOM
-      descendant of its parent — and the Popover API keeps ancestor popovers
-      open automatically. <code>Escape</code> closes only the topmost one.
+      Popover never portals its content, so a nested popover is a real DOM
+      descendant of its parent, and the Popover API keeps ancestor popovers
+      open. <code>Escape</code> closes only the topmost one.
     </p>
 
     <CodeBlock code={nestedCode} />
 
     <p>
-      One combination to avoid: a modal <code>Dialog</code> opened from
-      inside a popover — <code>showModal()</code> makes the rest of the page
-      inert and the browser closes every open popover. Open the dialog as a
-      sibling instead.
+      Avoid opening a modal <code>Dialog</code> from inside a popover:{" "}
+      <code>showModal()</code> makes the rest of the page inert, and the
+      browser closes every open popover. Open the dialog as a sibling
+      instead.
     </p>
 
     <h2>API</h2>
@@ -202,8 +203,8 @@ export const PopoverPage = () => (
 
     <p>
       The Popover API ships in every evergreen browser (Chrome 114+, Firefox
-      125+, Safari 17+). There is no fallback for older browsers — that is a
-      deliberate trade: no portal, no focus management code, no dismiss
+      125+, Safari 17+). Older browsers get no fallback. In exchange the
+      library has no portal, no focus management code, and no dismiss
       listeners to maintain.
     </p>
   </article>

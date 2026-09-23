@@ -7,7 +7,7 @@ export const PopoverControlled = () => {
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
-        <Button variant="outline">{open ? "Open" : "Closed"} — click me</Button>
+        <Button variant="outline">{open ? "Open" : "Closed"}: click me</Button>
       </Popover.Trigger>
 
       <Popover.Content>

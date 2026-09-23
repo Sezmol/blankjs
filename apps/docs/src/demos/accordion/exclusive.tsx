@@ -12,8 +12,8 @@ export const AccordionExclusive = () => (
     <Accordion.Item>
       <Accordion.Trigger>Returns</Accordion.Trigger>
       <Accordion.Content>
-        Thirty days, no questions asked. Opening this closes the others —
-        the browser enforces it, not an effect.
+        Thirty days, no questions asked. Opening this closes the others, and
+        the browser does the closing.
       </Accordion.Content>
     </Accordion.Item>
 

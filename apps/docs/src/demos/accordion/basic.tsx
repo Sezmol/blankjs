@@ -13,7 +13,7 @@ export const AccordionBasic = () => (
     <Accordion.Item>
       <Accordion.Trigger>Is this accordion native?</Accordion.Trigger>
       <Accordion.Content>
-        Yes — each item is a real details element with a summary trigger.
+        Yes. Each item is a real details element with a summary trigger.
         Toggling and keyboard support come from the browser.
       </Accordion.Content>
     </Accordion.Item>

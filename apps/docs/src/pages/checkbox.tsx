@@ -13,9 +13,9 @@ export const CheckboxPage = () => (
     <h1>Checkbox</h1>
 
     <p className="docs-lead">
-      A styled native <code>&lt;input type="checkbox"&gt;</code> — the input
-      itself, not a <code>div</code> pretending. Clicking a wrapping label
-      toggles it, forms see it, screen readers know it.
+      A styled native <code>&lt;input type="checkbox"&gt;</code>. Clicking a
+      wrapping label toggles it, forms submit it, and screen readers announce
+      it as a checkbox.
     </p>
 
     <Demo code={basicCode}>
@@ -25,20 +25,20 @@ export const CheckboxPage = () => (
     <h2>Controlled and uncontrolled</h2>
 
     <p>
-      <code>defaultChecked</code> for uncontrolled, <code>checked</code> +{" "}
-      <code>onCheckedChange</code> for controlled — a plain boolean callback,
-      no event digging. The native <code>onChange</code> still fires first,
-      and <code>preventDefault()</code> there vetoes the state change.
+      Use <code>defaultChecked</code> for uncontrolled state, or{" "}
+      <code>checked</code> with <code>onCheckedChange</code> for controlled.{" "}
+      <code>onCheckedChange</code> receives a plain boolean. The native{" "}
+      <code>onChange</code> fires first, and <code>preventDefault()</code>{" "}
+      there cancels the state change.
     </p>
 
     <h2>Indeterminate</h2>
 
     <p>
-      The "some but not all" state of a parent checkbox.{" "}
-      <code>indeterminate</code> is a prop, not a value — it is visual-only,
-      lives outside <code>checked</code>, and never submits. The component
-      re-asserts it after every change, so it stays exactly as long as your
-      state says it should:
+      <code>indeterminate</code> shows the "some but not all" state of a
+      parent checkbox. It only changes the look: it lives apart from{" "}
+      <code>checked</code> and never submits. Checkbox applies it again after
+      every change, so it stays as long as your state says so:
     </p>
 
     <Demo code={indeterminateCode}>
@@ -49,8 +49,8 @@ export const CheckboxPage = () => (
 
     <p>
       A checked box submits its <code>value</code> (default{" "}
-      <code>"on"</code>) under its <code>name</code>; unchecked submits
-      nothing at all — that is native behavior, coerce accordingly in
+      <code>"on"</code>) under its <code>name</code>. An unchecked box
+      submits nothing, as in plain HTML, so coerce the missing key in
       schemas. Reset restores <code>defaultChecked</code>.
     </p>
 
@@ -59,9 +59,9 @@ export const CheckboxPage = () => (
     </Demo>
 
     <p>
-      Inside a <Link to="/components/field">Field</Link> the checkbox picks
-      up <code>id</code>, <code>disabled</code>, <code>required</code>, and
-      ARIA wiring from context automatically.
+      Inside a <Link to="/components/field">Field</Link> the checkbox takes{" "}
+      <code>id</code>, <code>disabled</code>, <code>required</code>, and ARIA
+      wiring from context.
     </p>
 
     <h2>API</h2>
@@ -101,9 +101,9 @@ export const CheckboxPage = () => (
     />
 
     <p>
-      Every other native <code>input</code> prop passes through —{" "}
+      Every other native <code>input</code> prop passes through:{" "}
       <code>name</code>, <code>value</code>, <code>required</code>,{" "}
-      <code>onChange</code>.
+      <code>onChange</code>, and the rest.
     </p>
   </article>
 );

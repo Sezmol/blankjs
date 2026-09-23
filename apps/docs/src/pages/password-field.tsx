@@ -11,31 +11,30 @@ export const PasswordFieldPage = () => (
     <h1>PasswordField</h1>
 
     <p className="docs-lead">
-      A password input with the one thing passwords actually need on top: a
-      visibility toggle that does not fight the browser.
+      A password input with a visibility toggle that leaves the browser's
+      input behavior alone.
     </p>
 
     <Demo code={basicCode}>
       <PasswordFieldBasic />
     </Demo>
 
-    <h2>How the toggle behaves</h2>
+    <h2>Toggle behavior</h2>
 
     <ul className="docs-list">
       <li>
         Revealing swaps <code>type="password"</code> for{" "}
-        <code>type="text"</code> — the value, caret, and undo history stay
-        put.
+        <code>type="text"</code>. The value, caret, and undo history stay put.
       </li>
       <li>
-        Clicking the eye never steals focus from the input (a{" "}
-        <code>mousedown</code> is prevented), so the user can toggle
-        mid-typing and keep typing.
+        Clicking the eye keeps focus in the input (the toggle prevents{" "}
+        <code>mousedown</code>), so the user can toggle mid-typing and keep
+        typing.
       </li>
       <li>
-        The button announces itself as "Show password" / "Hide password" —
-        state lives in the label, no <code>aria-pressed</code> to
-        misinterpret.
+        Screen readers announce the button as "Show password" or "Hide
+        password". The label carries the state, so there is no{" "}
+        <code>aria-pressed</code> to misread.
       </li>
       <li>
         The toggle is <code>type="button"</code> and disables together with
@@ -69,10 +68,11 @@ export const PasswordFieldPage = () => (
     />
 
     <p>
-      Every native <code>input</code> prop except <code>type</code> passes
-      through — the type belongs to the toggle. Pair it with{" "}
+      PasswordField passes through every native <code>input</code> prop
+      except <code>type</code>, which the toggle controls. Pair it with{" "}
       <code>autoComplete="current-password"</code> or{" "}
-      <code>"new-password"</code> so password managers do the right thing.
+      <code>"new-password"</code> so password managers know whether to fill a
+      saved password or suggest a new one.
     </p>
   </article>
 );

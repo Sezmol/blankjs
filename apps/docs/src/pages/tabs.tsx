@@ -12,9 +12,9 @@ export const TabsPage = () => (
     <h1>Tabs</h1>
 
     <p className="docs-lead">
-      The APG tabs pattern with two things you rarely get for free: hidden
-      panels that <code>Ctrl+F</code> can still find, and a sliding active
-      indicator measured off the real tabs.
+      The APG tabs pattern plus two extras: <code>Ctrl+F</code> finds text in
+      hidden panels, and an active indicator slides between the measured
+      tabs.
     </p>
 
     <Demo code={basicCode}>
@@ -24,11 +24,11 @@ export const TabsPage = () => (
     <h2>Keyboard</h2>
 
     <p>
-      The tab list is a single Tab-stop: arrow keys move between tabs (with
-      wrap-around), <code>Home</code>/<code>End</code> jump to the edges,
-      disabled tabs are skipped. By default moving focus also activates the
-      tab — <code>activationMode="manual"</code> decouples them, so focus
-      travels and <code>Enter</code>/<code>Space</code> commits. Use manual
+      The tab list is a single Tab stop. Arrow keys move between tabs and
+      wrap around, <code>Home</code>/<code>End</code> jump to the edges, and
+      focus skips disabled tabs. By default moving focus also activates the
+      tab. <code>activationMode="manual"</code> separates the two: focus
+      moves, and <code>Enter</code>/<code>Space</code> activates. Use manual
       when switching a panel is expensive:
     </p>
 
@@ -39,32 +39,31 @@ export const TabsPage = () => (
     <h2>Find-in-page finds hidden panels</h2>
 
     <p>
-      Inactive panels are hidden with <code>hidden="until-found"</code>{" "}
-      instead of <code>display: none</code>. In Chromium,{" "}
-      <code>Ctrl+F</code> searches inside them; on a match the browser fires{" "}
-      <code>beforematch</code>, and the component activates that tab — the
-      user lands on the right panel with the match highlighted. Browsers
-      without <code>until-found</code> treat it as plain <code>hidden</code>{" "}
-      and simply lose the search bonus.
+      Tabs hides inactive panels with <code>hidden="until-found"</code> in
+      place of <code>display: none</code>. In Chromium, <code>Ctrl+F</code>{" "}
+      searches inside them. On a match the browser fires{" "}
+      <code>beforematch</code>, Tabs activates that tab, and the user lands
+      on the right panel with the match highlighted. Browsers without{" "}
+      <code>until-found</code> treat it as plain <code>hidden</code>, and
+      search skips the hidden panels.
     </p>
 
     <p>
-      One implementation confession: React renders any truthy{" "}
-      <code>hidden</code> as a bare attribute, so the{" "}
-      <code>"until-found"</code> value is set imperatively after render — a
-      workaround for a long-standing React issue, invisible from the
-      outside.
+      React renders any truthy <code>hidden</code> as a bare attribute, so
+      Tabs sets the <code>"until-found"</code> value imperatively after
+      render. This works around a long-standing React issue and changes
+      nothing for you.
     </p>
 
     <h2>The sliding indicator</h2>
 
     <p>
-      The active-tab underline is one absolutely positioned element,
-      repositioned to the active tab's measured offset and size — a CSS
-      transition does the sliding. A <code>ResizeObserver</code> keeps it
-      honest when tabs wrap, fonts load, or labels change. The first
-      placement lands without a transition, so nothing slides in from the
-      corner on mount.
+      The active-tab underline is one absolutely positioned element. Tabs
+      moves it to the active tab's measured offset and size, and a CSS
+      transition animates the move. A <code>ResizeObserver</code> measures
+      again when tabs wrap, fonts load, or labels change. The first
+      placement skips the transition, so nothing slides in from the corner
+      on mount.
     </p>
 
     <h2>Vertical</h2>

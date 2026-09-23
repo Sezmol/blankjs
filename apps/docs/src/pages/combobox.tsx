@@ -11,9 +11,9 @@ export const ComboboxPage = () => (
     <h1>Combobox</h1>
 
     <p className="docs-lead">
-      A text input with a filtered listbox. The deliberate part of the
-      design: <strong>you own the filtering</strong> — the library owns
-      keyboard navigation, ARIA wiring, and commit semantics.
+      A text input with a filtered listbox.{" "}
+      <strong>You own the filtering</strong>; the library owns keyboard
+      navigation, ARIA wiring, and commit semantics.
     </p>
 
     <Demo code={basicCode}>
@@ -23,38 +23,37 @@ export const ComboboxPage = () => (
     <h2>The filtering contract</h2>
 
     <p>
-      <code>inputValue</code> is controlled by you; which items you render
-      under <code>Combobox.Content</code> <em>is</em> the filter. Substring
-      match, fuzzy search, async results from a server — all the same to
-      the component, because it never sees your data source, only the
-      rendered items. No <code>filter</code> prop to fight, no built-in
-      matcher to disable.
+      You control <code>inputValue</code>, and the items you render under{" "}
+      <code>Combobox.Content</code> <em>are</em> the filter. Combobox sees
+      only the rendered items and never your data source, so substring
+      match, fuzzy search, and async results from a server all work the same
+      way. There is no <code>filter</code> prop and no built-in matcher to
+      turn off.
     </p>
 
     <h2>Draft and commit</h2>
 
     <p>
-      What the user types is a draft. It becomes real only when an item is
-      committed — by click, or <code>Enter</code> on the highlighted item.{" "}
-      <code>Escape</code> and blur revert the draft to the last committed
-      label, so the input never lies about the value: you cannot type
-      "Berl", walk away, and have the form submit a value the user never
-      chose.
+      The text the user types is a draft. The value changes only when the
+      user commits an item, by click or with <code>Enter</code> on the
+      highlighted item. <code>Escape</code> and blur revert the draft to the
+      last committed label, so the input shows the real value. The user
+      cannot type "Berl", walk away, and have the form submit a value they
+      never chose.
     </p>
 
     <p>
-      Two implementation details you get for free: the list cancels{" "}
-      <code>mousedown</code>, so focus never leaves the input while you
-      pick, and an item commits on <code>click</code>, so scrolling the list
-      with a finger does not pick whatever is under it. The highlighted item
-      also scrolls into view as the arrows move.
+      The list cancels <code>mousedown</code>, so focus stays in the input
+      while you pick. An item commits on <code>click</code>, so scrolling
+      the list with a finger does not pick the item under it. The
+      highlighted item scrolls into view as the arrow keys move it.
     </p>
 
     <h2>In a form</h2>
 
     <p>
       Give <code>Combobox.Root</code> a <code>name</code> and a hidden
-      input carries the committed value into <code>FormData</code> —{" "}
+      input carries the committed value into <code>FormData</code>.{" "}
       <code>required</code> and the{" "}
       <Link to="/components/field">Field</Link> error pipeline work
       unchanged. <code>Combobox.Clear</code> empties both the input and the
