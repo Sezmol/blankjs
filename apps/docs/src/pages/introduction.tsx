@@ -1,5 +1,8 @@
 import { Link } from "react-router";
 import { CodeBlock } from "../components/code-block";
+import { Demo } from "../components/demo";
+import { IntroductionSignup } from "../demos/introduction/signup";
+import signupCode from "../demos/introduction/signup.tsx?raw";
 
 export const IntroductionPage = () => (
   <article className="docs-page">
@@ -9,6 +12,16 @@ export const IntroductionPage = () => (
       Form-first React components built on native form elements. The browser
       handles focus, validation, and form data; blankjs adds structure and
       styles.
+    </p>
+
+    <Demo code={signupCode}>
+      <IntroductionSignup />
+    </Demo>
+
+    <p>
+      Submit it empty. The browser checks the fields and blankjs shows the
+      messages. Fill it in and you get plain <code>FormData</code> with no
+      form state in React.
     </p>
 
     <CodeBlock code="npm install @blankjs/react" lang="bash" />
