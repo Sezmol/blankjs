@@ -16,7 +16,9 @@
           : "dark";
 
         try {
-          theme = localStorage.getItem("bk-docs-theme") ?? theme;
+          const saved = localStorage.getItem("blankjs-docs-theme");
+
+          if (saved === "light" || saved === "dark") theme = saved;
         } catch {}
 
         document.documentElement.setAttribute("data-bk-theme", theme);

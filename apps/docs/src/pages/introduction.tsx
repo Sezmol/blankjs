@@ -20,8 +20,8 @@ export const IntroductionPage = () => (
 
     <p>
       Submit it empty. The browser checks the fields and blankjs shows the
-      messages. Fill it in and you get plain <code>FormData</code> with no
-      form state in React.
+      messages. Fill it in and the submit handler gets the form's{" "}
+      <code>FormData</code>. React holds no form state.
     </p>
 
     <CodeBlock code="npm install @blankjs/react" lang="bash" />

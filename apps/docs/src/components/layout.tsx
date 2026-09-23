@@ -36,7 +36,10 @@ export const Layout = () => {
     const next = theme === "dark" ? "light" : "dark";
 
     setTheme(next);
-    localStorage.setItem("bk-docs-theme", next);
+
+    try {
+      localStorage.setItem("blankjs-docs-theme", next);
+    } catch {}
   };
 
   useEffect(() => {
