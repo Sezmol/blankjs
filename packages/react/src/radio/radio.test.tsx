@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { test, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RadioGroup } from "./index";
 import { Field } from "../field";
@@ -271,7 +271,7 @@ test("submits the selected value through FormData", async () => {
   expect(new FormData(form).get("fruit")).toBe("banana");
 });
 
-test("form reset returns to defaultValue and survives a rerender", () => {
+test("form reset returns to defaultValue and survives a rerender", async () => {
   function Harness() {
     const [, force] = useState(0);
 
@@ -299,7 +299,7 @@ test("form reset returns to defaultValue and survives a rerender", () => {
 
   fireEvent.reset(form);
 
-  expect(getRadio("apple")).toBeChecked();
+  await waitFor(() => expect(getRadio("apple")).toBeChecked());
   expect(getRadio("cherry")).not.toBeChecked();
 
   fireEvent.click(screen.getByText("rerender"));

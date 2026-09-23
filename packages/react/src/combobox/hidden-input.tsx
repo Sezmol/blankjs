@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useComboboxContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
-import { HIDDEN_INPUT_STYLE } from "../internal";
+import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 
 export interface ComboboxHiddenInputProps {
   name: string;
@@ -36,9 +36,7 @@ export const ComboboxHiddenInput = ({
 
     if (!form) return;
 
-    form.addEventListener("reset", resetToDefault);
-
-    return () => form.removeEventListener("reset", resetToDefault);
+    return onFormReset(form, resetToDefault);
   }, [resetToDefault]);
 
   return (
@@ -48,6 +46,7 @@ export const ComboboxHiddenInput = ({
       name={name}
       value={value ?? ""}
       disabled={disabled || controlProps.disabled}
+      data-bk-field-control={controlProps.id}
       className="bk-combobox-hidden-input"
       style={HIDDEN_INPUT_STYLE}
       tabIndex={-1}

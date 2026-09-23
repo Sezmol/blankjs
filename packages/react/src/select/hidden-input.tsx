@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSelectContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
-import { HIDDEN_INPUT_STYLE } from "../internal";
+import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 
 export interface SelectHiddenInputProps {
   name: string;
@@ -37,11 +37,7 @@ export const SelectHiddenInput = ({
 
     if (!form) return;
 
-    const onReset = () => setValue(defaultValue);
-
-    form.addEventListener("reset", onReset);
-
-    return () => form.removeEventListener("reset", onReset);
+    return onFormReset(form, () => setValue(defaultValue));
   }, [setValue, defaultValue]);
 
   return (

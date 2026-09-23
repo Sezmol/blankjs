@@ -34,6 +34,25 @@ const snapshotValidity = (v: ValidityState): ValidityState => ({
   valueMissing: v.valueMissing,
 });
 
+const radioGroupOf = (control: Element) => {
+  if (
+    !(control instanceof HTMLInputElement) ||
+    control.type !== "radio" ||
+    !control.name
+  ) {
+    return null;
+  }
+
+  const named = control.ownerDocument.getElementsByName(control.name);
+
+  return Array.from(named).filter(
+    (el): el is HTMLInputElement =>
+      el instanceof HTMLInputElement &&
+      el.type === "radio" &&
+      el.form === control.form,
+  );
+};
+
 export const useFieldRoot = (
   options?: UseFieldRootOptions,
 ): FieldContextValue & FieldRootHandlerProps => {
@@ -77,10 +96,15 @@ export const useFieldRoot = (
     if (!validateRef.current || !hasValidity(control)) return;
 
     const formData = control.form ? new FormData(control.form) : new FormData();
+    const radios = radioGroupOf(control);
 
-    control.setCustomValidity(
-      validateRef.current(control.value, formData) ?? "",
-    );
+    const value = radios
+      ? (radios.find((radio) => radio.checked)?.value ?? "")
+      : control.value;
+
+    const message = validateRef.current(value, formData) ?? "";
+
+    for (const target of radios ?? [control]) target.setCustomValidity(message);
   }, []);
 
   const onInvalidCapture = useCallback<OnInvalidCaptureHandler>((e) => {

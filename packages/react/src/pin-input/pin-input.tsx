@@ -12,7 +12,7 @@ import {
   type PinInputType,
 } from "@blankjs/core";
 import { composeRefs } from "../slot";
-import { HIDDEN_INPUT_STYLE } from "../internal";
+import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 import type { Size } from "../types";
 
 export interface PinInputProps extends Omit<
@@ -112,12 +112,20 @@ export const PinInput = ({
 
     if (!form) return;
 
-    const onReset = () => setValue(defaultValue ?? "");
-
-    form.addEventListener("reset", onReset);
-
-    return () => form.removeEventListener("reset", onReset);
+    return onFormReset(form, () => setValue(defaultValue ?? ""));
   }, [setValue, defaultValue]);
+
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+
+      return;
+    }
+
+    proxyRef.current?.dispatchEvent(new Event("change", { bubbles: true }));
+  }, [pin.value]);
 
   useEffect(() => {
     const proxy = proxyRef.current;
@@ -178,6 +186,7 @@ export const PinInput = ({
         required={isRequired}
         pattern={pin.pattern}
         disabled={isDisabled}
+        data-bk-field-control={id}
         style={HIDDEN_INPUT_STYLE}
         tabIndex={-1}
         aria-hidden="true"

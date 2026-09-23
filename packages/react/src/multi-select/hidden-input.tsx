@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useMultiSelectContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
-import { HIDDEN_INPUT_STYLE } from "../internal";
+import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 
 export interface MultiSelectHiddenInputProps {
   name: string;
@@ -44,11 +44,7 @@ export const MultiSelectHiddenInput = ({
 
     if (!form) return;
 
-    const onReset = () => setValue(defaultValueRef.current ?? []);
-
-    form.addEventListener("reset", onReset);
-
-    return () => form.removeEventListener("reset", onReset);
+    return onFormReset(form, () => setValue(defaultValueRef.current ?? []));
   }, [setValue]);
 
   return (

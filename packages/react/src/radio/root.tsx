@@ -4,6 +4,7 @@ import { RadioGroupContext } from "./context";
 import { useRadioGroupRoot } from "./use-radio-group-root";
 import { FieldContext, useFieldControlProps } from "@blankjs/core";
 import { composeRefs } from "../slot";
+import { onFormReset } from "../internal";
 import type { Size } from "../types";
 
 export type RadioGroupRootProps = UseRadioGroupRootOptions &
@@ -47,11 +48,7 @@ export const RadioGroupRoot = ({
 
     if (!form) return;
 
-    const onReset = () => setValue(defaultValue);
-
-    form.addEventListener("reset", onReset);
-
-    return () => form.removeEventListener("reset", onReset);
+    return onFormReset(form, () => setValue(defaultValue));
   }, [setValue, defaultValue]);
 
   return (

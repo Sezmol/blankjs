@@ -6,6 +6,7 @@ import {
   type ComponentProps,
 } from "react";
 import { composeRefs } from "../slot";
+import { onFormReset } from "../internal";
 import type { Size } from "../types";
 
 export interface SwitchProps extends Omit<
@@ -49,11 +50,7 @@ export const Switch = ({
 
     if (!form) return;
 
-    const onReset = () => setValue(defaultChecked ?? false);
-
-    form.addEventListener("reset", onReset);
-
-    return () => form.removeEventListener("reset", onReset);
+    return onFormReset(form, () => setValue(defaultChecked ?? false));
   }, [setValue, defaultChecked]);
 
   const isDisabled = disabled ?? fieldProps.disabled;

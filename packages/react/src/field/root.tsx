@@ -13,11 +13,29 @@ import {
 } from "react";
 import { composeRefs } from "../slot";
 import { FormContext } from "../form";
+import { onFormReset } from "../internal";
 
 export type FieldRootProps = UseFieldRootOptions &
   ComponentProps<"div"> & {
     name?: string;
   };
+
+const findValueControl = (root: HTMLElement | null, controlId: string) =>
+  root?.querySelector(`[data-bk-field-control="${controlId}"]`) ?? null;
+
+const findControl = (root: HTMLElement | null, controlId: string) =>
+  findValueControl(root, controlId) ??
+  root?.querySelector(`[id="${controlId}"]`);
+
+const isValueTarget = (
+  root: HTMLElement | null,
+  controlId: string,
+  target: EventTarget | null,
+) => {
+  const valueControl = findValueControl(root, controlId);
+
+  return !valueControl || target === valueControl;
+};
 
 export const FieldRoot = ({
   children,
@@ -57,10 +75,7 @@ export const FieldRoot = ({
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const control =
-      innerRef.current?.querySelector(
-        `[data-bk-field-control="${contextValue.controlId}"]`,
-      ) ?? innerRef.current?.querySelector(`[id="${contextValue.controlId}"]`);
+    const control = findControl(innerRef.current, contextValue.controlId);
 
     if (control) validateControl(control);
   }, [validateControl, contextValue.controlId]);
@@ -75,30 +90,13 @@ export const FieldRoot = ({
 
     if (!form) return;
 
-    let resetTimer: ReturnType<typeof setTimeout>;
+    return onFormReset(form, () => {
+      resetValidation();
 
-    const onReset = (event: Event) => {
-      clearTimeout(resetTimer);
-      resetTimer = setTimeout(() => {
-        if (event.defaultPrevented) return;
+      const control = findControl(innerRef.current, contextValue.controlId);
 
-        resetValidation();
-
-        const control =
-          innerRef.current?.querySelector(
-            `[data-bk-field-control="${contextValue.controlId}"]`,
-          ) ?? innerRef.current?.querySelector(`[id="${contextValue.controlId}"]`);
-
-        if (control) validateControl(control);
-      });
-    };
-
-    form.addEventListener("reset", onReset);
-
-    return () => {
-      clearTimeout(resetTimer);
-      form.removeEventListener("reset", onReset);
-    };
+      if (control) validateControl(control);
+    });
   }, [resetValidation, validateControl, contextValue.controlId]);
 
   useEffect(() => {
@@ -107,7 +105,10 @@ export const FieldRoot = ({
     if (!node || !onChangeCapture) return;
 
     const handler = (e: Event) => {
-      onChangeCapture(e as never);
+      if (isValueTarget(node, contextValue.controlId, e.target)) {
+        onChangeCapture(e as never);
+      }
+
       setDismissed(true);
     };
 
@@ -118,7 +119,7 @@ export const FieldRoot = ({
       node.removeEventListener("change", handler, true);
       node.removeEventListener("input", handler, true);
     };
-  }, [onChangeCapture]);
+  }, [onChangeCapture, contextValue.controlId]);
 
   const fieldContextValue = useMemo(
     () => ({ ...contextValue, serverError: activeServerError }),
@@ -133,7 +134,13 @@ export const FieldRoot = ({
         className={["bk-field", className].filter(Boolean).join(" ")}
         data-invalid={contextValue.invalid ? "" : undefined}
         data-disabled={disabled ? "" : undefined}
-        onBlurCapture={onBlurCapture}
+        onBlurCapture={(e) => {
+          const { controlId } = contextValue;
+
+          if (isValueTarget(innerRef.current, controlId, e.target)) {
+            onBlurCapture?.(e);
+          }
+        }}
         onInvalidCapture={onInvalidCapture}
       >
         {children}

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Select } from "./index";
 
 const renderInForm = (rootProps = {}) =>
@@ -69,7 +69,7 @@ test("exposes the value through native FormData", () => {
   expect(formData.get("fruit")).toBe("c");
 });
 
-test("form reset restores defaultValue", () => {
+test("form reset restores defaultValue", async () => {
   renderInForm({ defaultValue: "a" });
 
   fireEvent.click(screen.getByRole("combobox"));
@@ -79,11 +79,11 @@ test("form reset restores defaultValue", () => {
 
   fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
-  expect(getHiddenInput()?.value).toBe("a");
+  await waitFor(() => expect(getHiddenInput()?.value).toBe("a"));
   expect(screen.getByRole("combobox")).toHaveTextContent("a");
 });
 
-test("form reset clears the selection without defaultValue", () => {
+test("form reset clears the selection without defaultValue", async () => {
   renderInForm();
 
   fireEvent.click(screen.getByRole("combobox"));
@@ -91,7 +91,7 @@ test("form reset clears the selection without defaultValue", () => {
 
   fireEvent.click(screen.getByRole("button", { name: "Reset" }));
 
-  expect(getHiddenInput()?.value).toBe("");
+  await waitFor(() => expect(getHiddenInput()?.value).toBe(""));
   expect(screen.getByText("Pick one fruit")).toBeInTheDocument();
 });
 

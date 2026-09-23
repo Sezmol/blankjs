@@ -2,6 +2,9 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Field } from "./index";
 import { TextInput } from "../text-input";
+import { Combobox } from "../combobox";
+import { PinInput } from "../pin-input";
+import { RadioGroup } from "../radio";
 
 const getInput = () => screen.getByLabelText("Username") as HTMLInputElement;
 
@@ -181,4 +184,99 @@ test("stays silent without validate", async () => {
 
   expect(getInput().validity.customError).toBe(false);
   expect(getInput().checkValidity()).toBe(true);
+});
+
+test("validate checks the committed Combobox value, not the typed query", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <form data-testid="form">
+      <Field.Root validate={(value) => (value === "a" ? null : "Pick Apple")}>
+        <Combobox.Root name="fruit">
+          <Combobox.Input aria-label="Fruit" />
+          <Combobox.Content>
+            <Combobox.Item value="a">Apple</Combobox.Item>
+            <Combobox.Item value="b">Banana</Combobox.Item>
+          </Combobox.Content>
+        </Combobox.Root>
+      </Field.Root>
+    </form>,
+  );
+
+  const form = screen.getByTestId("form") as HTMLFormElement;
+
+  expect(form.checkValidity()).toBe(false);
+
+  await user.type(screen.getByRole("combobox"), "App");
+  await user.click(screen.getByRole("option", { name: "Apple" }));
+
+  expect(form.checkValidity()).toBe(true);
+});
+
+test("validate checks the whole PinInput code", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <form data-testid="form">
+      <Field.Root validate={(value) => (value === "123" ? null : "Wrong code")}>
+        <PinInput name="pin" length={3} />
+      </Field.Root>
+    </form>,
+  );
+
+  const form = screen.getByTestId("form") as HTMLFormElement;
+
+  expect(form.checkValidity()).toBe(false);
+
+  await user.click(screen.getAllByRole("textbox")[0]!);
+  await user.keyboard("123");
+
+  expect(form.checkValidity()).toBe(true);
+});
+
+test("validate message leaves the radio that is no longer checked", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <form data-testid="form">
+      <Field.Root validate={(value) => (value === "b" ? null : "Pick B")}>
+        <RadioGroup.Root name="size" aria-label="Size">
+          <RadioGroup.Item value="a" aria-label="A" />
+          <RadioGroup.Item value="b" aria-label="B" />
+        </RadioGroup.Root>
+      </Field.Root>
+    </form>,
+  );
+
+  const form = screen.getByTestId("form") as HTMLFormElement;
+
+  await user.click(screen.getByRole("radio", { name: "A" }));
+
+  expect(form.checkValidity()).toBe(false);
+
+  await user.click(screen.getByRole("radio", { name: "B" }));
+
+  expect(form.checkValidity()).toBe(true);
+});
+
+test("validate reads the checked radio, not the one that lost focus", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <Field.Root
+      validate={(value) => (value ? null : "Pick a size")}
+      validationMode="blur"
+    >
+      <RadioGroup.Root name="size" aria-label="Size">
+        <RadioGroup.Item value="a" aria-label="A" />
+        <RadioGroup.Item value="b" aria-label="B" />
+      </RadioGroup.Root>
+      <Field.Error />
+    </Field.Root>,
+  );
+
+  await user.tab();
+  await user.tab();
+
+  expect(screen.getByText("Pick a size")).toBeInTheDocument();
 });

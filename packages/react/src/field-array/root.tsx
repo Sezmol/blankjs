@@ -16,6 +16,7 @@ import {
 } from "react";
 import { composeRefs } from "../slot";
 import { FormContext } from "../form";
+import { onFormReset } from "../internal";
 import { FieldArrayContext, type FieldArrayRowRef } from "./context";
 import { addButton, focusFirstControl, isInRow, removeButtons } from "./focus";
 
@@ -148,9 +149,7 @@ export const FieldArray = <T,>({
 
     if (!form) return;
 
-    form.addEventListener("reset", reset);
-
-    return () => form.removeEventListener("reset", reset);
+    return onFormReset(form, reset);
   }, [reset]);
 
   const contextValue = useMemo(

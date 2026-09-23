@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { test, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MultiSelect } from "./index";
 
 const fruits = [
@@ -211,7 +211,7 @@ test("is absent from FormData when nothing is selected", () => {
   expect(new FormData(form).has("fruits")).toBe(false);
 });
 
-test("form reset returns to defaultValue and survives a rerender", () => {
+test("form reset returns to defaultValue and survives a rerender", async () => {
   function Harness() {
     const [, force] = useState(0);
 
@@ -248,7 +248,9 @@ test("form reset returns to defaultValue and survives a rerender", () => {
 
   fireEvent.reset(form);
 
-  expect(new FormData(form).getAll("fruits")).toEqual(["a"]);
+  await waitFor(() =>
+    expect(new FormData(form).getAll("fruits")).toEqual(["a"]),
+  );
 
   fireEvent.click(screen.getByText("rerender"));
 

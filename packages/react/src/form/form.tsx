@@ -14,6 +14,7 @@ import { serialize } from "./serialize";
 import { formIssue, mapIssues } from "./map-issues";
 import { isUnderPath } from "./parse-path";
 import { FormError } from "./form-error";
+import { onFormReset } from "../internal";
 
 type FormSubmitEvent = Parameters<
   NonNullable<ComponentProps<"form">["onSubmit"]>
@@ -101,7 +102,7 @@ export function Form<S extends StandardSchemaV1>({
   };
 
   const handleSubmit = async (e: FormSubmitEvent) => {
-    if (!onSubmit) return;
+    if (e.target !== e.currentTarget || !onSubmit) return;
 
     e.preventDefault();
 
@@ -164,14 +165,10 @@ export function Form<S extends StandardSchemaV1>({
 
     if (!form) return;
 
-    const onReset = () => {
+    return onFormReset(form, () => {
       setSchemaErrors(undefined);
       setSchemaError(undefined);
-    };
-
-    form.addEventListener("reset", onReset);
-
-    return () => form.removeEventListener("reset", onReset);
+    });
   }, []);
 
   useEffect(() => {

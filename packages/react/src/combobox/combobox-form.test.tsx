@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Combobox } from "./index";
 
@@ -119,7 +119,7 @@ test("form reset restores value, visible input and committed label", async () =>
 
   fireEvent.reset(getForm());
 
-  expect(getHiddenInput()).toHaveValue("a");
+  await waitFor(() => expect(getHiddenInput()).toHaveValue("a"));
   expect(input).toHaveValue("Apple");
 
   await user.clear(input);
@@ -144,7 +144,7 @@ test("form reset clears both inputs without defaults", async () => {
 
   fireEvent.reset(getForm());
 
-  expect(getHiddenInput()).toHaveValue("");
+  await waitFor(() => expect(getHiddenInput()).toHaveValue(""));
   expect(input).toHaveValue("");
 });
 
@@ -159,7 +159,7 @@ test("form reset closes an open list", async () => {
 
   fireEvent.reset(getForm());
 
-  expect(queryList()).toBeNull();
+  await waitFor(() => expect(queryList()).toBeNull());
 });
 
 test("disabled combobox excludes its value from FormData", () => {
