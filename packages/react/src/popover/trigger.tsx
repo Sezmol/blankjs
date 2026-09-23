@@ -2,7 +2,7 @@ import type { ComponentProps, ReactElement } from "react";
 import { composeRefs, Slot } from "../slot";
 import { usePopoverContext } from "./context";
 
-type PopoverTriggerProps = ComponentProps<"button"> & {
+export type PopoverTriggerProps = ComponentProps<"button"> & {
   asChild?: boolean;
 };
 

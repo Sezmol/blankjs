@@ -21,13 +21,17 @@ export {
   FieldLabel,
   FieldRoot,
   FieldControl,
+  type FieldDescriptionProps,
+  type FieldErrorProps,
+  type FieldLabelProps,
+  type FieldRootProps,
 } from "./field";
 
-export { TextInput } from "./text-input";
+export { TextInput, type TextInputProps } from "./text-input";
 
-export { Textarea } from "./textarea";
+export { Textarea, type TextareaProps } from "./textarea";
 
-export { PasswordField } from "./password-field";
+export { PasswordField, type PasswordFieldProps } from "./password-field";
 
 export {
   Select,
@@ -39,6 +43,10 @@ export {
   SelectClear,
   type SelectContentProps,
   type SelectTriggerProps,
+  type SelectClearProps,
+  type SelectItemProps,
+  type SelectRootProps,
+  type SelectValueProps,
 } from "./select";
 
 export { Button, type ButtonProps } from "./button";
@@ -67,6 +75,8 @@ export {
   type MultiSelectContentProps,
   type MultiSelectItemProps,
   type MultiSelectValueProps,
+  type MultiSelectClearProps,
+  type MultiSelectRootProps,
 } from "./multi-select";
 
 export {
@@ -76,10 +86,20 @@ export {
   ComboboxItem,
   ComboboxRoot,
   ComboboxClear,
+  type ComboboxClearProps,
+  type ComboboxContentProps,
+  type ComboboxInputProps,
+  type ComboboxItemProps,
+  type ComboboxRootProps,
 } from "./combobox";
 
 export { Form, FormError, FormContext, serialize } from "./form";
-export type { FormErrorProps } from "./form";
+export type {
+  FormErrorProps,
+  FormProps,
+  TypedFormProps,
+  UntypedFormProps,
+} from "./form";
 
 export {
   FieldArray,
@@ -96,7 +116,17 @@ export {
 
 export type { Size } from "./types";
 
-export { Tabs, TabsRoot, TabsList, Tab, TabsPanel } from "./tabs";
+export {
+  Tabs,
+  TabsRoot,
+  TabsList,
+  Tab,
+  TabsPanel,
+  type TabsListProps,
+  type TabsPanelProps,
+  type TabsRootProps,
+  type TabProps,
+} from "./tabs";
 
 export {
   Dialog,
@@ -106,6 +136,12 @@ export {
   DialogClose,
   DialogTitle,
   DialogDescription,
+  type DialogCloseProps,
+  type DialogContentProps,
+  type DialogDescriptionProps,
+  type DialogRootProps,
+  type DialogTitleProps,
+  type DialogTriggerProps,
 } from "./dialog";
 
 export {
@@ -114,11 +150,15 @@ export {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
+  type AccordionContentProps,
+  type AccordionItemProps,
+  type AccordionRootProps,
+  type AccordionTriggerProps,
 } from "./accordion";
 
-export { Slider } from "./slider";
+export { Slider, type SliderProps } from "./slider";
 
-export { NumberField } from "./number-field";
+export { NumberField, type NumberFieldProps } from "./number-field";
 
 export { PinInput, type PinInputProps } from "./pin-input";
 
@@ -128,6 +168,10 @@ export {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
+  type PopoverCloseProps,
+  type PopoverContentProps,
+  type PopoverRootProps,
+  type PopoverTriggerProps,
 } from "./popover";
 
 export {
@@ -135,6 +179,19 @@ export {
   TooltipRoot,
   TooltipTrigger,
   TooltipContent,
+  type TooltipContentProps,
+  type TooltipRootProps,
+  type TooltipTriggerProps,
 } from "./tooltip";
 
-export { Menu, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "./menu";
+export {
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+  type MenuContentProps,
+  type MenuItemProps,
+  type MenuRootProps,
+  type MenuTriggerProps,
+} from "./menu";

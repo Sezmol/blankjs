@@ -8,7 +8,7 @@ import { useTabsContext } from "./context";
 import { useTabsIndicator } from "./use-tabs-indicator";
 import { composeRefs } from "../slot";
 
-type TabsListProps = ComponentProps<"div">;
+export type TabsListProps = ComponentProps<"div">;
 
 export const TabsList = ({ children, className, ...props }: TabsListProps) => {
   const { setValue, activationMode, orientation } = useTabsContext();

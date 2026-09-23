@@ -27,3 +27,6 @@ export const MultiSelect = {
   Value: MultiSelectValue,
   Clear: MultiSelectClear,
 };
+
+export type { MultiSelectClearProps } from "./clear";
+export type { MultiSelectRootProps } from "./root";

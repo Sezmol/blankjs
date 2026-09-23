@@ -8,7 +8,7 @@ import type {
 import { composeRefs, Slot } from "../slot";
 import { useTooltipContext } from "./context";
 
-type TooltipTriggerProps = ComponentProps<"button"> & {
+export type TooltipTriggerProps = ComponentProps<"button"> & {
   asChild?: boolean;
 };
 

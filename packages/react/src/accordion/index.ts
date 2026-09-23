@@ -11,3 +11,8 @@ export const Accordion = {
   Trigger: AccordionTrigger,
   Content: AccordionContent,
 };
+
+export type { AccordionContentProps } from "./content";
+export type { AccordionItemProps } from "./item";
+export type { AccordionRootProps } from "./root";
+export type { AccordionTriggerProps } from "./trigger";

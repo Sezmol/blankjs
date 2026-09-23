@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-type AccordionTriggerProps = ComponentProps<"summary">;
+export type AccordionTriggerProps = ComponentProps<"summary">;
 
 const AccordionArrow = () => (
   <svg

@@ -2,7 +2,7 @@ import type { ComponentProps, KeyboardEvent, ReactElement } from "react";
 import { composeRefs, Slot } from "../slot";
 import { useMenuContext } from "./context";
 
-type MenuTriggerProps = ComponentProps<"button"> & {
+export type MenuTriggerProps = ComponentProps<"button"> & {
   asChild?: boolean;
 };
 

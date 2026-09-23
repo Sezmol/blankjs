@@ -1,7 +1,7 @@
 import { useFieldContext } from "@blankjs/core";
 import { useEffect, type ComponentProps } from "react";
 
-type FieldDescriptionProps = ComponentProps<"div">;
+export type FieldDescriptionProps = ComponentProps<"div">;
 
 export const FieldDescription = ({
   children,

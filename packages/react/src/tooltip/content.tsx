@@ -10,7 +10,7 @@ import { useFloatingPosition, type Placement } from "../internal";
 import { useTooltipContext } from "./context";
 import { composeRefs } from "../slot";
 
-type TooltipContentProps = ComponentProps<"div"> & {
+export type TooltipContentProps = ComponentProps<"div"> & {
   placement?: Placement;
 };
 

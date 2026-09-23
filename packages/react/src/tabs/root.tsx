@@ -3,7 +3,7 @@ import { TabsContext } from "./context";
 import type { UseTabsRootOptions } from "./types";
 import { useTabsRoot } from "./use-tabs-root";
 
-type TabsRootProps = PropsWithChildren<UseTabsRootOptions>;
+export type TabsRootProps = PropsWithChildren<UseTabsRootOptions>;
 
 export const TabsRoot = ({ children, ...options }: TabsRootProps) => {
   const contextValue = useTabsRoot(options);

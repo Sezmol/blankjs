@@ -13,3 +13,8 @@ export const Field = {
   Description: FieldDescription,
   Error: FieldError,
 };
+
+export type { FieldDescriptionProps } from "./description";
+export type { FieldErrorProps } from "./error";
+export type { FieldLabelProps } from "./label";
+export type { FieldRootProps } from "./root";

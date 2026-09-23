@@ -2,7 +2,7 @@ import type { ComponentProps, MouseEvent, ReactElement } from "react";
 import { Slot } from "../slot";
 import { useDialogContext } from "./context";
 
-type DialogTriggerProps = ComponentProps<"button"> & {
+export type DialogTriggerProps = ComponentProps<"button"> & {
   asChild?: boolean;
 };
 

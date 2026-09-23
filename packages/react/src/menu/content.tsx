@@ -11,7 +11,7 @@ import { useFloatingPosition, type Placement } from "../internal";
 import { useMenuContext } from "./context";
 import { composeRefs } from "../slot";
 
-type MenuContentProps = ComponentProps<"div"> & {
+export type MenuContentProps = ComponentProps<"div"> & {
   placement?: Placement;
 };
 

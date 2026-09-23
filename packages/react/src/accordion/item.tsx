@@ -1,7 +1,7 @@
 import { type ComponentProps, type ToggleEvent } from "react";
 import { useAccordionContext } from "./context";
 
-type AccordionItemProps = Omit<ComponentProps<"details">, "name"> & {
+export type AccordionItemProps = Omit<ComponentProps<"details">, "name"> & {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;

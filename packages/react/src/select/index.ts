@@ -25,3 +25,8 @@ export const Select = {
   Value: SelectValue,
   Clear: SelectClear,
 };
+
+export type { SelectClearProps } from "./clear";
+export type { SelectItemProps } from "./item";
+export type { SelectRootProps } from "./root";
+export type { SelectValueProps } from "./value";

@@ -1,7 +1,7 @@
 import type { ComponentProps, MouseEvent } from "react";
 import { useDialogContext } from "./context";
 
-type DialogCloseProps = ComponentProps<"button">;
+export type DialogCloseProps = ComponentProps<"button">;
 
 export const DialogClose = ({
   className,

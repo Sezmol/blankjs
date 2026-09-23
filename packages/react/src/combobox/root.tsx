@@ -4,7 +4,7 @@ import { useComboboxRoot } from "./use-combobox-root";
 import { ComboboxHiddenInput } from "./hidden-input";
 import { ComboboxContext } from "./context";
 
-type ComboboxRootProps = PropsWithChildren<UseComboboxRootOptions>;
+export type ComboboxRootProps = PropsWithChildren<UseComboboxRootOptions>;
 
 export const ComboboxRoot = ({
   children,

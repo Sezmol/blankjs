@@ -3,7 +3,7 @@ import { useTabsContext } from "./context";
 import { panelId, tabId } from "./ids";
 import { composeRefs } from "../slot";
 
-type TabsPanelProps = ComponentProps<"div"> & {
+export type TabsPanelProps = ComponentProps<"div"> & {
   value: string;
 };
 

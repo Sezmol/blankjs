@@ -3,7 +3,7 @@ import type { UseDialogRootOptions } from "./types";
 import { useDialogRoot } from "./use-dialog-root";
 import { DialogContext } from "./context";
 
-type DialogRootProps = PropsWithChildren<UseDialogRootOptions>;
+export type DialogRootProps = PropsWithChildren<UseDialogRootOptions>;
 
 export const DialogRoot = ({ children, ...options }: DialogRootProps) => {
   const contextValue = useDialogRoot(options);

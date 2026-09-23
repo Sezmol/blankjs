@@ -9,3 +9,7 @@ export const Tooltip = {
   Trigger: TooltipTrigger,
   Content: TooltipContent,
 };
+
+export type { TooltipContentProps } from "./content";
+export type { TooltipRootProps } from "./root";
+export type { TooltipTriggerProps } from "./trigger";

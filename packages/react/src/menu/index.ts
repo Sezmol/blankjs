@@ -11,3 +11,8 @@ export const Menu = {
   Content: MenuContent,
   Item: MenuItem,
 };
+
+export type { MenuContentProps } from "./content";
+export type { MenuItemProps } from "./item";
+export type { MenuRootProps } from "./root";
+export type { MenuTriggerProps } from "./trigger";

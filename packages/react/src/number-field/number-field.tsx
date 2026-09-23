@@ -30,7 +30,7 @@ const stepAny = (input: HTMLInputElement, delta: number) => {
   setNativeValue(input, next.toFixed(decimals));
 };
 
-type NumberFieldProps = Omit<
+export type NumberFieldProps = Omit<
   ComponentProps<"input">,
   "size" | "children" | "dangerouslySetInnerHTML" | "type"
 > & {

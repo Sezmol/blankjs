@@ -1,7 +1,7 @@
 import { useFieldContext } from "@blankjs/core";
 import { useEffect, type ComponentProps } from "react";
 
-type FieldErrorProps = ComponentProps<"div">;
+export type FieldErrorProps = ComponentProps<"div">;
 
 export const FieldError = ({
   children,

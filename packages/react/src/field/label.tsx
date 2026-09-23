@@ -1,7 +1,7 @@
 import { useFieldContext } from "@blankjs/core";
 import { useEffect, type ComponentProps } from "react";
 
-type FieldLabelProps = ComponentProps<"label">;
+export type FieldLabelProps = ComponentProps<"label">;
 
 export const FieldLabel = ({
   children,

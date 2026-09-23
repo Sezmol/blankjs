@@ -2,7 +2,7 @@ import type { ComponentProps, MouseEvent } from "react";
 import { useTabsContext } from "./context";
 import { panelId, tabId } from "./ids";
 
-type TabProps = ComponentProps<"button"> & {
+export type TabProps = ComponentProps<"button"> & {
   value: string;
 };
 

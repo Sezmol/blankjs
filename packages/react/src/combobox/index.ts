@@ -19,3 +19,9 @@ export const Combobox = {
   Item: ComboboxItem,
   Clear: ComboboxClear,
 };
+
+export type { ComboboxClearProps } from "./clear";
+export type { ComboboxContentProps } from "./content";
+export type { ComboboxInputProps } from "./input";
+export type { ComboboxItemProps } from "./item";
+export type { ComboboxRootProps } from "./root";

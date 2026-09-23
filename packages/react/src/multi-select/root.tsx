@@ -4,7 +4,7 @@ import { useMultiSelectRoot } from "./use-multi-select-root";
 import { MultiSelectContext } from "./context";
 import { MultiSelectHiddenInput } from "./hidden-input";
 
-type MultiSelectRootProps = PropsWithChildren<UseMultiSelectRootOptions>;
+export type MultiSelectRootProps = PropsWithChildren<UseMultiSelectRootOptions>;
 
 export const MultiSelectRoot = ({
   children,

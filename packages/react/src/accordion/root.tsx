@@ -1,7 +1,9 @@
 import { useId, type ComponentProps } from "react";
 import { AccordionContext } from "./context";
 
-type AccordionRootProps = ComponentProps<"div"> & { exclusive?: boolean };
+export type AccordionRootProps = ComponentProps<"div"> & {
+  exclusive?: boolean;
+};
 
 export const AccordionRoot = ({
   exclusive,

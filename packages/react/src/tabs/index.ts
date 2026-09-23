@@ -11,3 +11,8 @@ export const Tabs = {
   Panel: TabsPanel,
   Tab: Tab,
 };
+
+export type { TabsListProps } from "./list";
+export type { TabsPanelProps } from "./panel";
+export type { TabsRootProps } from "./root";
+export type { TabProps } from "./tab";

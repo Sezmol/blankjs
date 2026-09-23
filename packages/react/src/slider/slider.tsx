@@ -9,7 +9,7 @@ import type { Size } from "../types";
 import { useFieldControlProps } from "@blankjs/core";
 import { composeRefs } from "../slot";
 
-type SliderProps = Omit<
+export type SliderProps = Omit<
   ComponentProps<"input">,
   "type" | "size" | "children" | "dangerouslySetInnerHTML"
 > & { size?: Size };

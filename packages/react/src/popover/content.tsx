@@ -9,7 +9,7 @@ import { useFloatingPosition, type Placement } from "../internal";
 import { usePopoverContext } from "./context";
 import { composeRefs } from "../slot";
 
-type PopoverContentProps = ComponentProps<"div"> & {
+export type PopoverContentProps = ComponentProps<"div"> & {
   placement?: Placement;
 };
 

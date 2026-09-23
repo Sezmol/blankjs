@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-type AccordionContentProps = ComponentProps<"div">;
+export type AccordionContentProps = ComponentProps<"div">;
 
 export const AccordionContent = ({
   children,

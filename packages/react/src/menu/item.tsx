@@ -9,7 +9,7 @@ import {
 import { composeRefs } from "../slot";
 import { useMenuContext } from "./context";
 
-type MenuItemProps = ComponentProps<"div"> & {
+export type MenuItemProps = ComponentProps<"div"> & {
   disabled?: boolean;
 };
 

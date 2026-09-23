@@ -9,7 +9,7 @@ import {
 import { useDialogContext } from "./context";
 import { composeRefs } from "../slot";
 
-type DialogContentProps = ComponentProps<"dialog">;
+export type DialogContentProps = ComponentProps<"dialog">;
 
 export const DialogContent = ({
   children,

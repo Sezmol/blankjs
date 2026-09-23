@@ -22,3 +22,10 @@ export const Dialog = {
   Title: DialogTitle,
   Description: DialogDescription,
 };
+
+export type { DialogCloseProps } from "./close";
+export type { DialogContentProps } from "./content";
+export type { DialogDescriptionProps } from "./description";
+export type { DialogRootProps } from "./root";
+export type { DialogTitleProps } from "./title";
+export type { DialogTriggerProps } from "./trigger";

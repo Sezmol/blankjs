@@ -1,7 +1,7 @@
 import { useEffect, type ComponentProps } from "react";
 import { useDialogContext } from "./context";
 
-type DialogDescriptionProps = ComponentProps<"div">;
+export type DialogDescriptionProps = ComponentProps<"div">;
 
 export const DialogDescription = ({
   children,

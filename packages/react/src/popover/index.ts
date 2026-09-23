@@ -11,3 +11,8 @@ export const Popover = {
   Content: PopoverContent,
   Close: PopoverClose,
 };
+
+export type { PopoverCloseProps } from "./close";
+export type { PopoverContentProps } from "./content";
+export type { PopoverRootProps } from "./root";
+export type { PopoverTriggerProps } from "./trigger";

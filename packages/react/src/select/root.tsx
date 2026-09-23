@@ -4,7 +4,7 @@ import { SelectHiddenInput } from "./hidden-input";
 import type { UseSelectRootOptions } from "./types";
 import { useSelectRoot } from "./use-select-root";
 
-type SelectRootProps = PropsWithChildren<UseSelectRootOptions>;
+export type SelectRootProps = PropsWithChildren<UseSelectRootOptions>;
 
 export const SelectRoot = ({
   children,

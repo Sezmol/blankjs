@@ -2,7 +2,7 @@ import type { ComponentProps, ReactElement } from "react";
 import { usePopoverContext } from "./context";
 import { Slot } from "../slot";
 
-type PopoverCloseProps = ComponentProps<"button"> & {
+export type PopoverCloseProps = ComponentProps<"button"> & {
   asChild?: boolean;
 };
 
