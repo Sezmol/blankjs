@@ -261,3 +261,64 @@ test.each(["ok", "wrong"])("reset revalidates the default value %s", async (defa
   expect(input.value).toBe(defaultValue);
   expect(input.validity.valid).toBe(defaultValue === "ok");
 });
+
+test("a failed submit in a plain form focuses the first invalid Field", async () => {
+  render(
+    <form onSubmit={(e) => e.preventDefault()}>
+      <Field.Root>
+        <Field.Label>Name</Field.Label>
+        <TextInput name="name" />
+      </Field.Root>
+      <Field.Root required>
+        <Field.Label>Email</Field.Label>
+        <TextInput name="email" />
+      </Field.Root>
+      <button>Send</button>
+    </form>,
+  );
+
+  await userEvent.click(screen.getByRole("button", { name: "Send" }));
+
+  expect(screen.getByLabelText("Email")).toHaveFocus();
+});
+
+test("Enter in a field counts as a submit attempt", async () => {
+  render(
+    <form onSubmit={(e) => e.preventDefault()}>
+      <Field.Root required>
+        <Field.Label>Agree</Field.Label>
+        <Checkbox name="agree" />
+      </Field.Root>
+      <Field.Root>
+        <Field.Label>Name</Field.Label>
+        <TextInput name="name" />
+      </Field.Root>
+    </form>,
+  );
+
+  await userEvent.click(screen.getByLabelText("Name"));
+  await userEvent.keyboard("{Enter}");
+
+  expect(screen.getByLabelText("Agree")).toHaveFocus();
+});
+
+test("checkValidity from code does not move focus", async () => {
+  render(
+    <Form data-testid="form" onSubmit={vi.fn()}>
+      <Field.Root required>
+        <Field.Label>Email</Field.Label>
+        <TextInput name="email" />
+      </Field.Root>
+      <Field.Root>
+        <Field.Label>Name</Field.Label>
+        <TextInput name="name" />
+      </Field.Root>
+    </Form>,
+  );
+
+  await userEvent.click(screen.getByLabelText("Name"));
+
+  (screen.getByTestId("form") as HTMLFormElement).checkValidity();
+
+  expect(screen.getByLabelText("Name")).toHaveFocus();
+});

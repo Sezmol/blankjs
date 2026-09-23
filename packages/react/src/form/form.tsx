@@ -171,30 +171,6 @@ export function Form<S extends StandardSchemaV1>({
     });
   }, []);
 
-  useEffect(() => {
-    const form = innerRef.current;
-
-    if (!form) return;
-
-    let focused = false;
-
-    const onInvalid = (e: Event) => {
-      if (focused) return;
-
-      focused = true;
-
-      queueMicrotask(() => {
-        focused = false;
-      });
-
-      (e.target as HTMLElement | null)?.focus?.();
-    };
-
-    form.addEventListener("invalid", onInvalid, true);
-
-    return () => form.removeEventListener("invalid", onInvalid, true);
-  }, []);
-
   return (
     <FormContext value={formContextValue}>
       <form

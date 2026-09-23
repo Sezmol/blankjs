@@ -127,18 +127,6 @@ export const PinInput = ({
     proxyRef.current?.dispatchEvent(new Event("change", { bubbles: true }));
   }, [pin.value]);
 
-  useEffect(() => {
-    const proxy = proxyRef.current;
-
-    if (!proxy) return;
-
-    const onInvalid = () => focus(pin.value.length);
-
-    proxy.addEventListener("invalid", onInvalid);
-
-    return () => proxy.removeEventListener("invalid", onInvalid);
-  }, [focus, pin.value.length]);
-
   return (
     <div
       {...fieldProps}

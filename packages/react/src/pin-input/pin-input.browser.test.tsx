@@ -40,3 +40,45 @@ test("backspace walks back through the cells", async () => {
   expect(proxy?.value).toBe("");
   expect(document.activeElement).toBe(screen.getByLabelText("1 of 4"));
 });
+
+test.each([false, true])(
+  "a failed submit focuses the first empty cell, inside a Field: %s",
+  async (inField) => {
+    const pin = <PinInput name="code" length={4} required />;
+
+    render(
+      <form onSubmit={(e) => e.preventDefault()}>
+        {inField ? (
+          <Field.Root>
+            <Field.Label>Code</Field.Label>
+            {pin}
+          </Field.Root>
+        ) : (
+          pin
+        )}
+        <button>Send</button>
+      </form>,
+    );
+
+    await userEvent.click(screen.getByLabelText("1 of 4"));
+    await userEvent.keyboard("12");
+    await userEvent.click(screen.getByRole("button", { name: "Send" }));
+
+    expect(screen.getByLabelText("3 of 4")).toHaveFocus();
+  },
+);
+
+test("checkValidity from code leaves focus alone", async () => {
+  render(
+    <form data-testid="form">
+      <PinInput name="code" length={4} required />
+      <input aria-label="Other" />
+    </form>,
+  );
+
+  await userEvent.click(screen.getByLabelText("Other"));
+
+  (screen.getByTestId("form") as HTMLFormElement).checkValidity();
+
+  expect(screen.getByLabelText("Other")).toHaveFocus();
+});

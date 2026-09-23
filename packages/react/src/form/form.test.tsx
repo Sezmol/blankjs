@@ -41,9 +41,11 @@ test("does not prevent the default submit without onSubmit", () => {
   expect(e.defaultPrevented).toBe(false);
 });
 
-test("focuses the first invalid control", () => {
+test("a submit attempt focuses the first invalid control", async () => {
+  const user = userEvent.setup();
+
   render(
-    <Form>
+    <Form onSubmit={vi.fn()}>
       <Field.Root required>
         <Field.Label>First</Field.Label>
         <TextInput name="first" />
@@ -52,13 +54,36 @@ test("focuses the first invalid control", () => {
         <Field.Label>Second</Field.Label>
         <TextInput name="second" />
       </Field.Root>
+      <button>Send</button>
     </Form>,
   );
 
-  fireEvent.invalid(screen.getByLabelText("First"));
-  fireEvent.invalid(screen.getByLabelText("Second"));
+  await user.click(screen.getByRole("button", { name: "Send" }));
 
   expect(screen.getByLabelText("First")).toHaveFocus();
+});
+
+test("checkValidity from code leaves focus alone", async () => {
+  const user = userEvent.setup();
+
+  render(
+    <Form onSubmit={vi.fn()} data-testid="form">
+      <Field.Root required>
+        <Field.Label>First</Field.Label>
+        <TextInput name="first" />
+      </Field.Root>
+      <Field.Root>
+        <Field.Label>Second</Field.Label>
+        <TextInput name="second" />
+      </Field.Root>
+    </Form>,
+  );
+
+  await user.click(screen.getByLabelText("Second"));
+
+  (screen.getByTestId("form") as HTMLFormElement).checkValidity();
+
+  expect(screen.getByLabelText("Second")).toHaveFocus();
 });
 
 const ServerErrorHarness = () => {

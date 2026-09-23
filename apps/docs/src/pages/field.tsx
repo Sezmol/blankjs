@@ -68,8 +68,11 @@ export const FieldPage = () => (
     <p>
       By default a field stays quiet until the form tries to submit: the
       browser fires <code>invalid</code>, Field intercepts it (suppressing the
-      native bubble) and reveals the error. <code>validationMode</code> moves
-      that moment earlier:
+      native bubble) and reveals the error. On a submit attempt it also moves
+      focus to the first invalid field, as the browser would. A{" "}
+      <code>checkValidity()</code> call from your code reveals errors but
+      leaves focus where it is. <code>validationMode</code> moves that moment
+      earlier:
     </p>
 
     <ul className="docs-list">

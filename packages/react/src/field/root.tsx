@@ -13,7 +13,11 @@ import {
 } from "react";
 import { composeRefs } from "../slot";
 import { FormContext } from "../form";
-import { onFormReset } from "../internal";
+import {
+  focusOnSubmitAttempt,
+  onFormReset,
+  watchSubmitAttempts,
+} from "../internal";
 
 export type FieldRootProps = UseFieldRootOptions &
   ComponentProps<"div"> & {
@@ -73,6 +77,8 @@ export const FieldRoot = ({
   });
 
   const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => watchSubmitAttempts(), []);
 
   useEffect(() => {
     const control = findControl(innerRef.current, contextValue.controlId);
@@ -141,7 +147,10 @@ export const FieldRoot = ({
             onBlurCapture?.(e);
           }
         }}
-        onInvalidCapture={onInvalidCapture}
+        onInvalidCapture={(e) => {
+          onInvalidCapture?.(e);
+          focusOnSubmitAttempt(e.target);
+        }}
       >
         {children}
       </div>
