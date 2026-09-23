@@ -72,8 +72,9 @@ export const ComboboxPage = () => (
       props={[
         {
           name: "value / defaultValue / onValueChange",
-          type: "string",
-          description: "The committed value, controlled or uncontrolled.",
+          type: "string | null",
+          description:
+            "The committed value, controlled or uncontrolled. null means nothing is committed: pass it for an empty controlled value, and Combobox.Clear reports it.",
         },
         {
           name: "inputValue / defaultInputValue / onInputValueChange",

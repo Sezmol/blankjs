@@ -9,9 +9,9 @@ import { useCallback, useId, useMemo, useRef, useState } from "react";
 export const useComboboxRoot = (
   options: UseComboboxRootOptions = {},
 ): ComboboxContextValue => {
-  const [value, setValue] = useControllableState({
+  const [value, setValue] = useControllableState<string | null>({
     prop: options.value,
-    defaultProp: options.defaultValue,
+    defaultProp: options.defaultValue ?? null,
     onChange: options.onValueChange,
   });
 
@@ -60,7 +60,7 @@ export const useComboboxRoot = (
     const defaultInputValue = options.defaultInputValue ?? "";
 
     setInputValue(defaultInputValue);
-    setValue(options.defaultValue);
+    setValue(options.defaultValue ?? null);
     setOpen(false);
 
     committedLabelRef.current = defaultInputValue;
@@ -73,7 +73,7 @@ export const useComboboxRoot = (
   ]);
 
   const clear = useCallback(() => {
-    setValue(undefined);
+    setValue(null);
     setInputValue("");
     committedLabelRef.current = "";
   }, [setInputValue, setValue]);
@@ -83,7 +83,7 @@ export const useComboboxRoot = (
       open: open ?? false,
       setOpen,
 
-      value,
+      value: value ?? null,
       setValue,
 
       inputValue: inputValue ?? "",

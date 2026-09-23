@@ -6,8 +6,8 @@ export interface SelectContextValue {
   open: boolean;
   setOpen: SetStateFn<boolean>;
 
-  value: string | undefined;
-  setValue: SetStateFn<string>;
+  value: string | null;
+  setValue: SetStateFn<string | null>;
 
   activeItem: CollectionItem<string> | undefined;
   setActiveItem: Dispatch<SetStateAction<CollectionItem<string> | undefined>>;
@@ -27,9 +27,9 @@ export interface SelectContextValue {
 }
 
 export type UseSelectRootOptions = {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (value: string | undefined) => void;
+  value?: string | null;
+  defaultValue?: string | null;
+  onValueChange?: (value: string | null) => void;
 
   open?: boolean;
   defaultOpen?: boolean;

@@ -16,7 +16,7 @@ test("defaults to closed, empty values, enabled", () => {
   const { result } = renderHook(() => useComboboxRoot());
 
   expect(result.current.open).toBe(false);
-  expect(result.current.value).toBeUndefined();
+  expect(result.current.value).toBeNull();
   expect(result.current.inputValue).toBe("");
   expect(result.current.activeItem).toBeUndefined();
   expect(result.current.disabled).toBe(false);
@@ -113,13 +113,13 @@ test("resetToDefault restores value, inputValue and committed label", () => {
   expect(result.current.inputValue).toBe("Apple");
 });
 
-test("resetToDefault clears to undefined and empty string without defaults", () => {
+test("resetToDefault clears to null and empty string without defaults", () => {
   const { result } = renderHook(() => useComboboxRoot());
 
   act(() => result.current.commitItem(makeItem("b", "Banana")));
   act(() => result.current.resetToDefault());
 
-  expect(result.current.value).toBeUndefined();
+  expect(result.current.value).toBeNull();
   expect(result.current.inputValue).toBe("");
 });
 

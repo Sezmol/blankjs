@@ -10,7 +10,7 @@ export const SelectValue = ({ placeholder, children }: SelectValueProps) => {
   const { value } = useSelectContext();
 
   const getValue = () => {
-    if (value === undefined) return placeholder;
+    if (value === null) return placeholder;
 
     if (children) return children(value);
 
@@ -20,7 +20,7 @@ export const SelectValue = ({ placeholder, children }: SelectValueProps) => {
   return (
     <span
       className="bk-select-value"
-      data-placeholder={value === undefined ? "" : undefined}
+      data-placeholder={value === null ? "" : undefined}
     >
       {getValue()}
     </span>

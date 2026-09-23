@@ -13,7 +13,7 @@ test("defaults to closed, no value, no active item, enabled", () => {
   const { result } = renderHook(() => useSelectRoot());
 
   expect(result.current.open).toBe(false);
-  expect(result.current.value).toBeUndefined();
+  expect(result.current.value).toBeNull();
   expect(result.current.activeItem).toBeUndefined();
   expect(result.current.disabled).toBe(false);
 });

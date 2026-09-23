@@ -32,7 +32,7 @@ export const SelectClear = ({
 
     if (e.defaultPrevented) return;
 
-    setValue(undefined);
+    setValue(null);
 
     triggerElement?.focus();
   };

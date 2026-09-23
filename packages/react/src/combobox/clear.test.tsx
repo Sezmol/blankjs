@@ -95,7 +95,7 @@ test("clears the hidden input for FormData", async () => {
   expect(formData.get("fruit")).toBe("");
 });
 
-test("calls onValueChange with undefined", async () => {
+test("calls onValueChange with null", async () => {
   const user = userEvent.setup();
   const onValueChange = vi.fn();
 
@@ -105,7 +105,7 @@ test("calls onValueChange with undefined", async () => {
 
   await user.click(queryClear()!);
 
-  expect(onValueChange).toHaveBeenLastCalledWith(undefined);
+  expect(onValueChange).toHaveBeenLastCalledWith(null);
 });
 
 test("moves focus back to the input", async () => {

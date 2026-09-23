@@ -75,19 +75,20 @@ export const SelectPage = () => (
       props={[
         {
           name: "value",
-          type: "string",
-          description: "Controlled selected value.",
+          type: "string | null",
+          description:
+            "Controlled selected value. Pass null for no selection: undefined means uncontrolled.",
         },
         {
           name: "defaultValue",
-          type: "string",
+          type: "string | null",
           description: "Initial value in uncontrolled mode.",
         },
         {
           name: "onValueChange",
-          type: "(value: string | undefined) => void",
+          type: "(value: string | null) => void",
           description:
-            "Called on selection change. undefined arrives when Select.Clear empties the value.",
+            "Called on selection change. null arrives when Select.Clear empties the value.",
         },
         {
           name: "open",

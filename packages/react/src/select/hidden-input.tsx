@@ -5,7 +5,7 @@ import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 
 export interface SelectHiddenInputProps {
   name: string;
-  defaultValue?: string;
+  defaultValue?: string | null;
   required?: boolean;
 }
 
@@ -37,7 +37,7 @@ export const SelectHiddenInput = ({
 
     if (!form) return;
 
-    return onFormReset(form, () => setValue(defaultValue));
+    return onFormReset(form, () => setValue(defaultValue ?? null));
   }, [setValue, defaultValue]);
 
   return (

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Select } from "./index";
@@ -70,7 +71,7 @@ test("clears the hidden input for FormData", async () => {
   expect(formData.get("fruit")).toBe("");
 });
 
-test("calls onValueChange with undefined", async () => {
+test("calls onValueChange with null", async () => {
   const user = userEvent.setup();
   const onValueChange = vi.fn();
 
@@ -78,7 +79,38 @@ test("calls onValueChange with undefined", async () => {
 
   await user.click(queryClear()!);
 
-  expect(onValueChange).toHaveBeenCalledWith(undefined);
+  expect(onValueChange).toHaveBeenCalledWith(null);
+});
+
+test("clears a controlled Select back to the placeholder", async () => {
+  const user = userEvent.setup();
+
+  const Controlled = () => {
+    const [value, setValue] = useState<string | null>(null);
+
+    return (
+      <Select.Root value={value} onValueChange={setValue}>
+        <Select.Trigger>
+          <Select.Value placeholder="Pick one fruit" />
+        </Select.Trigger>
+        <Select.Clear />
+        <Select.Content>
+          <Select.Item value="a">Apple</Select.Item>
+        </Select.Content>
+      </Select.Root>
+    );
+  };
+
+  render(<Controlled />);
+
+  await user.click(screen.getByRole("combobox"));
+  await user.click(screen.getByRole("option", { name: "Apple" }));
+
+  expect(screen.getByRole("combobox")).toHaveTextContent("a");
+
+  await user.click(queryClear()!);
+
+  expect(screen.getByRole("combobox")).toHaveTextContent("Pick one fruit");
 });
 
 test("moves focus back to the trigger", async () => {

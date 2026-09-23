@@ -6,8 +6,8 @@ export interface ComboboxContextValue {
   open: boolean;
   setOpen: SetStateFn<boolean>;
 
-  value: string | undefined;
-  setValue: SetStateFn<string>;
+  value: string | null;
+  setValue: SetStateFn<string | null>;
 
   inputValue: string;
   setInputValue: SetStateFn<string>;
@@ -38,9 +38,9 @@ export interface ComboboxContextValue {
 }
 
 export type UseComboboxRootOptions = {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (value: string | undefined) => void;
+  value?: string | null;
+  defaultValue?: string | null;
+  onValueChange?: (value: string | null) => void;
 
   open?: boolean;
   defaultOpen?: boolean;
