@@ -1,5 +1,41 @@
 # @blankjs/core
 
+## 0.5.0
+
+### Minor Changes
+
+- PinInput.
+
+  PinInput takes a verification code one character per cell. Each cell is a
+  real input, so the browser handles the caret and the mobile keyboard, and the
+  form receives the whole code as one value under your `name`.
+
+  ```tsx
+  <Field.Root required>
+    <Field.Label>Code</Field.Label>
+    <PinInput name="code" length={6} groups={[3, 3]} onComplete={verify} />
+    <Field.Error />
+  </Field.Root>
+  ```
+
+  A hidden input holds the code with a `pattern` made from `length` and `type`.
+  A half-typed code blocks submit like a malformed email, and `Field.Error`
+  shows the message. A paste of `123-456` or an SMS autofill spreads across the
+  cells. Cells fill from the left, so `value` stays a plain string with no gaps.
+  `type="alphanumeric"` accepts letters too, and `mask` hides what the user
+  types.
+
+  `usePinInput` in `@blankjs/core` runs the same logic without markup: you get
+  props for each cell and render the rest yourself. `@blankjs/react` re-exports
+  it.
+
+### Patch Changes
+
+- `useFieldRoot` validates a named radio as its whole group: it takes the value
+  of the checked radio, or an empty string, and sets the message on every radio
+  in the group. An unchecked checkbox validates as `""`, as in FormData,
+  instead of `"on"`.
+
 ## 0.4.0
 
 ### Minor Changes
