@@ -92,7 +92,12 @@ html:has(.bk-dialog-content:modal) {
   transition:
     background-color var(--bk-duration-base) ease,
     border-color var(--bk-duration-base) ease,
-    box-shadow var(--bk-duration-base) ease;
+    box-shadow var(--bk-duration-base) ease,
+    transform var(--bk-duration-fast) var(--bk-easing-out);
+}
+
+.bk-dialog-close:active:not(:disabled) {
+  transform: scale(var(--bk-motion-press));
 }
 
 @media (hover: hover) {
