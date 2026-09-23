@@ -42,8 +42,10 @@
   color: var(--bk-color-text-on-accent);
 }
 
-.bk-button[data-variant="solid"]:hover {
-  background-color: var(--bk-color-accent-hover);
+@media (hover: hover) {
+  .bk-button[data-variant="solid"]:hover {
+    background-color: var(--bk-color-accent-hover);
+  }
 }
 
 .bk-button[data-variant="outline"] {
@@ -52,12 +54,14 @@
   color: var(--bk-color-text);
 }
 
-.bk-button[data-variant="outline"]:hover {
-  background-color: color-mix(
-    in oklch,
-    var(--bk-color-accent) 12%,
-    transparent
-  );
+@media (hover: hover) {
+  .bk-button[data-variant="outline"]:hover {
+    background-color: color-mix(
+      in oklch,
+      var(--bk-color-accent) 12%,
+      transparent
+    );
+  }
 }
 
 .bk-button[data-variant="ghost"] {
@@ -65,8 +69,10 @@
   color: var(--bk-color-text);
 }
 
-.bk-button[data-variant="ghost"]:hover {
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-button[data-variant="ghost"]:hover {
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-button:focus-visible {

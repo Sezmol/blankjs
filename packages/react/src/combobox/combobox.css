@@ -27,8 +27,10 @@
   color: var(--bk-color-text-muted);
 }
 
-.bk-combobox-input:hover {
-  border-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-combobox-input:hover {
+    border-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-combobox-input:focus-visible,
@@ -106,9 +108,11 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-combobox-clear:hover {
-  color: var(--bk-color-text);
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-combobox-clear:hover {
+    color: var(--bk-color-text);
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-combobox-clear:focus-visible {
@@ -155,9 +159,14 @@
   user-select: none;
 }
 
-.bk-combobox-item:hover,
 .bk-combobox-item[data-active] {
   background-color: var(--bk-color-surface-hover);
+}
+
+@media (hover: hover) {
+  .bk-combobox-item:hover {
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-combobox-check {

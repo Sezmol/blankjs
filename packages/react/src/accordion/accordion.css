@@ -33,8 +33,10 @@
   display: none;
 }
 
-.bk-accordion-trigger:hover {
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-accordion-trigger:hover {
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-accordion-trigger:focus-visible {

@@ -95,8 +95,10 @@ html:has(.bk-dialog-content:modal) {
     box-shadow var(--bk-duration-base) ease;
 }
 
-.bk-dialog-close:hover {
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-dialog-close:hover {
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-dialog-close:focus-visible {

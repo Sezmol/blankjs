@@ -17,15 +17,17 @@
   cursor: pointer;
   background-color: var(--bk-color-border);
   border: none;
-  border-radius: 999px;
+  border-radius: var(--bk-radius-full);
   outline: none;
   transition:
     background-color var(--bk-duration-fast) ease,
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-switch-input:hover {
-  background-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-switch-input:hover {
+    background-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-switch-input:focus-visible {
@@ -37,8 +39,10 @@
   background-color: var(--bk-color-accent);
 }
 
-.bk-switch-input:checked:hover {
-  background-color: var(--bk-color-accent-hover);
+@media (hover: hover) {
+  .bk-switch-input:checked:hover {
+    background-color: var(--bk-color-accent-hover);
+  }
 }
 
 .bk-switch-thumb {

@@ -24,8 +24,10 @@
     background-size var(--bk-duration-move) var(--bk-checkbox-mark-ease);
 }
 
-.bk-checkbox:hover {
-  border-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-checkbox:hover {
+    border-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-checkbox:focus-visible {
@@ -43,10 +45,12 @@
   background-size: var(--bk-checkbox-mark) var(--bk-checkbox-mark);
 }
 
-.bk-checkbox:checked:hover,
-.bk-checkbox:indeterminate:hover {
-  background-color: var(--bk-color-accent-hover);
-  border-color: var(--bk-color-accent-hover);
+@media (hover: hover) {
+  .bk-checkbox:checked:hover,
+  .bk-checkbox:indeterminate:hover {
+    background-color: var(--bk-color-accent-hover);
+    border-color: var(--bk-color-accent-hover);
+  }
 }
 
 

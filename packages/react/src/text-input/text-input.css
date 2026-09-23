@@ -20,8 +20,10 @@
   color: var(--bk-color-text-muted);
 }
 
-.bk-input:hover {
-  border-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-input:hover {
+    border-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-input:focus-visible {

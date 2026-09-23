@@ -40,8 +40,10 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-pin-input-cell:hover {
-  border-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-pin-input-cell:hover {
+    border-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-pin-input-cell:focus-visible {

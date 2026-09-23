@@ -46,8 +46,10 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-tabs-tab:hover {
-  color: var(--bk-color-text);
+@media (hover: hover) {
+  .bk-tabs-tab:hover {
+    color: var(--bk-color-text);
+  }
 }
 
 .bk-tabs-tab:focus-visible {

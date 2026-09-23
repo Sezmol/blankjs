@@ -20,8 +20,10 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-multi-select-trigger:hover {
-  border-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-multi-select-trigger:hover {
+    border-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-multi-select-trigger:focus-visible,
@@ -104,9 +106,11 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-multi-select-clear:hover {
-  color: var(--bk-color-text);
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-multi-select-clear:hover {
+    color: var(--bk-color-text);
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-multi-select-clear:focus-visible {
@@ -149,9 +153,14 @@
   user-select: none;
 }
 
-.bk-multi-select-item:hover,
 .bk-multi-select-item[data-active] {
   background-color: var(--bk-color-surface-hover);
+}
+
+@media (hover: hover) {
+  .bk-multi-select-item:hover {
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-multi-select-check {

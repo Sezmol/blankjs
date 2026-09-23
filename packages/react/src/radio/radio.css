@@ -39,8 +39,10 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-radio-item:hover {
-  border-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-radio-item:hover {
+    border-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-radio-item:focus-visible {
@@ -55,9 +57,11 @@
   border-color: var(--bk-color-accent);
 }
 
-.bk-radio-item:checked:hover {
-  background-color: var(--bk-color-accent-hover);
-  border-color: var(--bk-color-accent-hover);
+@media (hover: hover) {
+  .bk-radio-item:checked:hover {
+    background-color: var(--bk-color-accent-hover);
+    border-color: var(--bk-color-accent-hover);
+  }
 }
 
 [aria-invalid="true"].bk-radio-group .bk-radio-item {

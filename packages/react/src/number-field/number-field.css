@@ -51,9 +51,11 @@
   right: var(--bk-space-2);
 }
 
-.bk-number-field-button:hover:not(:disabled) {
-  color: var(--bk-color-text);
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-number-field-button:hover:not(:disabled) {
+    color: var(--bk-color-text);
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-number-field-button:disabled {

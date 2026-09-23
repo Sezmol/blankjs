@@ -36,14 +36,18 @@
   padding: var(--bk-space-1);
 }
 
-.bk-field-array-add:hover,
-.bk-field-array-remove:hover {
-  color: var(--bk-color-text);
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-field-array-add:hover,
+  .bk-field-array-remove:hover {
+    color: var(--bk-color-text);
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
-.bk-field-array-remove:hover {
-  color: var(--bk-color-danger-text);
+@media (hover: hover) {
+  .bk-field-array-remove:hover {
+    color: var(--bk-color-danger-text);
+  }
 }
 
 .bk-field-array-add:focus-visible,

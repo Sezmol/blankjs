@@ -20,8 +20,10 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-select-trigger:hover {
-  border-color: var(--bk-color-border-hover);
+@media (hover: hover) {
+  .bk-select-trigger:hover {
+    border-color: var(--bk-color-border-hover);
+  }
 }
 
 .bk-select-trigger:focus-visible,
@@ -104,9 +106,11 @@
     box-shadow var(--bk-duration-fast) ease;
 }
 
-.bk-select-clear:hover {
-  color: var(--bk-color-text);
-  background-color: var(--bk-color-surface-hover);
+@media (hover: hover) {
+  .bk-select-clear:hover {
+    color: var(--bk-color-text);
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-select-clear:focus-visible {
@@ -149,9 +153,14 @@
   user-select: none;
 }
 
-.bk-select-item:hover,
 .bk-select-item[data-active] {
   background-color: var(--bk-color-surface-hover);
+}
+
+@media (hover: hover) {
+  .bk-select-item:hover {
+    background-color: var(--bk-color-surface-hover);
+  }
 }
 
 .bk-select-check {
