@@ -28,3 +28,5 @@ export {
   onSubmitAttempt,
   watchSubmitAttempts,
 } from "./submit-attempt";
+
+export { closestLayer } from "./closest-layer";

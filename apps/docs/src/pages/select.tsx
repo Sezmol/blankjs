@@ -157,7 +157,7 @@ export const SelectPage = () => (
           type: "HTMLElement",
           defaultValue: "document.body",
           description:
-            "Portal container for the popup. Inside a <dialog> it defaults to that dialog, so the popup stays clickable above a modal.",
+            "Portal container for the popup. Inside a <dialog> or a popover it defaults to the nearest one, so the popup stays clickable above a modal and picking from it does not close the popover.",
         },
       ]}
     />

@@ -26,7 +26,7 @@ export interface UsePopoverOptions {
   anchor: HTMLElement | null;
   onDismiss: (reason: "escape" | "outside-press") => void;
   matchWidth?: Exclude<MatchWidth, "none">;
-  strategy?: Strategy;
+  layer?: HTMLElement | null;
 }
 
 const matchWidthMap = {
@@ -64,6 +64,7 @@ export interface FloatingPosition {
   setFloating: (node: HTMLElement | null) => void;
   floatingStyles: CSSProperties;
   floatingElement: HTMLElement | null;
+  update: () => void;
 }
 
 export const useFloatingPosition = ({
@@ -76,6 +77,7 @@ export const useFloatingPosition = ({
     refs,
     floatingStyles,
     elements,
+    update,
     placement: resolvedPlacement,
   } = useFloating({
     placement,
@@ -119,6 +121,7 @@ export const useFloatingPosition = ({
     setFloating,
     floatingStyles: styles,
     floatingElement: elements.floating,
+    update,
   };
 };
 
@@ -126,13 +129,26 @@ export const usePopover = ({
   anchor,
   onDismiss,
   matchWidth = "exact",
-  strategy,
+  layer,
 }: UsePopoverOptions) => {
-  const { setFloating, floatingStyles, floatingElement } = useFloatingPosition({
-    anchor,
-    matchWidth,
-    strategy,
-  });
+  const { setFloating, floatingStyles, floatingElement, update } =
+    useFloatingPosition({
+      anchor,
+      matchWidth,
+      strategy: layer ? "fixed" : "absolute",
+    });
+
+  useEffect(() => {
+    if (!layer) return;
+
+    const onTransitionEnd = (e: TransitionEvent) => {
+      if (e.target === layer) update();
+    };
+
+    layer.addEventListener("transitionend", onTransitionEnd);
+
+    return () => layer.removeEventListener("transitionend", onTransitionEnd);
+  }, [layer, update]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {

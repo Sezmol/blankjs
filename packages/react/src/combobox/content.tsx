@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 
 import { useComboboxContext } from "./context";
 import {
+  closestLayer,
   useInitialActiveItem,
   usePopover,
   type UsePopoverOptions,
@@ -46,15 +47,13 @@ const ComboboxContentInner = ({
     [revertInputValue, setOpen],
   );
 
-  const dialog = container
-    ? null
-    : (inputGroupElement?.closest("dialog") ?? null);
+  const layer = container ? null : closestLayer(inputGroupElement);
 
   const { setFloating, floatingStyles } = usePopover({
     anchor: inputGroupElement,
     onDismiss,
     matchWidth: "min",
-    strategy: dialog ? "fixed" : "absolute",
+    layer,
   });
 
   const onMouseDown = (e: MouseEvent<HTMLDivElement>) => {
@@ -70,7 +69,7 @@ const ComboboxContentInner = ({
 
   if (!mounted) return null;
 
-  const target = container ?? dialog ?? document.body;
+  const target = container ?? layer ?? document.body;
 
   return createPortal(
     <div

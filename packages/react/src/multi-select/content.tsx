@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 
 import { useMultiSelectContext } from "./context";
 import {
+  closestLayer,
   useInitialActiveItem,
   usePopover,
   type UsePopoverOptions,
@@ -35,12 +36,12 @@ const MultiSelectContentInner = ({
     [setOpen],
   );
 
-  const dialog = container ? null : (triggerElement?.closest("dialog") ?? null);
+  const layer = container ? null : closestLayer(triggerElement);
 
   const { setFloating, floatingStyles } = usePopover({
     anchor: triggerElement,
     onDismiss,
-    strategy: dialog ? "fixed" : "absolute",
+    layer,
   });
 
   const mounted = useInitialActiveItem({
@@ -51,7 +52,7 @@ const MultiSelectContentInner = ({
 
   if (!mounted) return null;
 
-  const target = container ?? dialog ?? document.body;
+  const target = container ?? layer ?? document.body;
 
   return createPortal(
     <div
