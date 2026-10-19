@@ -13,5 +13,6 @@
   the browser checks validity, so a value set from code without events is
   caught too.
 - A new `validate` applies on the next render, without waiting for input.
-- Removing `validate` clears the error it had set. A message you set yourself
-  with `setCustomValidity` is left alone.
+- Removing `validate` clears the error it had set. On a field that never had
+  `validate`, a message you set yourself with `setCustomValidity` is left
+  alone; while `validate` is set, it owns the field's custom validity.
