@@ -14,6 +14,22 @@ const begin = (form: HTMLFormElement | null) => {
   listeners.get(form)?.forEach((listener) => listener());
 };
 
+export const submitForm = (
+  form: HTMLFormElement,
+  submitter?: HTMLElement | null,
+) => {
+  const owned = !attempts.has(form);
+
+  attempts.set(form, { focused: false });
+
+  try {
+    listeners.get(form)?.forEach((listener) => listener());
+    form.requestSubmit(submitter);
+  } finally {
+    if (owned) attempts.delete(form);
+  }
+};
+
 export const onSubmitAttempt = (
   form: HTMLFormElement,
   listener: () => void,

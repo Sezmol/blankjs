@@ -93,7 +93,13 @@ export {
   type ComboboxRootProps,
 } from "./combobox";
 
-export { Form, FormError, FormContext, serialize } from "./form";
+export {
+  Form,
+  FormError,
+  FormContext,
+  serialize,
+  submitForm,
+} from "./form";
 export type {
   FormErrorProps,
   FormProps,

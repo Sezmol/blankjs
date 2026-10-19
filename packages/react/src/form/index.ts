@@ -7,3 +7,4 @@ export {
 export { FormError, type FormErrorProps } from "./form-error";
 export { FormContext, type FormContextType } from "./context";
 export { serialize } from "./serialize";
+export { submitForm } from "../internal";

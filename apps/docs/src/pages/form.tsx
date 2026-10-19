@@ -24,6 +24,21 @@ const [errors, setErrors] = useState<Record<string, string>>();
 </Form>
 `;
 
+const submitFromCode = `import { Form, submitForm } from "@blankjs/react";
+
+<Form
+  onSubmit={save}
+  onKeyDown={(e) => {
+    // Ctrl+Enter or Cmd+Enter submits from any field
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      submitForm(e.currentTarget);
+    }
+  }}
+>
+  ...
+</Form>
+`;
+
 const formErrorCode = `<Form error={declined ? "Card declined" : undefined}>
   <Form.Error /> {/* shows "Card declined" */}
   ...
@@ -200,6 +215,22 @@ export const FormPage = () => (
       The same flag is available as <code>submitting</code> on the form
       context for components that need it in JavaScript.
     </p>
+
+    <h2>Submitting from code</h2>
+
+    <p>
+      A keyboard shortcut or an autosave timer has no button to click. Call{" "}
+      <code>submitForm(form)</code> in place of{" "}
+      <code>form.requestSubmit()</code>. It runs the same submit a click
+      would: every <code>validate</code> rule runs again, and the first
+      invalid field gets focus. A plain <code>requestSubmit()</code> still
+      validates and still blocks an invalid submit, but focus stays where it
+      was, because Field hides the browser's own error bubble. Pass a submit
+      button as the second argument to send its <code>name</code> and{" "}
+      <code>value</code>.
+    </p>
+
+    <CodeBlock code={submitFromCode} />
 
     <h2>Typed and validated with a schema</h2>
 

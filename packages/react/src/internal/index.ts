@@ -26,6 +26,7 @@ export { onFormReset } from "./on-form-reset";
 export {
   focusOnSubmitAttempt,
   onSubmitAttempt,
+  submitForm,
   watchSubmitAttempts,
 } from "./submit-attempt";
 
