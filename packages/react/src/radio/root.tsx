@@ -54,7 +54,7 @@ export const RadioGroupRoot = ({
 
     if (!form) return;
 
-    return onFormReset(form, () => setValue(defaultValue));
+    return onFormReset(form, () => setValue(defaultValue ?? null));
   }, [setValue, defaultValue]);
 
   return (

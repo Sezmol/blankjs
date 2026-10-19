@@ -5,9 +5,9 @@ import { useId, useMemo } from "react";
 export const useRadioGroupRoot = (
   options: UseRadioGroupRootOptions = {},
 ): RadioGroupContextValue => {
-  const [value, setValue] = useControllableState({
+  const [value, setValue] = useControllableState<string | null>({
     prop: options.value,
-    defaultProp: options.defaultValue,
+    defaultProp: options.defaultValue ?? null,
     onChange: options.onValueChange,
   });
 
@@ -17,7 +17,7 @@ export const useRadioGroupRoot = (
 
   return useMemo(
     () => ({
-      value,
+      value: value ?? null,
       setValue,
       disabled: options.disabled ?? false,
       required: options.required ?? false,

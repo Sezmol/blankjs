@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Field, RadioGroup } from "@blankjs/react";
 
 export const RadioGroupControlled = () => {
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState<string | null>("free");
 
   return (
     <Field.Root>

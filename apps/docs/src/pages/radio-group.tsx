@@ -50,18 +50,20 @@ export const RadioGroupPage = () => (
       props={[
         {
           name: "value",
-          type: "string",
-          description: "Controlled selected value.",
+          type: "string | null",
+          description:
+            "Controlled selected value. null means no radio is checked.",
         },
         {
           name: "defaultValue",
-          type: "string",
+          type: "string | null",
           description: "Initial selection in uncontrolled mode; reset target.",
         },
         {
           name: "onValueChange",
-          type: "(value: string) => void",
-          description: "Called with the newly selected value.",
+          type: "(value: string | null) => void",
+          description:
+            "Called with the newly selected value, or null when a form reset clears the group.",
         },
         {
           name: "name",

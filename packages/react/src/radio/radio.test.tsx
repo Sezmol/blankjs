@@ -321,3 +321,100 @@ test("required on the root makes the group required", () => {
     (screen.getByTestId("form") as HTMLFormElement).checkValidity(),
   ).toBe(false);
 });
+
+const ControlledFruits = ({
+  value,
+  required,
+}: {
+  value: string | null;
+  required?: boolean;
+}) => (
+  <form aria-label="f">
+    <RadioGroup.Root
+      name="fruit"
+      value={value}
+      onValueChange={() => {}}
+      required={required}
+    >
+      {fruits.map((fruit) => (
+        <RadioGroup.Item key={fruit} value={fruit} aria-label={fruit} />
+      ))}
+    </RadioGroup.Root>
+  </form>
+);
+
+test("controlled: null clears the group and a string picks again", () => {
+  const { rerender } = render(<ControlledFruits value="apple" />);
+
+  expect(getRadio("apple")).toBeChecked();
+
+  rerender(<ControlledFruits value={null} />);
+
+  for (const fruit of fruits) expect(getRadio(fruit)).not.toBeChecked();
+
+  rerender(<ControlledFruits value="banana" />);
+
+  expect(getRadio("banana")).toBeChecked();
+});
+
+test("controlled: null leaves the group out of FormData", () => {
+  render(<ControlledFruits value={null} />);
+
+  const form = screen.getByRole("form") as HTMLFormElement;
+
+  expect(new FormData(form).has("fruit")).toBe(false);
+});
+
+test("controlled: null with required blocks submit", () => {
+  render(<ControlledFruits value={null} required />);
+
+  const form = screen.getByRole("form") as HTMLFormElement;
+
+  expect(form.checkValidity()).toBe(false);
+});
+
+test("form reset with no defaultValue reports null", async () => {
+  const user = userEvent.setup();
+  const onValueChange = vi.fn();
+
+  render(
+    <form aria-label="f">
+      <RadioGroup.Root onValueChange={onValueChange}>
+        {fruits.map((fruit) => (
+          <RadioGroup.Item key={fruit} value={fruit} aria-label={fruit} />
+        ))}
+      </RadioGroup.Root>
+    </form>,
+  );
+
+  await user.click(getRadio("banana"));
+
+  fireEvent.reset(screen.getByRole("form"));
+
+  await waitFor(() => expect(onValueChange).toHaveBeenLastCalledWith(null));
+  expect(getRadio("banana")).not.toBeChecked();
+});
+
+test("a canceled form reset keeps the picked value", async () => {
+  const user = userEvent.setup();
+  const onValueChange = vi.fn();
+
+  render(
+    <form aria-label="f" onReset={(e) => e.preventDefault()}>
+      <RadioGroup.Root onValueChange={onValueChange}>
+        {fruits.map((fruit) => (
+          <RadioGroup.Item key={fruit} value={fruit} aria-label={fruit} />
+        ))}
+      </RadioGroup.Root>
+    </form>,
+  );
+
+  await user.click(getRadio("banana"));
+
+  fireEvent.reset(screen.getByRole("form"));
+
+  await new Promise((resolve) => setTimeout(resolve, 10));
+
+  expect(onValueChange).toHaveBeenCalledTimes(1);
+  expect(getRadio("banana")).toBeChecked();
+});
