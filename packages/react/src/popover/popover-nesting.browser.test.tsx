@@ -161,6 +161,9 @@ test("a Select opened while the Popover still animates lands under its trigger",
   render(<SelectInPopover />);
 
   await userEvent.click(screen.getByRole("button", { name: "Settings" }));
+
+  expect(screen.getByTestId("popover").getAnimations()).not.toHaveLength(0);
+
   screen.getByRole("combobox", { name: "Fruit" }).click();
   await settle();
   await new Promise((resolve) => requestAnimationFrame(resolve));
@@ -186,7 +189,7 @@ test("a Select opened while a Dialog still animates lands under its trigger", as
   render(
     <Dialog.Root>
       <Dialog.Trigger>Edit</Dialog.Trigger>
-      <Dialog.Content>
+      <Dialog.Content data-testid="dialog">
         <Dialog.Title>Edit</Dialog.Title>
         <Select.Root>
           <Select.Trigger aria-label="Fruit">
@@ -201,6 +204,9 @@ test("a Select opened while a Dialog still animates lands under its trigger", as
   );
 
   await userEvent.click(screen.getByRole("button", { name: "Edit" }));
+
+  expect(screen.getByTestId("dialog").getAnimations()).not.toHaveLength(0);
+
   screen.getByRole("combobox", { name: "Fruit" }).click();
   await settle();
   await new Promise((resolve) => requestAnimationFrame(resolve));
