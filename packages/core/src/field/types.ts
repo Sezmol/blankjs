@@ -52,6 +52,7 @@ export interface FieldRootHandlerProps {
   resetValidation: () => void;
 
   validateControl: (control: Element) => void;
+  refreshControl: (control: Element) => void;
 }
 
 export interface FieldControlProps {

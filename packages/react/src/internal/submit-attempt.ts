@@ -1,5 +1,7 @@
 const attempts = new Map<HTMLFormElement, { focused: boolean }>();
 
+const listeners = new Map<HTMLFormElement, Set<() => void>>();
+
 let watchers = 0;
 
 const begin = (form: HTMLFormElement | null) => {
@@ -8,6 +10,24 @@ const begin = (form: HTMLFormElement | null) => {
   attempts.set(form, { focused: false });
 
   setTimeout(() => attempts.delete(form));
+
+  listeners.get(form)?.forEach((listener) => listener());
+};
+
+export const onSubmitAttempt = (
+  form: HTMLFormElement,
+  listener: () => void,
+) => {
+  const set = listeners.get(form) ?? new Set();
+
+  set.add(listener);
+  listeners.set(form, set);
+
+  return () => {
+    set.delete(listener);
+
+    if (set.size === 0) listeners.delete(form);
+  };
 };
 
 const onClick = (event: MouseEvent) => {

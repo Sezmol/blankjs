@@ -34,6 +34,9 @@ const snapshotValidity = (v: ValidityState): ValidityState => ({
   valueMissing: v.valueMissing,
 });
 
+const sameValidity = (a: ValidityState, b: ValidityState) =>
+  (Object.keys(b) as (keyof ValidityState)[]).every((key) => a[key] === b[key]);
+
 const radioGroupOf = (control: Element) => {
   if (
     !(control instanceof HTMLInputElement) ||
@@ -99,7 +102,9 @@ export const useFieldRoot = (
   const readValidity = (
     target: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
   ) => {
-    setValidity(snapshotValidity(target.validity));
+    const next = snapshotValidity(target.validity);
+
+    setValidity((prev) => (prev && sameValidity(prev, next) ? prev : next));
     setValidationMessage(target.validationMessage);
   };
 
@@ -109,16 +114,41 @@ export const useFieldRoot = (
     validateRef.current = validate;
   });
 
-  const validateControl = useCallback((control: Element) => {
-    if (!validateRef.current || !hasValidity(control)) return;
+  const ownsMessageRef = useRef(false);
 
-    const formData = control.form ? new FormData(control.form) : new FormData();
+  const validateControl = useCallback((control: Element) => {
+    if (!hasValidity(control)) return;
+
+    const rule = validateRef.current;
+
+    if (!rule && !ownsMessageRef.current) return;
+
     const radios = radioGroupOf(control);
-    const message =
-      validateRef.current(submittedValue(control, radios), formData) ?? "";
+    let message = "";
+
+    if (rule) {
+      const formData = control.form
+        ? new FormData(control.form)
+        : new FormData();
+
+      message = rule(submittedValue(control, radios), formData) ?? "";
+    }
+
+    ownsMessageRef.current = message !== "";
 
     for (const target of radios ?? [control]) target.setCustomValidity(message);
   }, []);
+
+  const refreshControl = useCallback(
+    (control: Element) => {
+      if (!validateRef.current && !ownsMessageRef.current) return;
+
+      validateControl(control);
+
+      if (revealed && hasValidity(control)) readValidity(control);
+    },
+    [revealed, validateControl],
+  );
 
   const onInvalidCapture = useCallback<OnInvalidCaptureHandler>((e) => {
     e.preventDefault();
@@ -231,6 +261,7 @@ export const useFieldRoot = (
       resetValidation,
 
       validateControl,
+      refreshControl,
     }),
     [
       controlId,
@@ -256,6 +287,7 @@ export const useFieldRoot = (
       onInvalidCapture,
       resetValidation,
       validateControl,
+      refreshControl,
     ],
   );
 };

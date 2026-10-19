@@ -16,6 +16,7 @@ import { FormContext } from "../form";
 import {
   focusOnSubmitAttempt,
   onFormReset,
+  onSubmitAttempt,
   watchSubmitAttempts,
 } from "../internal";
 
@@ -66,6 +67,7 @@ export const FieldRoot = ({
     onInvalidCapture,
     resetValidation,
     validateControl,
+    refreshControl,
     ...contextValue
   } = useFieldRoot({
     invalid: invalid ?? (activeServerError ? true : undefined),
@@ -83,8 +85,36 @@ export const FieldRoot = ({
   useEffect(() => {
     const control = findControl(innerRef.current, contextValue.controlId);
 
-    if (control) validateControl(control);
-  }, [validateControl, contextValue.controlId]);
+    if (control) refreshControl(control);
+  });
+
+  useEffect(() => {
+    const node = innerRef.current;
+    const form = node?.closest("form");
+
+    if (!node || !form) return;
+
+    const refresh = () => {
+      const control = findControl(node, contextValue.controlId);
+
+      if (control) refreshControl(control);
+    };
+
+    const handler = (e: Event) => {
+      if (!node.contains(e.target as Node)) refresh();
+    };
+
+    form.addEventListener("input", handler);
+    form.addEventListener("change", handler);
+
+    const stopAttempts = onSubmitAttempt(form, refresh);
+
+    return () => {
+      form.removeEventListener("input", handler);
+      form.removeEventListener("change", handler);
+      stopAttempts();
+    };
+  }, [refreshControl, contextValue.controlId]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

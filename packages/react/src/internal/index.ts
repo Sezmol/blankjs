@@ -23,4 +23,8 @@ export { scrollIntoListbox } from "./scroll-into-listbox";
 
 export { onFormReset } from "./on-form-reset";
 
-export { focusOnSubmitAttempt, watchSubmitAttempts } from "./submit-attempt";
+export {
+  focusOnSubmitAttempt,
+  onSubmitAttempt,
+  watchSubmitAttempts,
+} from "./submit-attempt";
