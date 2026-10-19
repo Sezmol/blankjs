@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import { useEffect, type ComponentProps } from "react";
 import { useFieldArrayContext } from "./context";
 
 export type FieldArrayErrorProps = ComponentProps<"div">;
@@ -8,11 +8,19 @@ export const FieldArrayError = ({
   className,
   ...props
 }: FieldArrayErrorProps) => {
-  const { errorId, error } = useFieldArrayContext();
+  const { errorId, error, registerError } = useFieldArrayContext();
 
   const content = children ?? error;
 
-  if (content == null || content === "") return null;
+  const visible = content != null && content !== "";
+
+  useEffect(() => {
+    if (!visible) return;
+
+    return registerError();
+  }, [registerError, visible]);
+
+  if (!visible) return null;
 
   return (
     <div

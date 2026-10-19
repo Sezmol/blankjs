@@ -10,6 +10,7 @@ export interface FieldArrayContextValue {
   name: string;
   errorId: string;
   error: string | undefined;
+  registerError: () => () => void;
 
   canAppend: boolean;
   canRemove: boolean;

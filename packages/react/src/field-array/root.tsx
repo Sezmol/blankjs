@@ -44,6 +44,13 @@ export const FieldArray = <T,>({
 
   const errorId = useId();
   const [dismissed, setDismissed] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const registerError = useCallback(() => {
+    setHasError(true);
+
+    return () => setHasError(false);
+  }, []);
 
   const error = dismissed ? undefined : errors?.[name];
 
@@ -157,20 +164,21 @@ export const FieldArray = <T,>({
       name,
       errorId,
       error,
+      registerError,
       canAppend,
       canRemove,
       appendRow,
       removeRow,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [name, errorId, error, canAppend, canRemove, rows],
+    [name, errorId, error, registerError, canAppend, canRemove, rows],
   );
 
   return (
     <FieldArrayContext value={contextValue}>
       <div
         role="group"
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={hasError ? errorId : undefined}
         {...props}
         ref={composeRefs(innerRef, ref)}
         className={["bk-field-array", className].filter(Boolean).join(" ")}

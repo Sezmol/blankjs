@@ -372,6 +372,9 @@ export const FieldArrayPage = () => (
       array-level schema issue or a matching entry in the form's{" "}
       <code>errors</code>. See{" "}
       <Link to="/components/form">Form</Link> for how errors reach it.
+      Children replace the message. While the part shows anything, the group
+      points <code>aria-describedby</code> at it, so a screen reader reads it
+      along with the group.
     </p>
   </article>
 );

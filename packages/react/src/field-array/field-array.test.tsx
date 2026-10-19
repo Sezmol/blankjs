@@ -163,9 +163,11 @@ test("shows an issue raised on the array itself", async () => {
 
   const error = await screen.findByText("At least two people");
 
-  expect(screen.getByRole("group")).toHaveAttribute(
-    "aria-describedby",
-    error.id,
+  await waitFor(() =>
+    expect(screen.getByRole("group")).toHaveAttribute(
+      "aria-describedby",
+      error.id,
+    ),
   );
 });
 
@@ -410,4 +412,60 @@ test("scopes buttons and names to its own array when nested", async () => {
     "users[0].phones[1]",
   );
   expect(screen.getByLabelText("Phone 2")).toHaveFocus();
+});
+
+const Described = ({
+  error,
+  showError = true,
+  errorChildren,
+  describedBy,
+}: {
+  error?: string;
+  showError?: boolean;
+  errorChildren?: string;
+  describedBy?: string;
+}) => (
+  <Form errors={error ? { users: error } : undefined}>
+    <FieldArray<User>
+      name="users"
+      {...(describedBy && { "aria-describedby": describedBy })}
+    >
+      {() =>
+        showError ? <FieldArray.Error>{errorChildren}</FieldArray.Error> : null
+      }
+    </FieldArray>
+  </Form>
+);
+
+test("does not point aria-describedby at an Error that is not rendered", () => {
+  render(<Described error="At least two people" showError={false} />);
+
+  expect(screen.getByRole("group")).not.toHaveAttribute("aria-describedby");
+});
+
+test("links an Error that shows its own children", () => {
+  render(<Described errorChildren="Add everyone who is coming" />);
+
+  const message = screen.getByText("Add everyone who is coming");
+
+  expect(screen.getByRole("group")).toHaveAttribute(
+    "aria-describedby",
+    message.id,
+  );
+});
+
+test("drops aria-describedby once the Error goes away", () => {
+  const { rerender } = render(<Described error="At least two people" />);
+
+  expect(screen.getByRole("group")).toHaveAttribute("aria-describedby");
+
+  rerender(<Described error="At least two people" showError={false} />);
+
+  expect(screen.getByRole("group")).not.toHaveAttribute("aria-describedby");
+});
+
+test("keeps an aria-describedby you pass yourself", () => {
+  render(<Described error="At least two people" describedBy="hint" />);
+
+  expect(screen.getByRole("group")).toHaveAttribute("aria-describedby", "hint");
 });
