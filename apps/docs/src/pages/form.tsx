@@ -231,6 +231,17 @@ export const FormPage = () => (
       works.
     </p>
 
+    <p>
+      The schema also runs without <code>onSubmit</code>. Then it checks the
+      form just before the browser sends it: an issue stops the submit and
+      lands on its field, and a clean result lets the submit go on to{" "}
+      <code>action</code>, be it a React action or a plain URL. The action
+      gets the raw FormData; the parsed output goes only to{" "}
+      <code>onSubmit</code>. This check has to finish inside the submit
+      event, so the schema must be synchronous here. An async one blocks the
+      submit and logs an error; keep <code>onSubmit</code> for async rules.
+    </p>
+
     <h2>Coerce your strings</h2>
 
     <p>
@@ -266,7 +277,7 @@ export const FormPage = () => (
           name: "schema",
           type: "StandardSchemaV1",
           description:
-            "Any Standard Schema validator. Runs after native constraints pass, and only together with onSubmit.",
+            "Any Standard Schema validator. Runs after native constraints pass. With onSubmit it may be async and onSubmit gets the parsed output. Without onSubmit it must be synchronous and decides whether the native submit or action goes ahead.",
         },
         {
           name: "errors",

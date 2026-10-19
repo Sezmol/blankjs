@@ -276,3 +276,97 @@ test("a dismissed error stays hidden while the next submit is in flight", async 
   await waitFor(() => expect(calls).toBe(2));
   expect(screen.queryByText("Too short")).toBeNull();
 });
+
+const ActionForm = ({
+  schema,
+  action,
+}: {
+  schema: StandardSchemaV1;
+  action: (data: FormData) => void;
+}) => (
+  <Form schema={schema} action={action}>
+    <Field.Root name="username">
+      <Field.Label>Username</Field.Label>
+      <TextInput name="username" defaultValue="ann" />
+      <Field.Error />
+    </Field.Root>
+    <button type="submit" name="intent" value="save">
+      Go
+    </button>
+  </Form>
+);
+
+test("without onSubmit, a failing schema blocks the action", async () => {
+  const user = userEvent.setup();
+  const action = vi.fn();
+  const schema = makeSchema(() => ({
+    issues: [{ message: "Too short", path: ["username"] }],
+  }));
+
+  render(<ActionForm schema={schema} action={action} />);
+
+  await user.click(screen.getByRole("button", { name: "Go" }));
+
+  expect(screen.getByText("Too short")).toBeInTheDocument();
+  expect(screen.getByLabelText("Username")).toHaveFocus();
+  expect(action).not.toHaveBeenCalled();
+});
+
+test("without onSubmit, a passing schema lets the action run with the submitter", async () => {
+  const user = userEvent.setup();
+  const action = vi.fn();
+  const schema = makeSchema((value) => ({ value }));
+
+  render(<ActionForm schema={schema} action={action} />);
+
+  await user.click(screen.getByRole("button", { name: "Go" }));
+
+  await waitFor(() => expect(action).toHaveBeenCalledTimes(1));
+
+  const data = action.mock.calls[0]![0] as FormData;
+
+  expect(data.get("username")).toBe("ann");
+  expect(data.get("intent")).toBe("save");
+});
+
+test("without onSubmit, an async schema blocks the submit and says why", async () => {
+  const user = userEvent.setup();
+  const action = vi.fn();
+  const error = vi.spyOn(console, "error").mockImplementation(() => {});
+  const schema = makeSchema(async (value) => ({ value }));
+
+  render(<ActionForm schema={schema} action={action} />);
+
+  await user.click(screen.getByRole("button", { name: "Go" }));
+
+  expect(action).not.toHaveBeenCalled();
+  expect(error).toHaveBeenCalledWith(
+    expect.stringContaining("an async schema needs onSubmit"),
+  );
+
+  error.mockRestore();
+});
+
+test("without onSubmit, a schema that throws blocks the submit", () => {
+  const action = vi.fn();
+  const schema = makeSchema(() => {
+    throw new Error("Broken schema");
+  });
+
+  const reportError = vi.fn();
+
+  vi.stubGlobal("reportError", reportError);
+
+  render(<ActionForm schema={schema} action={action} />);
+
+  const form = screen.getByRole("button", { name: "Go" }).closest("form")!;
+  const e = new Event("submit", { bubbles: true, cancelable: true });
+
+  fireEvent(form, e);
+
+  vi.unstubAllGlobals();
+
+  expect(e.defaultPrevented).toBe(true);
+  expect(reportError).toHaveBeenCalledWith(new Error("Broken schema"));
+  expect(action).not.toHaveBeenCalled();
+});

@@ -105,8 +105,62 @@ export function Form<S extends StandardSchemaV1>({
     first?.focus();
   };
 
+  const showSchemaIssues = (issues: readonly StandardSchemaV1.Issue[]) => {
+    const fieldErrors = mapIssues(issues);
+
+    setSchemaErrors(fieldErrors);
+    setSchemaError(formIssue(issues));
+    focusFirstNamed(fieldErrors);
+  };
+
+  const checkBeforeNativeSubmit = (e: FormSubmitEvent, schema: S) => {
+    const fd = new FormData(
+      e.currentTarget,
+      (e.nativeEvent as SubmitEvent).submitter,
+    );
+
+    let result:
+      | StandardSchemaV1.Result<unknown>
+      | Promise<StandardSchemaV1.Result<unknown>>;
+
+    try {
+      result = schema["~standard"].validate(serialize(fd));
+    } catch (error) {
+      e.preventDefault();
+      reportError(error);
+
+      return;
+    }
+
+    if ("then" in result) {
+      e.preventDefault();
+      Promise.resolve(result).catch(() => {});
+      console.error(
+        "blankjs: an async schema needs onSubmit, the submit was blocked.",
+      );
+
+      return;
+    }
+
+    if (result.issues) {
+      e.preventDefault();
+      showSchemaIssues(result.issues);
+
+      return;
+    }
+
+    setSchemaErrors(undefined);
+    setSchemaError(undefined);
+  };
+
   const handleSubmit = async (e: FormSubmitEvent) => {
-    if (e.target !== e.currentTarget || !onSubmit) return;
+    if (e.target !== e.currentTarget) return;
+
+    if (!onSubmit) {
+      if (schema) checkBeforeNativeSubmit(e, schema);
+
+      return;
+    }
 
     e.preventDefault();
 
@@ -131,11 +185,7 @@ export function Form<S extends StandardSchemaV1>({
       const result = await schema["~standard"].validate(raw);
 
       if (result.issues) {
-        const fieldErrors = mapIssues(result.issues);
-
-        setSchemaErrors(fieldErrors);
-        setSchemaError(formIssue(result.issues));
-        focusFirstNamed(fieldErrors);
+        showSchemaIssues(result.issues);
 
         return;
       }
