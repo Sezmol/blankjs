@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Field } from "./index";
 import { TextInput } from "../text-input";
@@ -534,4 +534,66 @@ test("blur mode waits until focus leaves the whole PinInput", async () => {
   await user.click(screen.getByRole("button", { name: "After" }));
 
   expect(screen.getByTestId("field")).toHaveAttribute("data-invalid");
+});
+
+const SizeForm = ({ defaultValue }: { defaultValue?: string }) => (
+  <form data-testid="form">
+    <Field.Root validate={(value) => (value === "b" ? null : "Pick B")}>
+      <RadioGroup.Root
+        name="size"
+        aria-label="Size"
+        defaultValue={defaultValue}
+      >
+        <RadioGroup.Item value="a" aria-label="A" />
+        <RadioGroup.Item value="b" aria-label="B" />
+      </RadioGroup.Root>
+    </Field.Root>
+    <button type="reset">Reset</button>
+  </form>
+);
+
+test("validate runs on mount for an untouched RadioGroup", () => {
+  render(<SizeForm />);
+
+  const form = screen.getByTestId("form") as HTMLFormElement;
+
+  expect(form.checkValidity()).toBe(false);
+});
+
+test("a RadioGroup reset back to no value is invalid again", async () => {
+  const user = userEvent.setup();
+
+  render(<SizeForm />);
+
+  const form = screen.getByTestId("form") as HTMLFormElement;
+
+  await user.click(screen.getByRole("radio", { name: "B" }));
+
+  expect(form.checkValidity()).toBe(true);
+
+  await user.click(screen.getByRole("button", { name: "Reset" }));
+
+  await waitFor(() => expect(form.checkValidity()).toBe(false));
+  expect(screen.getByRole("radio", { name: "B" })).not.toBeChecked();
+});
+
+test("a RadioGroup reset back to a valid default is valid again", async () => {
+  const user = userEvent.setup();
+
+  render(<SizeForm defaultValue="b" />);
+
+  const form = screen.getByTestId("form") as HTMLFormElement;
+
+  expect(form.checkValidity()).toBe(true);
+
+  await user.click(screen.getByRole("radio", { name: "A" }));
+
+  expect(form.checkValidity()).toBe(false);
+
+  await user.click(screen.getByRole("button", { name: "Reset" }));
+
+  await waitFor(() =>
+    expect(screen.getByRole("radio", { name: "B" })).toBeChecked(),
+  );
+  await waitFor(() => expect(form.checkValidity()).toBe(true));
 });

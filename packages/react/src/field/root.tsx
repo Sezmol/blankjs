@@ -28,9 +28,17 @@ export type FieldRootProps = UseFieldRootOptions &
 const findValueControl = (root: HTMLElement | null, controlId: string) =>
   root?.querySelector(`[data-bk-field-control="${controlId}"]`) ?? null;
 
-const findControl = (root: HTMLElement | null, controlId: string) =>
-  findValueControl(root, controlId) ??
-  root?.querySelector(`[id="${controlId}"]`);
+const findControl = (root: HTMLElement | null, controlId: string) => {
+  const control =
+    findValueControl(root, controlId) ??
+    root?.querySelector(`[id="${controlId}"]`);
+
+  if (control?.getAttribute("role") === "radiogroup") {
+    return control.querySelector('input[type="radio"]') ?? control;
+  }
+
+  return control;
+};
 
 const isValueTarget = (
   root: HTMLElement | null,
