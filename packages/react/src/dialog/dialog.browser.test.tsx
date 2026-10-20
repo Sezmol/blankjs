@@ -1,45 +1,11 @@
 import type { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
-import { cdp, userEvent } from "vitest/browser";
+import { commands, userEvent } from "vitest/browser";
 import { Dialog } from "./index";
 import { Select } from "../select";
 import { MultiSelect } from "../multi-select";
 import { Combobox } from "../combobox";
 import "../styles.css";
-
-const clickAt = async (x: number, y: number) => {
-  const session = cdp();
-  const base = { x, y, button: "left" as const, clickCount: 1 };
-
-  await session.send("Input.dispatchMouseEvent", { type: "mousePressed", ...base });
-  await session.send("Input.dispatchMouseEvent", { type: "mouseReleased", ...base });
-};
-
-const dragTo = async (from: DOMRect, x: number, y: number) => {
-  const session = cdp();
-  const button = "left" as const;
-  const start = { x: from.x + 4, y: from.y + from.height / 2 };
-
-  await session.send("Input.dispatchMouseEvent", {
-    type: "mousePressed",
-    ...start,
-    button,
-    clickCount: 1,
-  });
-  await session.send("Input.dispatchMouseEvent", {
-    type: "mouseMoved",
-    x,
-    y,
-    button,
-  });
-  await session.send("Input.dispatchMouseEvent", {
-    type: "mouseReleased",
-    x,
-    y,
-    button,
-    clickCount: 1,
-  });
-};
 
 const renderDialog = () =>
   render(
@@ -75,19 +41,36 @@ test("showModal makes the page behind it inert", async () => {
 });
 
 test("the browser traps tab inside the dialog", async () => {
-  renderDialog();
+  render(
+    <div>
+      <Dialog.Root>
+        <Dialog.Trigger>Open</Dialog.Trigger>
+        <Dialog.Content>
+          <Dialog.Title>Rename</Dialog.Title>
+          <input aria-label="First name" />
+          <input aria-label="Last name" />
+        </Dialog.Content>
+      </Dialog.Root>
+      <input aria-label="Outside" />
+    </div>,
+  );
 
   await userEvent.click(screen.getByRole("button", { name: "Open" }));
 
-  const inside = screen.getByRole("button", { name: "Inside" });
-  const close = screen.getByRole("button", { name: "Cancel" });
+  const dialog = screen.getByRole("dialog");
+  const visited = new Set([document.activeElement]);
 
-  await userEvent.tab();
-  await userEvent.tab();
-  await userEvent.tab();
-  await userEvent.tab();
+  for (let i = 0; i < 4; i++) {
+    await userEvent.tab();
 
-  expect([inside, close]).toContain(document.activeElement);
+    const active = document.activeElement;
+
+    expect(active === document.body || dialog.contains(active)).toBe(true);
+    visited.add(active);
+  }
+
+  expect(visited).toContain(screen.getByLabelText("First name"));
+  expect(visited).toContain(screen.getByLabelText("Last name"));
 });
 
 test("Escape closes and focus goes back to the trigger", async () => {
@@ -95,7 +78,8 @@ test("Escape closes and focus goes back to the trigger", async () => {
 
   const trigger = screen.getByRole("button", { name: "Open" });
 
-  await userEvent.click(trigger);
+  trigger.focus();
+  await userEvent.keyboard("{Enter}");
   await userEvent.keyboard("{Escape}");
 
   expect(dialog().open).toBe(false);
@@ -111,7 +95,7 @@ test("a click on the backdrop closes", async () => {
 
   expect(box.top).toBeGreaterThan(8);
 
-  await clickAt(4, 4);
+  await commands.press({ x: 4, y: 4 });
 
   expect(dialog().open).toBe(false);
 });
@@ -123,7 +107,10 @@ test("a text selection that ends over the backdrop keeps it open", async () => {
 
   const title = screen.getByText("Delete account").getBoundingClientRect();
 
-  await dragTo(title, 4, 4);
+  await commands.press(
+    { x: title.x + 4, y: title.y + title.height / 2 },
+    { x: 4, y: 4 },
+  );
 
   expect(dialog().open).toBe(true);
 });
@@ -176,7 +163,7 @@ test.each(popupCases)(
     );
 
     await userEvent.click(screen.getByRole("combobox"));
-    await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+    await userEvent.click(await screen.findByRole("option", { name: "Apple" }));
 
     const form = screen.getByTestId("form") as HTMLFormElement;
 

@@ -135,8 +135,9 @@ test("picking with the mouse keeps focus on the trigger", async () => {
 
   const trigger = screen.getByRole("combobox");
 
-  await userEvent.click(trigger);
-  await userEvent.click(screen.getByRole("option", { name: "Item 1" }));
+  trigger.focus();
+  await userEvent.keyboard("{Enter}");
+  await userEvent.click(await screen.findByRole("option", { name: "Item 1" }));
 
   expect(trigger).toHaveFocus();
 });

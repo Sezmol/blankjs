@@ -22,7 +22,7 @@ const nextTask = () => new Promise((resolve) => setTimeout(resolve));
 
 const pickOption = async (name: string) => {
   await userEvent.click(screen.getByRole("combobox"));
-  await userEvent.click(screen.getByRole("option", { name }));
+  await userEvent.click(await screen.findByRole("option", { name }));
 };
 
 test("submit includes the clicked button name and value", async () => {
@@ -279,7 +279,9 @@ test("a failed submit in a plain form focuses the first invalid Field", async ()
 
   await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
-  expect(screen.getByLabelText("Email")).toHaveFocus();
+  await expect
+    .poll(() => document.activeElement)
+    .toBe(screen.getByLabelText("Email"));
 });
 
 test("Enter in a field counts as a submit attempt", async () => {

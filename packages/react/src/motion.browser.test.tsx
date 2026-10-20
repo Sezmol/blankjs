@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { cdp, userEvent } from "vitest/browser";
+import { commands, userEvent } from "vitest/browser";
 import { Checkbox } from "./checkbox";
 import { Popover } from "./popover";
 import "./styles.css";
@@ -7,20 +7,15 @@ import "./styles.css";
 const token = (name: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
-const emulateReducedMotion = (value: "reduce" | "no-preference") =>
-  cdp().send("Emulation.setEmulatedMedia", {
-    features: [{ name: "prefers-reduced-motion", value }],
-  });
-
 afterEach(async () => {
   document.documentElement.removeAttribute("data-bk-motion");
-  await emulateReducedMotion("no-preference");
+  await commands.reducedMotion("no-preference");
 });
 
 test("prefers-reduced-motion stops movement and keeps the fades", async () => {
   render(<Checkbox />);
 
-  await emulateReducedMotion("reduce");
+  await commands.reducedMotion("reduce");
 
   expect(token("--bk-duration-move")).toBe("0s");
   expect(token("--bk-motion-scale")).toBe("1");
@@ -43,7 +38,7 @@ test("the attribute does the same thing without the system preference", () => {
 test("the checkbox mark still lands, it just does not animate", async () => {
   render(<Checkbox data-testid="cb" />);
 
-  await emulateReducedMotion("reduce");
+  await commands.reducedMotion("reduce");
 
   const box = screen.getByTestId("cb");
 
@@ -60,7 +55,7 @@ test("an overlay under reduced motion opens at its final size", async () => {
     </Popover.Root>,
   );
 
-  await emulateReducedMotion("reduce");
+  await commands.reducedMotion("reduce");
   await userEvent.click(screen.getByRole("button", { name: "Open" }));
 
   const content = screen.getByTestId("content");

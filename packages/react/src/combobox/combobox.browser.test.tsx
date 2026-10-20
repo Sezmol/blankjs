@@ -16,7 +16,7 @@ test("clicking an option commits it and keeps focus in the input", async () => {
   const input = screen.getByRole("combobox");
 
   await userEvent.click(input);
-  await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+  await userEvent.click(await screen.findByRole("option", { name: "Apple" }));
 
   expect(input).toHaveValue("Apple");
   expect(input).toHaveFocus();

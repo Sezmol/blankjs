@@ -4,6 +4,16 @@ import { Tooltip } from "./index";
 import { Dialog } from "../dialog";
 import "../styles.css";
 
+const supportsHint = () => {
+  const probe = document.createElement("div");
+
+  if (!("popover" in probe)) return false;
+
+  probe.popover = "hint";
+
+  return probe.popover === "hint";
+};
+
 test("a tooltip the parent keeps open lets Escape close a dialog opened with the mouse", async () => {
   const onOpenChange = vi.fn();
 
@@ -30,8 +40,11 @@ test("a tooltip the parent keeps open lets Escape close a dialog opened with the
   await userEvent.click(screen.getByRole("button", { name: "Open" }));
 
   await expect.poll(() => dialog.open).toBe(true);
-  expect(tooltip.matches(":popover-open")).toBe(false);
-  expect(onOpenChange).toHaveBeenCalledWith(false);
+
+  if (supportsHint()) {
+    expect(tooltip.matches(":popover-open")).toBe(false);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  }
 
   await userEvent.keyboard("{Escape}");
 

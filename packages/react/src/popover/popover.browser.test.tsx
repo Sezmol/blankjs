@@ -24,10 +24,10 @@ test("opens below the trigger and grows from its top edge", async () => {
 
   const trigger = screen.getByRole("button", { name: "Open" });
 
-  expect(content().getBoundingClientRect().top).toBeGreaterThan(
-    trigger.getBoundingClientRect().top,
-  );
-  expect(content().style.transformOrigin).toBe("left top");
+  await expect
+    .poll(() => content().getBoundingClientRect().top)
+    .toBeGreaterThan(trigger.getBoundingClientRect().top);
+  expect(content().style.transformOrigin).toMatch(/^left top( 0px)?$/);
 });
 
 test("flips above the trigger near the bottom edge and moves the origin with it", async () => {
@@ -36,11 +36,12 @@ test("flips above the trigger near the bottom edge and moves the origin with it"
   await userEvent.click(screen.getByRole("button", { name: "Open" }));
 
   const trigger = screen.getByRole("button", { name: "Open" });
-  const box = content().getBoundingClientRect();
 
-  expect(box.bottom).toBeLessThanOrEqual(trigger.getBoundingClientRect().top + 1);
-  expect(content().style.transformOrigin).toBe("left bottom");
-  expect(box.top).toBeGreaterThanOrEqual(0);
+  await expect
+    .poll(() => content().getBoundingClientRect().bottom)
+    .toBeLessThanOrEqual(trigger.getBoundingClientRect().top + 1);
+  expect(content().style.transformOrigin).toMatch(/^left bottom( 0px)?$/);
+  expect(content().getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
 });
 
 test("a controlled popover stays closed while the parent keeps it closed", async () => {

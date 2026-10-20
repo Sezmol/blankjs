@@ -64,7 +64,9 @@ test.each([false, true])(
     await userEvent.keyboard("12");
     await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
-    expect(screen.getByLabelText("3 of 4")).toHaveFocus();
+    await expect
+      .poll(() => document.activeElement)
+      .toBe(screen.getByLabelText("3 of 4"));
   },
 );
 

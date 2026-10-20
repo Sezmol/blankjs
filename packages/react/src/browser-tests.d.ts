@@ -1,7 +1,10 @@
 import "vitest/browser";
 
+type Point = { x: number; y: number };
+
 declare module "vitest/browser" {
-  interface CDPSession {
-    send(method: string, params?: Record<string, unknown>): Promise<unknown>;
+  interface BrowserCommands {
+    press: (from: Point, to?: Point) => Promise<void>;
+    reducedMotion: (value: "reduce" | "no-preference") => Promise<void>;
   }
 }
