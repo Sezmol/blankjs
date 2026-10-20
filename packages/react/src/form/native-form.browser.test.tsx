@@ -259,7 +259,7 @@ test.each(["ok", "wrong"])("reset revalidates the default value %s", async (defa
   expect(input.validity.valid).toBe(defaultValue !== "ok");
   await userEvent.click(screen.getByRole("button", { name: "Reset" }));
   expect(input.value).toBe(defaultValue);
-  expect(input.validity.valid).toBe(defaultValue === "ok");
+  await expect.poll(() => input.validity.valid).toBe(defaultValue === "ok");
 });
 
 test("a failed submit in a plain form focuses the first invalid Field", async () => {

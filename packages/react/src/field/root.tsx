@@ -137,9 +137,11 @@ export const FieldRoot = ({
     return onFormReset(form, () => {
       resetValidation();
 
-      const control = findControl(innerRef.current, contextValue.controlId);
+      setTimeout(() => {
+        const control = findControl(innerRef.current, contextValue.controlId);
 
-      if (control) validateControl(control);
+        if (control) validateControl(control);
+      });
     });
   }, [resetValidation, validateControl, contextValue.controlId]);
 

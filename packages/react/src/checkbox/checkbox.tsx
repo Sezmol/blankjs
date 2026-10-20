@@ -1,6 +1,7 @@
 import { useControllableState, useFieldControlProps } from "@blankjs/core";
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   type ChangeEvent,
   type ComponentProps,
@@ -48,13 +49,29 @@ export const Checkbox = ({
 
   const ref = useRef<HTMLInputElement>(null);
 
+  const controlled = checked !== undefined;
+
+  const valueRef = useRef(value);
+
+  useLayoutEffect(() => {
+    valueRef.current = value;
+  });
+
   useEffect(() => {
     const form = ref.current?.form;
 
     if (!form) return;
 
-    return onFormReset(form, () => setValue(defaultChecked ?? false));
-  }, [setValue, defaultChecked]);
+    return onFormReset(form, () => {
+      const fallback = defaultChecked ?? false;
+
+      setValue(fallback);
+
+      if (ref.current) {
+        ref.current.checked = controlled ? !!valueRef.current : fallback;
+      }
+    });
+  }, [setValue, defaultChecked, controlled]);
 
   useEffect(() => {
     if (ref.current) ref.current.indeterminate = indeterminate ?? false;

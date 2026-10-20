@@ -1,4 +1,10 @@
-import { useContext, useEffect, useRef, type ComponentProps } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  type ComponentProps,
+} from "react";
 import type { UseRadioGroupRootOptions } from "./types";
 import { RadioGroupContext } from "./context";
 import { useRadioGroupRoot } from "./use-radio-group-root";
@@ -49,13 +55,33 @@ export const RadioGroupRoot = ({
 
   const ref = useRef<HTMLDivElement>(null);
 
+  const controlled = value !== undefined;
+
+  const valueRef = useRef(contextValue.value);
+
+  useLayoutEffect(() => {
+    valueRef.current = contextValue.value;
+  });
+
   useEffect(() => {
     const form = ref.current?.closest("form");
 
     if (!form) return;
 
-    return onFormReset(form, () => setValue(defaultValue ?? null));
-  }, [setValue, defaultValue]);
+    return onFormReset(form, () => {
+      const fallback = defaultValue ?? null;
+
+      setValue(fallback);
+
+      const target = controlled ? valueRef.current : fallback;
+
+      ref.current
+        ?.querySelectorAll<HTMLInputElement>('input[type="radio"]')
+        .forEach((radio) => {
+          radio.checked = radio.value === target;
+        });
+    });
+  }, [setValue, defaultValue, controlled]);
 
   return (
     <RadioGroupContext value={contextValue}>
