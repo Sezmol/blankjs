@@ -7,7 +7,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useId,
   useMemo,
   useRef,
   useState,
@@ -42,14 +41,13 @@ export const FieldArray = <T,>({
   const array = useFieldArray<T>({ name, defaultItems, minItems, maxItems });
   const { errors, clearErrors } = useContext(FormContext) ?? {};
 
-  const errorId = useId();
   const [dismissed, setDismissed] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [errorIds, setErrorIds] = useState<string[]>([]);
 
-  const registerError = useCallback(() => {
-    setHasError(true);
+  const registerError = useCallback((id: string) => {
+    setErrorIds((ids) => [...ids, id]);
 
-    return () => setHasError(false);
+    return () => setErrorIds((ids) => ids.filter((other) => other !== id));
   }, []);
 
   const error = dismissed ? undefined : errors?.[name];
@@ -162,7 +160,6 @@ export const FieldArray = <T,>({
   const contextValue = useMemo(
     () => ({
       name,
-      errorId,
       error,
       registerError,
       canAppend,
@@ -171,14 +168,16 @@ export const FieldArray = <T,>({
       removeRow,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [name, errorId, error, registerError, canAppend, canRemove, rows],
+    [name, error, registerError, canAppend, canRemove, rows],
   );
 
   return (
     <FieldArrayContext value={contextValue}>
       <div
         role="group"
-        aria-describedby={hasError ? errorId : undefined}
+        aria-describedby={
+          errorIds.length > 0 ? errorIds.join(" ") : undefined
+        }
         {...props}
         ref={composeRefs(innerRef, ref)}
         className={["bk-field-array", className].filter(Boolean).join(" ")}

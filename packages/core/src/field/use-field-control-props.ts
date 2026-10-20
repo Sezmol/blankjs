@@ -9,20 +9,15 @@ export const useFieldControlProps = (): FieldControlProps => {
     if (!context) return {} as FieldControlProps;
 
     const {
-      hasDescription,
-      descriptionId,
-      hasError,
-      errorId,
+      descriptionIds,
+      errorIds,
       controlId,
       disabled,
       required,
       invalid,
     } = context;
 
-    const describedBy =
-      [hasDescription && descriptionId, hasError && errorId]
-        .filter(Boolean)
-        .join(" ") || undefined;
+    const describedBy = [...descriptionIds, ...errorIds].join(" ") || undefined;
 
     return {
       "aria-describedby": describedBy,

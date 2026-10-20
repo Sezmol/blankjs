@@ -8,9 +8,8 @@ export type FieldArrayRowRef = Pick<
 
 export interface FieldArrayContextValue {
   name: string;
-  errorId: string;
   error: string | undefined;
-  registerError: () => () => void;
+  registerError: (id: string) => () => void;
 
   canAppend: boolean;
   canRemove: boolean;

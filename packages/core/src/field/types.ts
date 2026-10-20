@@ -7,8 +7,6 @@ type DivProps = Required<ComponentProps<"div">>;
 export interface FieldContextValue {
   controlId: string;
   labelId: string;
-  descriptionId: string;
-  errorId: string;
 
   invalid: boolean;
   disabled: boolean;
@@ -20,14 +18,14 @@ export interface FieldContextValue {
   serverError?: string;
 
   hasLabel: boolean;
-  hasDescription: boolean;
-  hasError: boolean;
+  descriptionIds: string[];
+  errorIds: string[];
 
   resolvedErrorMessage: ReactNode | undefined;
   hasGroupControl: boolean;
   registerLabel: () => () => void;
-  registerDescription: () => () => void;
-  registerError: () => () => void;
+  registerDescription: (id: string) => () => void;
+  registerError: (id: string) => () => void;
   registerGroupControl: () => () => void;
 }
 

@@ -1,11 +1,11 @@
 import { renderHook } from "@testing-library/react";
 import { useFieldRoot } from "./use-field-root";
 
-test("generates unique ids for control, description and error", () => {
+test("generates unique ids for control and label", () => {
   const { result } = renderHook(() => useFieldRoot());
-  const { controlId, descriptionId, errorId } = result.current;
+  const { controlId, labelId } = result.current;
 
-  const ids = [controlId, descriptionId, errorId];
+  const ids = [controlId, labelId];
 
   expect(new Set(ids).size).toBe(ids.length);
 });
@@ -33,16 +33,13 @@ test("passes through provided options", () => {
 test("keeps ids stable across rerenders", () => {
   const { result, rerender } = renderHook(() => useFieldRoot());
   const beforeControlId = result.current.controlId;
-  const beforeDescriptionId = result.current.descriptionId;
-  const beforeErrorId = result.current.errorId;
+  const beforeLabelId = result.current.labelId;
 
   rerender();
 
   const afterControlId = result.current.controlId;
-  const afterDescriptionId = result.current.descriptionId;
-  const afterErrorId = result.current.errorId;
+  const afterLabelId = result.current.labelId;
 
   expect(beforeControlId).toBe(afterControlId);
-  expect(beforeDescriptionId).toBe(afterDescriptionId);
-  expect(beforeErrorId).toBe(afterErrorId);
+  expect(beforeLabelId).toBe(afterLabelId);
 });

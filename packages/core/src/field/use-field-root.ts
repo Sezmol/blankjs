@@ -87,12 +87,10 @@ export const useFieldRoot = (
 
   const controlId = useId();
   const labelId = useId();
-  const descriptionId = useId();
-  const errorId = useId();
 
   const [hasLabel, setHasLabel] = useState(false);
-  const [hasDescription, setHasDescription] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [descriptionIds, setDescriptionIds] = useState<string[]>([]);
+  const [errorIds, setErrorIds] = useState<string[]>([]);
   const [hasGroupControl, setHasGroupControl] = useState(false);
 
   const [validity, setValidity] = useState<ValidityState | null>(null);
@@ -205,16 +203,17 @@ export const useFieldRoot = (
     return () => setHasGroupControl(false);
   }, []);
 
-  const registerDescription = useCallback(() => {
-    setHasDescription(true);
+  const registerDescription = useCallback((id: string) => {
+    setDescriptionIds((ids) => [...ids, id]);
 
-    return () => setHasDescription(false);
+    return () =>
+      setDescriptionIds((ids) => ids.filter((other) => other !== id));
   }, []);
 
-  const registerError = useCallback(() => {
-    setHasError(true);
+  const registerError = useCallback((id: string) => {
+    setErrorIds((ids) => [...ids, id]);
 
-    return () => setHasError(false);
+    return () => setErrorIds((ids) => ids.filter((other) => other !== id));
   }, []);
 
   const isInvalid = invalid ?? (revealed && validity ? !validity.valid : false);
@@ -234,8 +233,6 @@ export const useFieldRoot = (
     () => ({
       controlId,
       labelId,
-      descriptionId,
-      errorId,
 
       invalid: isInvalid,
       disabled,
@@ -245,8 +242,8 @@ export const useFieldRoot = (
       validationMessage,
 
       hasLabel,
-      hasDescription,
-      hasError,
+      descriptionIds,
+      errorIds,
       resolvedErrorMessage,
       hasGroupControl,
       registerLabel,
@@ -266,16 +263,14 @@ export const useFieldRoot = (
     [
       controlId,
       labelId,
-      descriptionId,
-      errorId,
       isInvalid,
       disabled,
       required,
       validity,
       validationMessage,
       hasLabel,
-      hasDescription,
-      hasError,
+      descriptionIds,
+      errorIds,
       resolvedErrorMessage,
       hasGroupControl,
       registerLabel,

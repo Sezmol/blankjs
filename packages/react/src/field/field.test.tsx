@@ -83,3 +83,25 @@ test("propagates the disabled state from Field.Root to the control", () => {
   expect(input).toBeDisabled();
   expect(root).not.toBeNull();
 });
+
+test("two Description and two Error parts each get an id and all describe the control", () => {
+  render(
+    <Field.Root invalid>
+      <Field.Label>Email</Field.Label>
+      <TextInput />
+      <Field.Description data-testid="d1">Work email</Field.Description>
+      <Field.Description id="hint">We never share it</Field.Description>
+      <Field.Error data-testid="e1">Required</Field.Error>
+      <Field.Error id="again">Still required</Field.Error>
+    </Field.Root>,
+  );
+
+  const d1 = screen.getByTestId("d1").id;
+  const e1 = screen.getByTestId("e1").id;
+
+  expect(new Set([d1, e1, "hint", "again"]).size).toBe(4);
+  expect(screen.getByLabelText("Email")).toHaveAttribute(
+    "aria-describedby",
+    `${d1} hint ${e1} again`,
+  );
+});

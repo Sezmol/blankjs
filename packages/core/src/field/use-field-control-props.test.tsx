@@ -9,14 +9,12 @@ const makeContext = (
 ): FieldContextValue => ({
   controlId: "controlId",
   labelId: "labelId",
-  descriptionId: "descriptionId",
-  errorId: "errorId",
   invalid: false,
   disabled: false,
   required: false,
   hasLabel: false,
-  hasDescription: false,
-  hasError: false,
+  descriptionIds: [],
+  errorIds: [],
   resolvedErrorMessage: undefined,
   hasGroupControl: false,
   registerLabel: () => () => {},
@@ -67,7 +65,9 @@ test("omits aria-required when not required", () => {
 });
 
 test("includes only description id when error absent", () => {
-  const { result } = renderWithContext(makeContext({ hasDescription: true }));
+  const { result } = renderWithContext(
+    makeContext({ descriptionIds: ["descriptionId"] }),
+  );
 
   expect(result.current["aria-describedby"]).toContain("descriptionId");
   expect(result.current["aria-describedby"]).not.toContain("errorId");
@@ -75,7 +75,10 @@ test("includes only description id when error absent", () => {
 
 test("includes both ids separated by space when present", () => {
   const { result } = renderWithContext(
-    makeContext({ hasDescription: true, hasError: true }),
+    makeContext({
+      descriptionIds: ["descriptionId"],
+      errorIds: ["errorId"],
+    }),
   );
 
   expect(result.current["aria-describedby"]).toBe("descriptionId errorId");

@@ -1,16 +1,23 @@
 import { useFieldContext } from "@blankjs/core";
-import { useEffect, type ComponentProps } from "react";
+import { useEffect, useId, type ComponentProps } from "react";
 
 export type FieldDescriptionProps = ComponentProps<"div">;
 
 export const FieldDescription = ({
   children,
   className,
+  id,
   ...props
 }: FieldDescriptionProps) => {
-  const { descriptionId, registerDescription } = useFieldContext();
+  const { registerDescription } = useFieldContext();
 
-  useEffect(() => registerDescription(), [registerDescription]);
+  const ownId = useId();
+  const descriptionId = id ?? ownId;
+
+  useEffect(
+    () => registerDescription(descriptionId),
+    [registerDescription, descriptionId],
+  );
 
   return (
     <div

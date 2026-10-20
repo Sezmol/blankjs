@@ -469,3 +469,41 @@ test("keeps an aria-describedby you pass yourself", () => {
 
   expect(screen.getByRole("group")).toHaveAttribute("aria-describedby", "hint");
 });
+
+const TwoErrors = ({ first = true, second = true }) => (
+  <Form errors={{ users: "At least two people" }}>
+    <FieldArray<User> name="users">
+      {() => (
+        <>
+          {first && <FieldArray.Error data-testid="first" />}
+          {second && <FieldArray.Error data-testid="second" id="mine" />}
+        </>
+      )}
+    </FieldArray>
+  </Form>
+);
+
+test("two Error parts get their own ids and both describe the group", () => {
+  render(<TwoErrors />);
+
+  const first = screen.getByTestId("first");
+  const second = screen.getByTestId("second");
+
+  expect(first.id).not.toBe("");
+  expect(second.id).toBe("mine");
+  expect(screen.getByRole("group").getAttribute("aria-describedby")).toBe(
+    `${first.id} mine`,
+  );
+});
+
+test("removing one Error part keeps the other linked", () => {
+  const { rerender } = render(<TwoErrors />);
+
+  rerender(<TwoErrors first={false} />);
+
+  expect(screen.getByRole("group")).toHaveAttribute("aria-describedby", "mine");
+
+  rerender(<TwoErrors first={false} second={false} />);
+
+  expect(screen.getByRole("group")).not.toHaveAttribute("aria-describedby");
+});

@@ -1,15 +1,15 @@
 import { useFieldContext } from "@blankjs/core";
-import { useEffect, type ComponentProps } from "react";
+import { useEffect, useId, type ComponentProps } from "react";
 
 export type FieldErrorProps = ComponentProps<"div">;
 
 export const FieldError = ({
   children,
   className,
+  id,
   ...props
 }: FieldErrorProps) => {
   const {
-    errorId,
     registerError,
     invalid,
     resolvedErrorMessage,
@@ -22,11 +22,14 @@ export const FieldError = ({
 
   const visible = invalid && content != null && content !== "";
 
+  const ownId = useId();
+  const errorId = id ?? ownId;
+
   useEffect(() => {
     if (!visible) return;
 
-    return registerError();
-  }, [registerError, visible]);
+    return registerError(errorId);
+  }, [registerError, visible, errorId]);
 
   if (!visible) return null;
 
