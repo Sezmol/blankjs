@@ -110,6 +110,7 @@ Validation rides on the Constraint Validation API instead of a schema library:
 - HTML constraints (`required`, `pattern`, `minLength`, `type="email"`) report through `ValidityState`; `errorMessages` overrides the wording per constraint, and with no override the browser's localized message is rendered — a field shows one error at a time, like the platform
 - Errors reveal on submit by default; `validationMode="blur"` or `"change"` reveals them earlier
 - `validate` feeds `setCustomValidity`, so a failing custom rule blocks submit exactly like a native constraint
+- `submitForm(form)` submits from code the way a click on the submit button does: every `validate` rule runs again and the first invalid field gets focus. Use it in place of `form.requestSubmit()` for keyboard shortcuts and autosave
 - Composite widgets participate: `required` on an empty Select blocks submit and moves focus to the trigger
 - `<Form errors={{ username: "Taken" }}>` routes server errors to fields by `name`; editing the field clears the error
 - `serialize(formData)` returns a plain object: arrays for repeated names, and nested data for names written as paths (`address.city`, `guests[0].email`)
