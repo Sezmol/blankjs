@@ -14,6 +14,29 @@ const supportsHint = () => {
   return probe.popover === "hint";
 };
 
+test("Escape in another field closes a tooltip shown by hover", async () => {
+  render(
+    <div>
+      <input aria-label="Name" />
+      <Tooltip.Root delay={0}>
+        <Tooltip.Trigger>Save</Tooltip.Trigger>
+        <Tooltip.Content data-testid="tooltip">Saves the draft</Tooltip.Content>
+      </Tooltip.Root>
+    </div>,
+  );
+
+  const tooltip = screen.getByTestId("tooltip");
+
+  await userEvent.click(screen.getByLabelText("Name"));
+  await userEvent.hover(screen.getByRole("button", { name: "Save" }));
+  await expect.poll(() => tooltip.matches(":popover-open")).toBe(true);
+
+  await userEvent.keyboard("{Escape}");
+
+  await expect.poll(() => tooltip.matches(":popover-open")).toBe(false);
+  expect(screen.getByLabelText("Name")).toHaveFocus();
+});
+
 test("a tooltip the parent keeps open lets Escape close a dialog opened with the mouse", async () => {
   const onOpenChange = vi.fn();
 

@@ -220,6 +220,40 @@ test("Escape closes and cancels a pending open", () => {
   expect(isShown(content())).toBe(false);
 });
 
+const renderNextToField = (onFieldKeyDown?: (e: React.KeyboardEvent) => void) =>
+  render(
+    <div>
+      <input aria-label="Name" onKeyDown={onFieldKeyDown} />
+      <Tooltip.Root>
+        <Tooltip.Trigger>Save</Tooltip.Trigger>
+        <Tooltip.Content data-testid="content">Saves the file</Tooltip.Content>
+      </Tooltip.Root>
+    </div>,
+  );
+
+test("Escape in another field closes a tooltip shown by hover", () => {
+  renderNextToField();
+
+  firePointer(trigger(), "pointerover");
+  advance(500);
+  expect(isShown(content())).toBe(true);
+
+  fireEvent.keyDown(screen.getByLabelText("Name"), { key: "Escape" });
+
+  expect(isShown(content())).toBe(false);
+});
+
+test("an Escape the field already handled leaves the tooltip open", () => {
+  renderNextToField((e) => e.preventDefault());
+
+  firePointer(trigger(), "pointerover");
+  advance(500);
+
+  fireEvent.keyDown(screen.getByLabelText("Name"), { key: "Escape" });
+
+  expect(isShown(content())).toBe(true);
+});
+
 test("delay prop overrides the default open delay", () => {
   renderTooltip({ delay: 50 });
 

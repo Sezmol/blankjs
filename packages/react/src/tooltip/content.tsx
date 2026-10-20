@@ -13,6 +13,16 @@ export type TooltipContentProps = ComponentProps<"div"> & {
   placement?: Placement;
 };
 
+const supportsHint = (doc: Document) => {
+  const probe = doc.createElement("div");
+
+  if (!("popover" in probe)) return false;
+
+  probe.popover = "hint";
+
+  return probe.popover === "hint";
+};
+
 export const TooltipContent = ({
   placement = "top",
   children,
@@ -54,6 +64,24 @@ export const TooltipContent = ({
       content.hidePopover();
     }
   }, [open]);
+
+  useEffect(() => {
+    const doc = innerRef.current?.ownerDocument;
+
+    if (!open || !doc || supportsHint(doc)) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+
+      if (anchor?.contains(e.target as Node | null)) return;
+
+      closeNow();
+    };
+
+    doc.addEventListener("keydown", onKeyDown);
+
+    return () => doc.removeEventListener("keydown", onKeyDown);
+  }, [open, anchor, closeNow]);
 
   const handleToggle = (e: ToggleEvent<HTMLDivElement>) => {
     onToggle?.(e);
