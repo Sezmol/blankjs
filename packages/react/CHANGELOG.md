@@ -1,5 +1,131 @@
 # @blankjs/react
 
+## 0.6.0
+
+### Minor Changes
+
+- **Breaking:** the empty value of `RadioGroup` is `null` now, the same as
+  `Select` and `Combobox`.
+
+  `value` and `defaultValue` take `string | null`, and `onValueChange` receives
+  `string | null`. A controlled parent can clear the group by passing `null`;
+  `undefined` still means uncontrolled. A form reset with no `defaultValue`
+  reports `null`.
+
+  To migrate, widen the state you pass to `onValueChange`:
+  `useState<string | null>(...)`.
+
+- New `CheckboxGroup.Root` and `CheckboxGroup.Item`: native checkboxes that
+  share one `string[]` value. `required` means at least one enabled item is
+  checked, Field shows the error and focuses the first item, and Field's
+  `validate` receives the checked values joined by commas. Form reset returns
+  the group to `defaultValue`.
+
+  Field now exposes `refreshControl` in its context (a new required member of
+  `FieldContextValue` in core), and an error that is already shown follows a
+  value the parent sets, without waiting for the next user event.
+
+- `submitForm(form, submitter?)` submits a form from code the way a click on its
+  submit button does: every `validate` rule on the form runs again, and the first
+  invalid field gets focus. Use it in place of `form.requestSubmit()` for keyboard
+  shortcuts and timers. A plain `requestSubmit()` still blocks an invalid submit,
+  but leaves focus where it was.
+
+- `schema` on `Form` works without `onSubmit`.
+
+  Before, a schema did nothing unless `onSubmit` was set, so
+  `<Form schema={schema} action={save}>` sent invalid data straight to the action.
+  Now the schema checks the form just before the browser sends it. An issue stops
+  the submit, lands on its field and moves focus there. A clean result lets the
+  submit go on to `action`, a React action or a plain URL, with the clicked
+  button's `name` and `value` intact.
+
+  The action gets the raw FormData; the parsed output still goes only to
+  `onSubmit`. The check has to finish inside the submit event, so the schema must
+  be synchronous in this mode. An async schema blocks the submit and logs an
+  error, and a schema that throws blocks it and reports the exception.
+
+### Patch Changes
+
+- `validate` on `Field.Root` no longer goes stale.
+
+  - A cross-field rule runs again when any other field of the form changes. A
+    password confirmation that matched no longer lets the form submit after the
+    password itself is edited. An error that is already on screen follows the
+    change; a field the user has not reached stays quiet.
+  - Every rule of the form runs once more at the start of a submit attempt, before
+    the browser checks validity, so a value set from code without events is
+    caught too.
+  - A new `validate` applies on the next render, without waiting for input.
+  - Removing `validate` clears the error it had set. On a field that never had
+    `validate`, a message you set yourself with `setCustomValidity` is left
+    alone; while `validate` is set, it owns the field's custom validity.
+
+- `validate` on a `Field.Root` around a RadioGroup runs on mount and after a form
+  reset. An untouched group whose rule fails now blocks submit, and a reset puts
+  the group's validity back in line with the restored value.
+
+- Focus moves to the first invalid field only when a submit really happened and
+  failed. A `checkValidity()` call inside a submit button's click handler that
+  cancels the submit, or inside `onSubmit` after a passing submit, leaves focus
+  where it is. Focus lands on the field the browser blocked on, even if a field
+  that failed an earlier `checkValidity()` was fixed in between, and
+  `stopPropagation()` in the click no longer matters.
+
+- A real `form.reset()` no longer moves a controlled Checkbox, Switch or
+  RadioGroup away from its `checked` or `value` prop. The browser resets them to
+  their first rendered state; when the parent does not take the default from
+  `onCheckedChange` or `onValueChange`, the component now puts the prop's value
+  back. `Field.Root` checks its rule after every control has finished resetting.
+
+- Several `Field.Description`, `Field.Error` or `FieldArray.Error` parts can live
+  side by side. Each one gets its own id, an `id` you pass is kept, and the control
+  or group lists all of them in `aria-describedby`.
+
+  **Breaking in `@blankjs/core`:** `FieldContextValue` drops `descriptionId`,
+  `errorId`, `hasDescription` and `hasError` in favor of `descriptionIds` and
+  `errorIds`, and `registerDescription` and `registerError` take the part's id.
+
+- `FieldArray` sets `aria-describedby` only while `FieldArray.Error` is on
+  screen. Before, it pointed at the error id whenever the array had an error, so
+  the reference led nowhere if you never rendered `FieldArray.Error`. An Error
+  that shows its own children is linked too.
+
+- In Firefox, a failed submit no longer leaves the browser's validation popup
+  stuck under a PinInput, Select, Combobox or MultiSelect outside a Field, where
+  it could block clicks below the control.
+
+- Select, Combobox and MultiSelect inside a Popover.
+
+  - The list renders into the nearest popover, the way it already did with a
+    `<dialog>`. Picking an option no longer light-dismisses the Popover around
+    it. Escape still closes the list first and the Popover second.
+  - A list opened while its Dialog or Popover is still animating in lands under
+    its trigger. Before, it kept the position measured mid-animation, which in a
+    Dialog put it hundreds of pixels away.
+
+- Controlled Popover and Menu.
+
+  - While the parent keeps `open={false}`, a click on the trigger no longer shows
+    the popup for a frame and no longer closes other open popovers on the way.
+    The browser's own opening is canceled and the parent gets
+    `onOpenChange(true)`.
+  - A Menu the parent keeps open, after the browser closes it on a click outside:
+    the trigger reports `aria-expanded="false"`, and a click or an arrow key on
+    the trigger opens it again with focus inside.
+
+- In browsers without `popover="hint"` (Safari), Escape now closes a tooltip
+  shown by hover even when focus is in another field, as it already did in
+  Chromium and Firefox.
+
+- Dark theme: hover on accent and danger fills goes darker instead of lighter.
+  White text on a solid Button under the cursor rises from 2.5 to 4.75 contrast,
+  and on a danger Button from 2.85 to 6.08. Checked Checkbox, Radio and Switch
+  use the same hover color, so their white marks get easier to see too.
+
+- Updated dependencies
+  - @blankjs/core@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes

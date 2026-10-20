@@ -258,7 +258,7 @@ The playground demonstrates every component plus a full form submitting through 
 
 - pnpm workspaces + Turborepo
 - React 19, TypeScript strict
-- Vitest + Testing Library, 530+ tests across core and react
+- Vitest + Testing Library, 640+ tests across core and react
 - tsdown for package builds
 
 ```bash
@@ -267,19 +267,20 @@ pnpm typecheck
 pnpm lint
 ```
 
-A second suite runs the same components in real Chromium, for the behavior jsdom
-cannot execute: the `<dialog>` focus trap, popover flipping at the viewport edge,
-listbox scrolling, tab indicator geometry, `beforeinput`, and the motion layer.
-Specs are named `*.browser.test.tsx` and are excluded from `pnpm test`.
+A second suite runs the same components in real Chromium, Firefox and WebKit, for
+the behavior jsdom cannot execute: the `<dialog>` focus trap, popover flipping at
+the viewport edge, listbox scrolling, tab indicator geometry, `beforeinput`, and
+the motion layer. Specs are named `*.browser.test.tsx` and are excluded from
+`pnpm test`. Pass `--project=firefox` to run one engine.
 
 ```bash
-pnpm exec playwright install chromium
+pnpm exec playwright install chromium firefox webkit
 pnpm test:browser
 ```
 
 ## Status
 
-Published as 0.5.x. The API may change before 1.0.
+Published as 0.6.x. The API may change before 1.0.
 
 ## License
 

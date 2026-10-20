@@ -1,5 +1,43 @@
 # @blankjs/core
 
+## 0.6.0
+
+### Minor Changes
+
+- Several `Field.Description`, `Field.Error` or `FieldArray.Error` parts can live
+  side by side. Each one gets its own id, an `id` you pass is kept, and the control
+  or group lists all of them in `aria-describedby`.
+
+  **Breaking in `@blankjs/core`:** `FieldContextValue` drops `descriptionId`,
+  `errorId`, `hasDescription` and `hasError` in favor of `descriptionIds` and
+  `errorIds`, and `registerDescription` and `registerError` take the part's id.
+
+- New `CheckboxGroup.Root` and `CheckboxGroup.Item`: native checkboxes that
+  share one `string[]` value. `required` means at least one enabled item is
+  checked, Field shows the error and focuses the first item, and Field's
+  `validate` receives the checked values joined by commas. Form reset returns
+  the group to `defaultValue`.
+
+  Field now exposes `refreshControl` in its context (a new required member of
+  `FieldContextValue` in core), and an error that is already shown follows a
+  value the parent sets, without waiting for the next user event.
+
+### Patch Changes
+
+- `validate` on `Field.Root` no longer goes stale.
+
+  - A cross-field rule runs again when any other field of the form changes. A
+    password confirmation that matched no longer lets the form submit after the
+    password itself is edited. An error that is already on screen follows the
+    change; a field the user has not reached stays quiet.
+  - Every rule of the form runs once more at the start of a submit attempt, before
+    the browser checks validity, so a value set from code without events is
+    caught too.
+  - A new `validate` applies on the next render, without waiting for input.
+  - Removing `validate` clears the error it had set. On a field that never had
+    `validate`, a message you set yourself with `setCustomValidity` is left
+    alone; while `validate` is set, it owns the field's custom validity.
+
 ## 0.5.0
 
 ### Minor Changes
