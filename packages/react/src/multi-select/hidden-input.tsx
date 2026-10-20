@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useMultiSelectContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
-import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
+import { forwardFocus, HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 
 export interface MultiSelectHiddenInputProps {
   name: string;
@@ -63,7 +63,7 @@ export const MultiSelectHiddenInput = ({
         autoComplete="off"
         onChange={() => {}}
         required={isRequired}
-        onFocus={focusTrigger}
+        onFocus={forwardFocus(focusTrigger)}
       />
       {value.map((v) => (
         <input

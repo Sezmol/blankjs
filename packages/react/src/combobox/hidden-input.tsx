@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useComboboxContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
-import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
+import { forwardFocus, HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 
 export interface ComboboxHiddenInputProps {
   name: string;
@@ -54,7 +54,7 @@ export const ComboboxHiddenInput = ({
       autoComplete="off"
       onChange={() => {}}
       required={isRequired}
-      onFocus={focusInput}
+      onFocus={forwardFocus(focusInput)}
     />
   );
 };

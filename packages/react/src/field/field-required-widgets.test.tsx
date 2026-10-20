@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Field } from "./index";
 import { Select } from "../select";
 import { Combobox } from "../combobox";
@@ -57,12 +57,24 @@ describe("required Select inside Field", () => {
     expect(screen.queryByText("Pick a country")).toBeNull();
   });
 
-  test("forwards focus from the hidden input to the trigger", () => {
+  test("forwards focus from the hidden input to the trigger", async () => {
     renderSelect();
 
-    fireEvent.focus(getHiddenInput("country")!);
+    getHiddenInput("country")!.focus();
 
-    expect(screen.getByRole("combobox")).toHaveFocus();
+    await waitFor(() => expect(screen.getByRole("combobox")).toHaveFocus());
+  });
+
+  test("leaves focus alone when it moves on right away", async () => {
+    renderSelect();
+    render(<input aria-label="Other" />);
+
+    getHiddenInput("country")!.focus();
+    screen.getByLabelText("Other").focus();
+
+    await new Promise((resolve) => setTimeout(resolve));
+
+    expect(screen.getByLabelText("Other")).toHaveFocus();
   });
 });
 

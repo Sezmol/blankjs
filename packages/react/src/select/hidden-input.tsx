@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSelectContext } from "./context";
 import { useFieldControlProps } from "@blankjs/core";
-import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
+import { forwardFocus, HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 
 export interface SelectHiddenInputProps {
   name: string;
@@ -55,7 +55,7 @@ export const SelectHiddenInput = ({
       autoComplete="off"
       onChange={() => {}}
       required={isRequired}
-      onFocus={focusTrigger}
+      onFocus={forwardFocus(focusTrigger)}
     />
   );
 };

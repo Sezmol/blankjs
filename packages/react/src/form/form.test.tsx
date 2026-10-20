@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Form } from "./index";
 import { Field } from "../field";
@@ -165,7 +165,7 @@ test("fields without a matching error stay valid", () => {
   expect(screen.getByLabelText("Login")).not.toHaveAttribute("aria-invalid");
 });
 
-test("a server error on a MultiSelect focuses its trigger", () => {
+test("a server error on a MultiSelect focuses its trigger", async () => {
   render(
     <Form errors={{ days: "Pick a day" }}>
       <MultiSelect.Root name="days">
@@ -174,5 +174,5 @@ test("a server error on a MultiSelect focuses its trigger", () => {
     </Form>,
   );
 
-  expect(screen.getByRole("combobox")).toHaveFocus();
+  await waitFor(() => expect(screen.getByRole("combobox")).toHaveFocus());
 });

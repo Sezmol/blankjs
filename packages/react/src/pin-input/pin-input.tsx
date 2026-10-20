@@ -12,7 +12,7 @@ import {
   type PinInputType,
 } from "@blankjs/core";
 import { composeRefs } from "../slot";
-import { HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
+import { forwardFocus, HIDDEN_INPUT_STYLE, onFormReset } from "../internal";
 import type { Size } from "../types";
 
 export interface PinInputProps extends Omit<
@@ -179,7 +179,7 @@ export const PinInput = ({
         tabIndex={-1}
         aria-hidden="true"
         autoComplete="off"
-        onFocus={() => focus(pin.value.length)}
+        onFocus={forwardFocus(() => focus(pin.value.length))}
       />
     </div>
   );
