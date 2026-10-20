@@ -4,6 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { Checkbox } from "../checkbox";
 import { Switch } from "../switch";
 import { RadioGroup } from "../radio";
+import { CheckboxGroup } from "../checkbox-group";
 
 const Pinned = ({ fruit, agree }: { fruit: string; agree: boolean }) => (
   <form aria-label="f">
@@ -167,4 +168,63 @@ test("a Checkbox parent that takes the default synchronously keeps it", async ()
   await new Promise((resolve) => setTimeout(resolve, 20));
 
   expect(box("agree")).not.toBeChecked();
+});
+
+const fruitBox = (name: string) =>
+  screen.getByRole("checkbox", { name }) as HTMLInputElement;
+
+test("a CheckboxGroup parent that ignores the reset keeps its value", async () => {
+  const pinned = (fruits: string[]) => (
+    <form aria-label="f">
+      <CheckboxGroup.Root
+        name="fruit"
+        aria-label="Fruit"
+        value={fruits}
+        onValueChange={() => {}}
+      >
+        <CheckboxGroup.Item value="apple" aria-label="apple" />
+        <CheckboxGroup.Item value="banana" aria-label="banana" />
+      </CheckboxGroup.Root>
+    </form>
+  );
+
+  const { rerender } = render(pinned(["apple"]));
+
+  rerender(pinned(["banana"]));
+
+  form().reset();
+  await new Promise((resolve) => setTimeout(resolve, 20));
+
+  expect(fruitBox("apple")).not.toBeChecked();
+  expect(fruitBox("banana")).toBeChecked();
+  expect(new FormData(form()).getAll("fruit")).toEqual(["banana"]);
+});
+
+test("a CheckboxGroup parent that takes the default synchronously keeps it", async () => {
+  const Sync = () => {
+    const [fruits, setFruits] = useState(["banana"]);
+
+    return (
+      <form aria-label="f">
+        <CheckboxGroup.Root
+          name="fruit"
+          aria-label="Fruit"
+          value={fruits}
+          defaultValue={["apple"]}
+          onValueChange={(next) => flushSync(() => setFruits(next))}
+        >
+          <CheckboxGroup.Item value="apple" aria-label="apple" />
+          <CheckboxGroup.Item value="banana" aria-label="banana" />
+        </CheckboxGroup.Root>
+      </form>
+    );
+  };
+
+  render(<Sync />);
+
+  form().reset();
+  await new Promise((resolve) => setTimeout(resolve, 20));
+
+  expect(fruitBox("apple")).toBeChecked();
+  expect(fruitBox("banana")).not.toBeChecked();
 });

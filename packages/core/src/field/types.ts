@@ -27,6 +27,8 @@ export interface FieldContextValue {
   registerDescription: (id: string) => () => void;
   registerError: (id: string) => () => void;
   registerGroupControl: () => () => void;
+
+  refreshControl: (control: Element) => void;
 }
 
 export interface UseFieldRootOptions extends Partial<
@@ -50,7 +52,6 @@ export interface FieldRootHandlerProps {
   resetValidation: () => void;
 
   validateControl: (control: Element) => void;
-  refreshControl: (control: Element) => void;
 }
 
 export interface FieldControlProps {

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Field } from "./index";
 import { TextInput } from "../text-input";
 
@@ -104,4 +106,36 @@ test("two Description and two Error parts each get an id and all describe the co
     "aria-describedby",
     `${d1} hint ${e1} again`,
   );
+});
+
+test("a revealed error follows a controlled TextInput value", async () => {
+  const user = userEvent.setup();
+
+  const Harness = () => {
+    const [value, setValue] = useState("");
+
+    return (
+      <form onSubmit={(e) => e.preventDefault()}>
+        <Field.Root required errorMessages={{ valueMissing: "Fill it" }}>
+          <Field.Label>Name</Field.Label>
+          <TextInput value={value} onChange={(e) => setValue(e.target.value)} />
+          <Field.Error />
+        </Field.Root>
+        <button type="submit">Send</button>
+        <button type="button" onClick={() => setValue("Ada")}>
+          Fill
+        </button>
+      </form>
+    );
+  };
+
+  render(<Harness />);
+
+  await user.click(screen.getByRole("button", { name: "Send" }));
+
+  expect(screen.getByText("Fill it")).toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Fill" }));
+
+  expect(screen.queryByText("Fill it")).toBeNull();
 });

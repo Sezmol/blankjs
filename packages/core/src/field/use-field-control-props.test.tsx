@@ -21,6 +21,7 @@ const makeContext = (
   registerDescription: () => () => {},
   registerError: () => () => {},
   registerGroupControl: () => () => {},
+  refreshControl: () => {},
   validationMessage: "",
   validity: null,
   ...overrides,

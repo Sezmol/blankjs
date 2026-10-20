@@ -56,11 +56,35 @@ const radioGroupOf = (control: Element) => {
   );
 };
 
+const checkboxGroupOf = (control: Element) => {
+  const root = control.hasAttribute("data-bk-checkbox-group-item")
+    ? control.closest("[data-bk-checkbox-group]")
+    : null;
+
+  if (!root) return null;
+
+  return Array.from(
+    root.querySelectorAll("[data-bk-checkbox-group-item]"),
+  ).filter(
+    (el): el is HTMLInputElement =>
+      el instanceof HTMLInputElement &&
+      el.closest("[data-bk-checkbox-group]") === root,
+  );
+};
+
 const submittedValue = (
   control: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
   radios: HTMLInputElement[] | null,
+  boxes: HTMLInputElement[] | null,
 ) => {
   if (radios) return radios.find((radio) => radio.checked)?.value ?? "";
+
+  if (boxes) {
+    return boxes
+      .filter((box) => box.checked && !box.matches(":disabled"))
+      .map((box) => box.value)
+      .join(",");
+  }
 
   if (
     control instanceof HTMLInputElement &&
@@ -122,6 +146,7 @@ export const useFieldRoot = (
     if (!rule && !ownsMessageRef.current) return;
 
     const radios = radioGroupOf(control);
+    const boxes = radios ? null : checkboxGroupOf(control);
     let message = "";
 
     if (rule) {
@@ -129,21 +154,28 @@ export const useFieldRoot = (
         ? new FormData(control.form)
         : new FormData();
 
-      message = rule(submittedValue(control, radios), formData) ?? "";
+      message = rule(submittedValue(control, radios, boxes), formData) ?? "";
     }
 
     ownsMessageRef.current = message !== "";
 
-    for (const target of radios ?? [control]) target.setCustomValidity(message);
+    for (const target of radios ?? boxes ?? [control]) {
+      target.setCustomValidity(message);
+    }
   }, []);
 
   const refreshControl = useCallback(
     (control: Element) => {
-      if (!validateRef.current && !ownsMessageRef.current) return;
-
       validateControl(control);
 
-      if (revealed && hasValidity(control)) readValidity(control);
+      if (!revealed) return;
+
+      if (hasValidity(control)) {
+        readValidity(control);
+      } else if (control.hasAttribute("data-bk-checkbox-group")) {
+        setValidity(null);
+        setValidationMessage("");
+      }
     },
     [revealed, validateControl],
   );

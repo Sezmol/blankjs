@@ -33,3 +33,5 @@ export {
 export { closestLayer } from "./closest-layer";
 
 export { useDeferredOpen } from "./use-deferred-open";
+
+export { getGroupItems } from "./group-items";

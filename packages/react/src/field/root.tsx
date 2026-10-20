@@ -15,6 +15,7 @@ import { composeRefs } from "../slot";
 import { FormContext } from "../form";
 import {
   focusOnSubmitAttempt,
+  getGroupItems,
   onFormReset,
   onSubmitAttempt,
   watchSubmitAttempts,
@@ -35,6 +36,12 @@ const findControl = (root: HTMLElement | null, controlId: string) => {
 
   if (control?.getAttribute("role") === "radiogroup") {
     return control.querySelector('input[type="radio"]') ?? control;
+  }
+
+  if (control?.hasAttribute("data-bk-checkbox-group")) {
+    const items = getGroupItems(control);
+
+    return items.find((item) => !item.matches(":disabled")) ?? items[0] ?? control;
   }
 
   return control;
@@ -75,7 +82,6 @@ export const FieldRoot = ({
     onInvalidCapture,
     resetValidation,
     validateControl,
-    refreshControl,
     ...contextValue
   } = useFieldRoot({
     invalid: invalid ?? (activeServerError ? true : undefined),
@@ -85,6 +91,8 @@ export const FieldRoot = ({
     validate,
     errorMessages,
   });
+
+  const { refreshControl } = contextValue;
 
   const innerRef = useRef<HTMLDivElement>(null);
 

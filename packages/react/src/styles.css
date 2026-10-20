@@ -10,6 +10,7 @@
 @import "./combobox/combobox.css";
 @import "./button/button.css";
 @import "./checkbox/checkbox.css";
+@import "./checkbox-group/checkbox-group.css";
 @import "./switch/switch.css";
 @import "./radio/radio.css";
 @import "./slider/slider.css";

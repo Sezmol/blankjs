@@ -13,6 +13,7 @@ import { TooltipPage } from "./pages/tooltip";
 import { AccordionPage } from "./pages/accordion";
 import { ButtonPage } from "./pages/button";
 import { CheckboxPage } from "./pages/checkbox";
+import { CheckboxGroupPage } from "./pages/checkbox-group";
 import { SwitchPage } from "./pages/switch";
 import { TabsPage } from "./pages/tabs";
 import { TextInputPage } from "./pages/text-input";
@@ -75,6 +76,11 @@ export const nav: NavSection[] = [
         title: "Checkbox",
         path: "/components/checkbox",
         element: <CheckboxPage />,
+      },
+      {
+        title: "CheckboxGroup",
+        path: "/components/checkbox-group",
+        element: <CheckboxGroupPage />,
       },
       {
         title: "Combobox",

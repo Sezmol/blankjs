@@ -64,6 +64,14 @@ export {
 } from "./radio";
 
 export {
+  CheckboxGroup,
+  CheckboxGroupRoot,
+  CheckboxGroupItem,
+  type CheckboxGroupRootProps,
+  type CheckboxGroupItemProps,
+} from "./checkbox-group";
+
+export {
   MultiSelect,
   MultiSelectRoot,
   MultiSelectTrigger,

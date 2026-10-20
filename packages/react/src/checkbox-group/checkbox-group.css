@@ -1,0 +1,41 @@
+.bk-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bk-space-2);
+}
+
+.bk-checkbox-group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bk-space-2);
+  cursor: pointer;
+  font-size: var(--bk-font-size-md);
+  color: var(--bk-color-text);
+}
+
+.bk-checkbox-group-label:has(.bk-checkbox:disabled) {
+  cursor: not-allowed;
+  color: var(--bk-color-text-muted);
+}
+
+.bk-checkbox-group[data-size="sm"] .bk-checkbox-group-label {
+  font-size: var(--bk-font-size-sm);
+}
+
+.bk-checkbox-group[data-size="lg"] .bk-checkbox-group-label {
+  font-size: var(--bk-font-size-lg);
+}
+
+[aria-invalid="true"].bk-checkbox-group .bk-checkbox {
+  border-color: var(--bk-color-danger);
+}
+
+[aria-invalid="true"].bk-checkbox-group .bk-checkbox:checked {
+  background-color: var(--bk-color-danger);
+  border-color: var(--bk-color-danger);
+}
+
+[aria-invalid="true"].bk-checkbox-group .bk-checkbox:focus-visible {
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--bk-color-danger) 30%, transparent);
+}
