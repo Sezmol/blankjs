@@ -309,10 +309,11 @@ export const FieldPage = () => (
     <h2>Group controls</h2>
 
     <p>
-      A <code>div role="radiogroup"</code> is not a labelable element, so{" "}
-      <code>label htmlFor</code> does nothing. Field detects group controls
-      like RadioGroup and switches the label wiring to{" "}
-      <code>aria-labelledby</code>:
+      A <code>div role="radiogroup"</code> or <code>div role="group"</code> is
+      not a labelable element, so <code>label htmlFor</code> does nothing.
+      Field detects group controls like RadioGroup and{" "}
+      <Link to="/components/checkbox-group">CheckboxGroup</Link> and switches
+      the label wiring to <code>aria-labelledby</code>:
     </p>
 
     <CodeBlock code={groupCode} />

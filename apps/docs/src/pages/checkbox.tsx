@@ -64,6 +64,13 @@ export const CheckboxPage = () => (
       wiring from context.
     </p>
 
+    <p>
+      For several boxes that share one value, use{" "}
+      <Link to="/components/checkbox-group">CheckboxGroup</Link>. It submits
+      every checked value under one <code>name</code>, and its{" "}
+      <code>required</code> means at least one box is checked.
+    </p>
+
     <h2>API</h2>
 
     <PropsTable

@@ -34,7 +34,7 @@ The browser then handles, with zero JavaScript on our side:
 - **Radio semantics**: arrow-key navigation and roving tabindex come from the platform
 - **Tab order**: one tab stop per radio group, as users expect
 
-Checkbox, Switch, and RadioGroup are styled native inputs. Switch is a checkbox with `role="switch"`. No state mirroring, no synthetic focus management, no drift between what you see and what the form submits.
+Checkbox, Switch, RadioGroup, and CheckboxGroup are styled native inputs. Switch is a checkbox with `role="switch"`. No state mirroring, no synthetic focus management, no drift between what you see and what the form submits.
 
 The same idea extends beyond forms:
 
@@ -158,6 +158,7 @@ Filtering stays in your hands: you own the list, the library owns keyboard navig
 | `Checkbox` | Native input, `indeterminate` support |
 | `Switch` | Native checkbox with `role="switch"` |
 | `RadioGroup` | Native radios, platform keyboard navigation |
+| `CheckboxGroup` | Native checkboxes with one `string[]` value, `required` means at least one is checked |
 | `Slider` | Native `input type="range"`, CSS-only fill, form reset aware |
 | `NumberField` | Native `type="number"`, step buttons, disables them at min/max |
 | `PinInput` | A real input per cell, paste and SMS autofill spread across the cells, an incomplete code blocks submit |
@@ -189,7 +190,7 @@ Every control takes `size="sm" | "md" | "lg"` (default `md`). Composite widgets 
 </Field.Root>
 ```
 
-The control receives `id`, `aria-describedby`, `aria-invalid`, and `disabled` from context. Group controls such as RadioGroup are labelled through `aria-labelledby`, since a `<div role="radiogroup">` is not a labelable element.
+The control receives `id`, `aria-describedby`, `aria-invalid`, and `disabled` from context. Group controls such as RadioGroup and CheckboxGroup are labelled through `aria-labelledby`, since a group `<div>` is not a labelable element.
 
 ## Theming
 
