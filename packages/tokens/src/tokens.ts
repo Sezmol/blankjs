@@ -48,9 +48,9 @@ export const TOKENS = {
         borderHover: "{palette.gray.400}",
         borderFocus: "{palette.indigo.500}",
         accent: "{palette.indigo.500}",
-        accentHover: "{palette.indigo.400}",
+        accentHover: "{palette.indigo.600}",
         danger: "{palette.red.500}",
-        dangerHover: "{palette.red.400}",
+        dangerHover: "{palette.red.600}",
         dangerText: "{palette.red.300}",
       },
       shadow: {
