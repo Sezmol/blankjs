@@ -14,13 +14,21 @@ export const MenuTrigger = ({
   onKeyDown,
   ...props
 }: MenuTriggerProps) => {
-  const { contentId, setAnchor, open, setOpen, getItems, setActiveItem } =
-    useMenuContext();
+  const {
+    contentId,
+    setAnchor,
+    open,
+    setOpen,
+    shown,
+    show,
+    getItems,
+    setActiveItem,
+  } = useMenuContext();
 
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
     onKeyDown?.(e);
 
-    if (e.defaultPrevented || open) return;
+    if (e.defaultPrevented || shown) return;
 
     if (!["ArrowDown", "ArrowUp", "Enter", " "].includes(e.key)) return;
 
@@ -29,7 +37,12 @@ export const MenuTrigger = ({
     const items = getItems();
 
     setActiveItem(e.key === "ArrowUp" ? items[items.length - 1] : items[0]);
-    setOpen(true);
+
+    if (open) {
+      show();
+    } else {
+      setOpen(true);
+    }
   };
 
   const triggerProps: ComponentProps<"button"> = {
@@ -38,7 +51,7 @@ export const MenuTrigger = ({
     popoverTarget: contentId,
     onKeyDown: handleKeyDown,
     "aria-haspopup": "menu",
-    "aria-expanded": open,
+    "aria-expanded": shown,
     "aria-controls": contentId,
     className: ["bk-menu-trigger", className].filter(Boolean).join(" "),
   };

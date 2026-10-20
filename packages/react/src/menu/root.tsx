@@ -1,5 +1,12 @@
 import { useCollection, useControllableState } from "@blankjs/core";
-import { useCallback, useId, useMemo, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   MenuContext,
   type AnchorElement,
@@ -23,7 +30,25 @@ export const MenuRoot = (props: MenuRootProps) => {
 
   const contentId = useId();
 
+  const controlled = props.open !== undefined;
+
   const [anchor, setAnchor] = useState<AnchorElement>(null);
+
+  const [shown, setShown] = useState(false);
+
+  const contentRef = useRef<HTMLElement | null>(null);
+
+  const setContent = useCallback((node: HTMLElement | null) => {
+    contentRef.current = node;
+  }, []);
+
+  const show = useCallback(() => {
+    const content = contentRef.current;
+
+    if (content && !content.matches(":popover-open")) {
+      content.showPopover({ source: anchor ?? undefined });
+    }
+  }, [anchor]);
 
   const { registerItem, getItems } = useCollection<string>();
 
@@ -49,7 +74,12 @@ export const MenuRoot = (props: MenuRootProps) => {
       contentId,
 
       open: open ?? false,
+      controlled,
       setOpen: setOpenAndReset,
+      shown,
+      setShown,
+      show,
+      setContent,
 
       getItems,
       registerItem,
@@ -58,10 +88,14 @@ export const MenuRoot = (props: MenuRootProps) => {
       activeItem,
       anchor,
       contentId,
+      controlled,
       getItems,
       open,
       registerItem,
+      setContent,
       setOpenAndReset,
+      show,
+      shown,
     ],
   );
 

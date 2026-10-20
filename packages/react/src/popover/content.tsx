@@ -5,7 +5,11 @@ import {
   type ComponentProps,
   type ToggleEvent,
 } from "react";
-import { useFloatingPosition, type Placement } from "../internal";
+import {
+  useDeferredOpen,
+  useFloatingPosition,
+  type Placement,
+} from "../internal";
 import { usePopoverContext } from "./context";
 import { composeRefs } from "../slot";
 
@@ -20,9 +24,11 @@ export const PopoverContent = ({
   style,
   ref,
   onToggle,
+  onBeforeToggle,
   ...props
 }: PopoverContentProps) => {
-  const { anchor, contentId, open, setOpen } = usePopoverContext();
+  const { anchor, contentId, open, controlled, setOpen } =
+    usePopoverContext();
 
   const innerRef = useRef<HTMLDivElement>(null);
   const [toggles, setToggles] = useState(0);
@@ -36,9 +42,9 @@ export const PopoverContent = ({
     const content = innerRef.current;
 
     if (open && content && !content.matches(":popover-open")) {
-      content.showPopover();
+      content.showPopover({ source: anchor ?? undefined });
     }
-  }, [open]);
+  }, [open, anchor]);
 
   useEffect(() => {
     const content = innerRef.current;
@@ -47,6 +53,19 @@ export const PopoverContent = ({
       content.hidePopover();
     }
   }, [open, toggles]);
+
+  const requestOpen = useDeferredOpen(setOpen);
+
+  const handleBeforeToggle = (e: ToggleEvent<HTMLDivElement>) => {
+    onBeforeToggle?.(e);
+
+    if (e.defaultPrevented || e.newState !== "open" || open || !controlled) {
+      return;
+    }
+
+    e.preventDefault();
+    requestOpen();
+  };
 
   const handleToggle = (e: ToggleEvent<HTMLDivElement>) => {
     onToggle?.(e);
@@ -60,6 +79,7 @@ export const PopoverContent = ({
   return (
     <div
       {...props}
+      onBeforeToggle={handleBeforeToggle}
       onToggle={handleToggle}
       id={contentId}
       popover="auto"

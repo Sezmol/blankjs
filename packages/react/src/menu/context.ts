@@ -7,7 +7,12 @@ export type MenuItemData = CollectionItem<string>;
 
 export interface MenuContextValue {
   open: boolean;
+  controlled: boolean;
   setOpen: (open: boolean) => void;
+  shown: boolean;
+  setShown: (shown: boolean) => void;
+  show: () => void;
+  setContent: (node: HTMLElement | null) => void;
   contentId: string;
   anchor: AnchorElement;
   setAnchor: (node: AnchorElement) => void;

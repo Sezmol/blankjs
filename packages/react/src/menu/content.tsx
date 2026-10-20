@@ -7,7 +7,11 @@ import {
   type PointerEvent,
   type ToggleEvent,
 } from "react";
-import { useFloatingPosition, type Placement } from "../internal";
+import {
+  useDeferredOpen,
+  useFloatingPosition,
+  type Placement,
+} from "../internal";
 import { useMenuContext } from "./context";
 import { composeRefs } from "../slot";
 
@@ -22,6 +26,7 @@ export const MenuContent = ({
   ref,
   style,
   onToggle,
+  onBeforeToggle,
   onKeyDown,
   onPointerLeave,
   ...props
@@ -30,7 +35,11 @@ export const MenuContent = ({
     anchor,
     contentId,
     open,
+    controlled,
     setOpen,
+    shown,
+    setShown,
+    setContent,
     activeItem,
     setActiveItem,
     getItems,
@@ -47,12 +56,18 @@ export const MenuContent = ({
   useEffect(() => {
     const content = innerRef.current;
 
-    if (!open || !content) return;
+    if (open && content && !content.matches(":popover-open")) {
+      content.showPopover({ source: anchor ?? undefined });
+    }
+  }, [open, anchor]);
 
-    if (!content.matches(":popover-open")) content.showPopover();
+  useEffect(() => {
+    const content = innerRef.current;
 
-    content.focus();
-  }, [open]);
+    if (shown && content?.matches(":popover-open")) content.focus();
+  }, [shown]);
+
+  useEffect(() => () => setShown(false), [setShown]);
 
   useEffect(() => {
     const content = innerRef.current;
@@ -64,11 +79,25 @@ export const MenuContent = ({
     content.hidePopover();
   }, [open, anchor, toggles]);
 
+  const requestOpen = useDeferredOpen(setOpen);
+
+  const handleBeforeToggle = (e: ToggleEvent<HTMLDivElement>) => {
+    onBeforeToggle?.(e);
+
+    if (e.defaultPrevented || e.newState !== "open" || open || !controlled) {
+      return;
+    }
+
+    e.preventDefault();
+    requestOpen();
+  };
+
   const handleToggle = (e: ToggleEvent<HTMLDivElement>) => {
     onToggle?.(e);
 
     if (e.defaultPrevented) return;
 
+    setShown(e.newState === "open");
     setOpen(e.newState === "open");
     setToggles((count) => count + 1);
   };
@@ -145,10 +174,16 @@ export const MenuContent = ({
       popover="auto"
       tabIndex={-1}
       aria-activedescendant={activeItem?.id}
+      onBeforeToggle={handleBeforeToggle}
       onToggle={handleToggle}
       onKeyDown={handleKeyDown}
       onPointerLeave={handlePointerLeave}
-      ref={composeRefs<HTMLDivElement>(ref, innerRef, setFloating)}
+      ref={composeRefs<HTMLDivElement>(
+        ref,
+        innerRef,
+        setFloating,
+        setContent,
+      )}
       style={{ ...style, ...floatingStyles }}
       className={["bk-menu-content", className].filter(Boolean).join(" ")}
     >

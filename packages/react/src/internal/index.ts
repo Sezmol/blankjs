@@ -31,3 +31,5 @@ export {
 } from "./submit-attempt";
 
 export { closestLayer } from "./closest-layer";
+
+export { useDeferredOpen } from "./use-deferred-open";

@@ -4,6 +4,7 @@ export type AnchorElement = HTMLElement | null;
 
 export interface PopoverContextValue {
   open: boolean;
+  controlled: boolean;
   setOpen: (open: boolean) => void;
   contentId: string;
   anchor: AnchorElement;

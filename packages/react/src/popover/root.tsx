@@ -22,6 +22,8 @@ export const PopoverRoot = (props: PopoverRootProps) => {
 
   const contentId = useId();
 
+  const controlled = props.open !== undefined;
+
   const [anchor, setAnchor] = useState<AnchorElement>(null);
 
   const contextValue = useMemo<PopoverContextValue>(
@@ -30,11 +32,12 @@ export const PopoverRoot = (props: PopoverRootProps) => {
       setAnchor,
 
       open: open ?? false,
+      controlled,
       setOpen,
 
       contentId,
     }),
-    [anchor, contentId, open, setOpen],
+    [anchor, contentId, controlled, open, setOpen],
   );
 
   return <PopoverContext value={contextValue}>{props.children}</PopoverContext>;

@@ -118,6 +118,13 @@ export const PopoverPage = () => (
       ignore it, the popover stays closed while your state says open.
     </p>
 
+    <p>
+      The other direction is yours alone. While your state says closed, a
+      click on the trigger does not show the popover, not even for a frame:
+      Popover cancels the browser's own opening and asks you through{" "}
+      <code>onOpenChange(true)</code> instead.
+    </p>
+
     <Demo code={controlledCode}>
       <PopoverControlled />
     </Demo>
